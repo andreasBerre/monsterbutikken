@@ -21,8 +21,11 @@ var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap'])
                 function (a, b) {
                     return a + b.pris; }, 0
             )
-        }
+        };
 
+        $scope.betal = function(){
+
+        };
 
         $scope.monstre =  [
             {navn: "Ao (skilpadde)", pris: 100},

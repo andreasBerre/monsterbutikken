@@ -20,11 +20,11 @@
         <accordion class="col-md-6" close-others="oneAtATime" >
             <accordion-group  ng-repeat="monster in monstre">
                 <accordion-heading>
-                    <span class="pull-left glyphicon col-md-1" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></span>
+                    <span class="col-md-1 glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></span>
                     <span>{{monster.navn}}</span>
-                    <button class="pull-right btn btn-primary btn-xs col-md-1" ng-click="leggTilMonster(monster, $event)">Kjøp</button>
+                    <button class="btn pull-right btn-primary btn-xs" ng-click="leggTilMonster(monster, $event)">{{monster.pris | currency}}</button>
                 </accordion-heading>
-                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                    <div class="col-md-offset-1">"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</div>
             </accordion-group>
         </accordion>
     <div class="col-md-4">
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-success" ng-show="handlekurv.length > 0">Betal</button>
+                <button class="btn btn-success" ng-click="betal()" ng-show="handlekurv.length > 0">Betal</button>
 
             </div>
         </div>

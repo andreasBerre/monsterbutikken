@@ -1,4 +1,4 @@
-package no.borber.petshop;
+package no.borber.monsterbutikken;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
