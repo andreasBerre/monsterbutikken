@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
 </head>
-<body>
+<body >
 <br/>
 <div class="container">
 
@@ -22,29 +22,29 @@
                 <accordion-heading>
                     <span class="pull-left glyphicon col-md-1" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></span>
                     <span>{{monster.navn}}</span>
-                    <button class="pull-right btn btn-primary btn-xs col-md-1" ng-click="kjopMonster(monster, $event)">Kjøp</button>
+                    <button class="pull-right btn btn-primary btn-xs col-md-1" ng-click="leggTilMonster(monster, $event)">Kjøp</button>
                 </accordion-heading>
                     "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
             </accordion-group>
         </accordion>
     <div class="col-md-4">
         <div class="panel panel-default">
-            <div class="panel-heading">Handlekurv</div>
+            <div class="panel-heading"><span class="glyphicon glyphicon-shopping-cart"></span> Handlekurv</div>
             <div class="panel-body">
                 <div class="list-group">
                     <div class="list-group-item" ng-repeat="monster in handlekurv">
                         <div class="row">
-                            <span style="margin-left: 15px" class="list-group-item-heading">{{monster.navn}}</span>
+                            <button style="margin-left: 15px" class="btn btn-danger btn-xs" ng-click="fjernMonster(monster)">Fjern</button><span class="list-group-item-heading"> {{monster.navn}}</span>
                             <span style="margin-right: 15px" class="pull-right list-group-item-heading">{{monster.pris | currency}}</span>
                         </div>
                     </div>
                     <div class="list-group-item" ng-show="handlekurv.length > 0">
                         <div class="row">
                         <strong style="margin-right: 15px" class="pull-right list-group-item-heading ">{{getHandlekurvSum() | currency}}</strong>
-                            </div>
+                        </div>
                     </div>
-
                 </div>
+                <button class="btn btn-success" ng-show="handlekurv.length > 0">Betal</button>
 
             </div>
         </div>

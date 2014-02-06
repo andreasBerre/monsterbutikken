@@ -3,12 +3,17 @@ var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap'])
 
         $scope.handlekurv = [];
 
-        $scope.kjopMonster = function(monster, e){
+        $scope.leggTilMonster = function(monster, e){
             if (e) {
                 e.preventDefault();
                 e.stopPropagation();
             }
             $scope.handlekurv.push(monster);
+        };
+
+        $scope.fjernMonster = function(monster){
+            var index=$scope.handlekurv.indexOf(monster)
+            $scope.handlekurv.splice(index,1);
         };
 
         $scope.getHandlekurvSum = function(){
