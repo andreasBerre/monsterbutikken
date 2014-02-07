@@ -1,14 +1,18 @@
 var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap'])
     .controller('MonsterController', function($scope) {
 
-        $scope.handlekurv = [];
+        $scope.handlekurv = {};
 
         $scope.leggTilMonster = function(monster, e){
             if (e) {
                 e.preventDefault();
                 e.stopPropagation();
             }
-            $scope.handlekurv.push(monster);
+            eksisterendeMonster = $scope.handlekurv[monster.navn];
+            if (!eksisterendeMonster)
+                $scope.handlekurv[monster.navn] = {monster: monster, antall: 1};
+            else
+                $scope.handlekurv[monster.navn] = {monster: monster, antall: eksisterendeMonster.antall + 1};
         };
 
         $scope.fjernMonster = function(monster){
@@ -17,11 +21,17 @@ var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap'])
         };
 
         $scope.getHandlekurvSum = function(){
-            return $scope.handlekurv.reduce(
-                function (a, b) {
-                    return a + b.pris; }, 0
-            )
+            var sum = 0;
+
+            for (var monsterNavn in $scope.handlekurv) {
+                if ($scope.handlekurv.hasOwnProperty(monsterNavn)){
+                    kjop = $scope.handlekurv[monsterNavn];
+                    sum = kjop.antall * kjop.monster.pris;
+                }
+            }
+            return sum;
         };
+
 
         $scope.betal = function(){
 

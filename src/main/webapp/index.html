@@ -6,6 +6,7 @@
     <title>MonsterButikken</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="monsterbutikken.css">
 </head>
 <body >
 <br/>
@@ -32,13 +33,13 @@
             <div class="panel-heading"><span class="glyphicon glyphicon-shopping-cart"></span> Handlekurv</div>
             <div class="panel-body">
                 <div class="list-group">
-                    <div class="list-group-item" ng-repeat="monster in handlekurv">
+                    <div class="list-group-item" ng-repeat="kjop in handlekurv">
                         <div class="row">
-                            <button style="margin-left: 15px" class="btn btn-danger btn-xs" ng-click="fjernMonster(monster)">Fjern</button><span class="list-group-item-heading"> {{monster.navn}}</span>
-                            <span style="margin-right: 15px" class="pull-right list-group-item-heading">{{monster.pris | currency}}</span>
+                            <button style="margin-left: 15px" class="btn btn-danger btn-xs" ng-click="fjernMonster(monster)">Fjern</button><span class="list-group-item-heading"> {{kjop.monster.navn}} ({{kjop.antall}})</span>
+                            <span style="margin-right: 15px" class="pull-right list-group-item-heading">{{kjop.monster.pris * kjop.antall | currency}}</span>
                         </div>
                     </div>
-                    <div class="list-group-item" ng-show="handlekurv.length > 0">
+                    <div class="list-group-item">
                         <div class="row">
                         <strong style="margin-right: 15px" class="pull-right list-group-item-heading ">{{getHandlekurvSum() | currency}}</strong>
                         </div>
