@@ -43,7 +43,9 @@ var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap'])
 
         $scope.betal = function(){
             if (!$scope.brukernavn)
-                loggInnOgBetal();
+                $scope.loggInn().then(function() {
+                    betal();
+                })
             else
                 betal();
         };
@@ -68,17 +70,16 @@ var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap'])
             });
         }
 
-        function loggInnOgBetal(){
+        $scope.loggInn = function(){
             var modalInstance = $modal.open({
                 templateUrl: 'loggInnModal.html',
                 controller: 'LoggInnModalCtrl'
             });
 
-            modalInstance.result.then(function (brukernavn) {
+            return modalInstance.result.then(function (brukernavn) {
                 $scope.brukernavn = brukernavn;
-                betal();
             });
-        };
+        }
 
         $scope.monstre = {};
 
