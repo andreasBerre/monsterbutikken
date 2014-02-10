@@ -17,9 +17,11 @@ var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap'])
                 $scope.handlekurv[monster.navn] = {monster: monster, antall: eksisterendeMonster.antall + 1};
         };
 
-        $scope.fjernMonster = function(monster){
-            var index=$scope.handlekurv.indexOf(monster)
-            $scope.handlekurv.splice(index,1);
+        $scope.fjernMonster = function(kjop){
+            if (kjop.antall == 1)
+                delete $scope.handlekurv[kjop.monster.navn];
+            else
+                $scope.handlekurv[kjop.monster.navn] = {monster: kjop.monster, antall: kjop.antall - 1};
         };
 
         $scope.getHandlekurvSum = function(){
@@ -58,6 +60,7 @@ var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap'])
         };
 
         $scope.monstre = {};
+
         $scope.getMonstre = function(){
             $http.get('/service/monstre').success(function(data){
                 $scope.monstre = data;

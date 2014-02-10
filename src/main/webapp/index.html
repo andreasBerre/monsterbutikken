@@ -51,7 +51,7 @@
                     </div>
                     <div class="list-group-item" ng-repeat="kjop in handlekurv">
                         <div class="row">
-                            <button style="margin-left: 15px" class="btn btn-danger btn-xs" ng-click="fjernMonster(monster)">Fjern</button><span class="list-group-item-heading"> {{kjop.monster.navn}} ({{kjop.antall}})</span>
+                            <button style="margin-left: 15px" class="btn btn-danger btn-xs" ng-click="fjernMonster(kjop)">Fjern</button><span class="list-group-item-heading"> {{kjop.monster.navn}} ({{kjop.antall}})</span>
                             <span style="margin-right: 15px" class="pull-right list-group-item-heading">{{kjop.monster.pris * kjop.antall | currency}}</span>
                         </div>
                     </div>
