@@ -1,4 +1,5 @@
 var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap'])
+
     .controller('MonsterController', ['$scope', '$http', '$modal', function($scope, $http, $modal) {
 
         $scope.handlekurv = {};
@@ -42,7 +43,7 @@ var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap'])
 
         $scope.betal = function(){
             if (!$scope.brukernavn)
-                loggInn();
+                loggInnOgBetal();
             else
                 betal();
         };
@@ -67,7 +68,7 @@ var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap'])
             });
         }
 
-        function loggInn(){
+        function loggInnOgBetal(){
             var modalInstance = $modal.open({
                 templateUrl: 'loggInnModal.html',
                 controller: 'LoggInnModalCtrl'
@@ -75,6 +76,7 @@ var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap'])
 
             modalInstance.result.then(function (brukernavn) {
                 $scope.brukernavn = brukernavn;
+                betal();
             });
         };
 
@@ -83,8 +85,8 @@ var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap'])
         $scope.getMonstre = function(){
             $http.get('/service/monstre').success(function(data){
                 $scope.monstre = data;
-            }).error(function(data, status, headers, config){
-                console.log("klarte ikke hente monstre")
+            }).error(function(){
+                console.log("klarte ikke hente monstre fra server, laster fra klient")
                 $scope.monstre = [
                     {navn: "Ao (skilpadde)", pris: 100000},
                     {navn: "Bakeneko", pris: 120000},
@@ -116,7 +118,9 @@ var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap'])
             });
         };
         $scope.getMonstre();
-    }]).controller('LoggInnModalCtrl', ['$scope', '$modalInstance', function($scope, $modalInstance) {
+    }])
+
+    .controller('LoggInnModalCtrl', ['$scope', '$modalInstance', function($scope, $modalInstance) {
 
         $scope.loggInn = function () {
             $modalInstance.close(this.brukernavn);
@@ -125,7 +129,9 @@ var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap'])
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
         };
-    }]).controller('KjopModalCtrl', ['$scope', '$modalInstance', 'handlekurv', 'sum', function($scope, $modalInstance, handlekurv, sum) {
+    }])
+
+    .controller('KjopModalCtrl', ['$scope', '$modalInstance', 'handlekurv', 'sum', function($scope, $modalInstance, handlekurv, sum) {
         $scope.handlekurv = handlekurv;
         $scope.sum = sum;
 

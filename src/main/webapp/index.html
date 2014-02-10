@@ -62,15 +62,15 @@
         </div>
         <div class="col-md-4" ng-show="takkForKjop">
             <div class="alert alert-success">
-                <span>Tusen takk for ditt kjøp. Monstrene vil bli levert til ditt hemmelige hovedkvarter så raskt som mulig.</span><br>
-                <button class="btn btn-success" ng-click="takkForKjop = false">Start nytt kjøp</button>
+                <p>Tusen takk for ditt kjøp. Monstrene vil bli levert til ditt hemmelige hovedkvarter så raskt som mulig</p><p>Monsterbutikken påtar seg intet ansvar for evt. skader monstrer forårsakes på materiale eller personell.</p> <br>
+                <button class="btn btn-success" ng-click="takkForKjop = false">Kjøp flere monstre</button>
             </div>
         </div>
     </div>
 
     <script type="text/ng-template" id="loggInnModal.html">
         <div class="modal-header">
-            <h3>Du må logge inn før du kan betale!</h3>
+            <h3>Logg inn for å gå videre</h3>
         </div>
         <div class="modal-body">
 
@@ -78,10 +78,6 @@
                 <div class="form-group">
                     <label for="brukernavn">Brukernavn</label>
                     <input type="text" class="form-control" id="brukernavn" ng-model="brukernavn" placeholder="Brukernavn">
-                </div>
-                <div class="form-group">
-                    <label for="passord">Passord</label>
-                    <input type="password" class="form-control" id="passord" placeholder="Passord">
                 </div>
             </form>
         </div>
@@ -97,9 +93,6 @@
         </div>
         <div class="modal-body">
             <div class="list-group">
-                <div class="list-group-item" ng-show="handlekurvTom()">
-                    <span>Ingen varer i handlekurv</span>
-                </div>
                 <div class="list-group-item" ng-repeat="kjop in handlekurv">
                     <div class="row">
                         <span class="list-group-item-heading"> {{kjop.monster.navn}} ({{kjop.antall}})</span>
