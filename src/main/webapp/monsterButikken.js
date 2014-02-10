@@ -1,7 +1,9 @@
 var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap'])
-    .controller('MonsterController', ['$scope', '$http', function($scope,$http) {
+    .controller('MonsterController', ['$scope', '$http', '$modal', function($scope, $http, $modal) {
 
         $scope.handlekurv = {};
+
+        var brukernavn = null;
 
         $scope.leggTilMonster = function(monster, e){
             if (e) {
@@ -32,9 +34,27 @@ var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap'])
             return sum;
         };
 
+        $scope.handlekurvTom = function(){
+            for (var prop in $scope.handlekurv) if ($scope.handlekurv.hasOwnProperty(prop)) return false;
+            return true;
+        };
 
         $scope.betal = function(){
+            if (!brukernavn)
+                loggInn();
+            else
+                betal();
+        };
 
+        function loggInn() {
+            var modalInstance = $modal.open({
+                templateUrl: 'loggInnModal.html',
+                controller: 'LoggInnModalCtrl'
+            });
+
+            modalInstance.result.then(function (brukernavn) {
+                $scope.brukernavn = brukernavn;
+            });
         };
 
         $scope.monstre = {};
@@ -74,4 +94,13 @@ var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap'])
             });
         };
         $scope.getMonstre();
+    }]).controller('LoggInnModalCtrl', ['$scope', '$modalInstance', function($scope, $modalInstance) {
+
+        $scope.loggInn = function () {
+            $modalInstance.close(this.brukernavn);
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
     }]);

@@ -9,15 +9,28 @@
     <link rel="stylesheet" href="monsterbutikken.css">
 </head>
 <body >
-<br/>
-<div class="container">
 
+
+<!-- Static navbar -->
+
+
+
+<div class="container" ng-controller='MonsterController'>
 
     <div class="page-header">
-    <img class="center" src="img/logo.png" alt="Monsterbutikken">
-        <br>
+        <img class="center" src="img/logo.png" alt="Monsterbutikken">
     </div>
-<div class="row" ng-controller='MonsterController'>
+    <div class="panel panel-default col-md-10">
+        <div class="panel-body" ng-show="brukernavn">
+            <span class="pull-right" style="margin-left: 5px"> Logget inn som {{brukernavn}} </span><span class="glyphicon glyphicon-user"></span>
+        </div>
+        <div class="panel-body" ng-show="!brukernavn">
+            <span class="pull-right" style="margin-left: 5px"> Ikke innlogget</span><span class="glyphicon glyphicon-user pull-right"></span>
+        </div>
+    </div>
+
+
+<div class="row" >
         <accordion class="col-md-6" close-others="oneAtATime" >
             <accordion-group  ng-repeat="monster in monstre">
                 <accordion-heading>
@@ -33,6 +46,9 @@
             <div class="panel-heading"><span class="glyphicon glyphicon-shopping-cart"></span> Handlekurv</div>
             <div class="panel-body">
                 <div class="list-group">
+                    <div class="list-group-item" ng-show="handlekurvTom()">
+                        <span>Ingen varer i handlekurv</span>
+                    </div>
                     <div class="list-group-item" ng-repeat="kjop in handlekurv">
                         <div class="row">
                             <button style="margin-left: 15px" class="btn btn-danger btn-xs" ng-click="fjernMonster(monster)">Fjern</button><span class="list-group-item-heading"> {{kjop.monster.navn}} ({{kjop.antall}})</span>
@@ -41,20 +57,38 @@
                     </div>
                     <div class="list-group-item">
                         <div class="row">
-                        <strong style="margin-right: 15px" class="pull-right list-group-item-heading ">{{getHandlekurvSum() | currency}}</strong>
+                        <strong style="margin-right: 15px" ng-hide="handlekurvTom()" class="pull-right list-group-item-heading ">{{getHandlekurvSum() | currency}}</strong>
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-success" ng-click="betal()" ng-show="handlekurv.length > 0">Betal</button>
-
+                <button class="btn btn-success" ng-click="betal()" ng-hide="handlekurvTom()">Betal</button>
             </div>
         </div>
     </div>
 </div>
 </div>
+    <script type="text/ng-template" id="loggInnModal.html">
+        <div class="modal-header">
+            <h3>Logg inn</h3>
+        </div>
+        <div class="modal-body">
 
-
-
+            <form role="form">
+                <div class="form-group">
+                    <label for="brukernavn">Brukernavn</label>
+                    <input type="text" class="form-control" id="brukernavn" ng-model="brukernavn" placeholder="Brukernavn">
+                </div>
+                <div class="form-group">
+                    <label for="passord">Passord</label>
+                    <input type="password" class="form-control" id="passord" placeholder="Passord">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="loggInn()">Logg inn</button>
+            <button class="btn btn-warning" ng-click="cancel()">Avbryt</button>
+        </div>
+    </script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
 <script src="monsterButikken.js"></script>
