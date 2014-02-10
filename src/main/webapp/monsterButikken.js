@@ -45,7 +45,7 @@ var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap'])
             if (!$scope.brukernavn)
                 $scope.loggInn().then(function() {
                     betal();
-                })
+                });
             else
                 betal();
         };
