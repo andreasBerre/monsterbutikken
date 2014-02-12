@@ -57,6 +57,19 @@ monsterButikken.factory('handlekurvService',[ '$q', function($q) {
     };
 }]);
 
+monsterButikken.factory('loggInnService',[ '$q', function($q) {
+    return {
+        loggInn: function(brukernavn){
+            //logger inn kunden. I monsterbutikken stoler vi på våre kunder, så det er ikke noe passord. Returnerer true om innlogging gikk ok.
+            this.brukernavn = brukernavn;
+            var deferred = $q.defer();
+            deferred.resolve(true);
+            return deferred.promise;
+        }
+    }
+}]);
+
+
 monsterButikken.factory('monsterService', ['$http', function($http) {
     return {
         getMonstre: function() {

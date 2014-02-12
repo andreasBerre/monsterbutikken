@@ -1,6 +1,6 @@
 var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap']);
 
-monsterButikken.controller('MonsterController', ['$scope', '$http', '$modal', 'monsterService', 'handlekurvService', function($scope, $http, $modal, monsterService, handlekurvService) {
+monsterButikken.controller('MonsterController', ['$scope', '$http', '$modal', 'monsterService', 'handlekurvService', 'loggInnService', function($scope, $http, $modal, monsterService, handlekurvService, loggInnService) {
     $scope.leggTilMonster = function(monster, e){
         $scope.takkForKjop = false;
         if (e) {
@@ -23,7 +23,7 @@ monsterButikken.controller('MonsterController', ['$scope', '$http', '$modal', 'm
     $scope.handlekurvTom = handlekurvService.handlekurvTom;
 
     $scope.betal = function(){
-        if (!$scope.brukernavn)
+        if (!loggInnService.innloggetBruker())
             $scope.loggInn().then(function() {
                 betal();
             });
@@ -53,6 +53,8 @@ monsterButikken.controller('MonsterController', ['$scope', '$http', '$modal', 'm
         });
     }
 
+
+
     $scope.loggInn = function(){
         var modalInstance = $modal.open({
             templateUrl: 'loggInnModal.html',
@@ -60,7 +62,9 @@ monsterButikken.controller('MonsterController', ['$scope', '$http', '$modal', 'm
         });
 
         return modalInstance.result.then(function (brukernavn) {
-            $scope.brukernavn = brukernavn;
+            loggInnService.loggInn(brukernavn).then(function(){
+                $scope.brukernavn = brukernavn;
+            })
         });
     }
 
