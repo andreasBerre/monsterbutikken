@@ -51,7 +51,8 @@ monsterButikken.factory('handlekurvService',[ '$q', function($q) {
         },
 
         handlekurvTom: function(){
-            for (var prop in handlekurv) if (handlekurv.hasOwnProperty(prop)) return false;
+            for (var prop in handlekurv)
+                if (handlekurv.hasOwnProperty(prop)) return false;
             return true;
         }
     };
