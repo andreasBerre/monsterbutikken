@@ -13,8 +13,8 @@ monsterButikken.controller('MonsterController', ['$scope', '$http', '$modal', 'm
     };
 
     $scope.fjernMonster = function(kjop){
-        handlekurvService.fjernMonster(kjop).then(function(){
-            $scope.handlekurv = handlekurvService.getHandlekurv()
+        handlekurvService.fjernMonster(kjop).then(function(data){
+            $scope.handlekurv = data;
         });
     };
 

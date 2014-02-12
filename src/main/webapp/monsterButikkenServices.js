@@ -2,10 +2,12 @@ monsterButikken.factory('handlekurvService',[ '$q', function($q) {
     var handlekurv = {};
     return {
         getHandlekurv: function(){
+            //returnerer nåværende tilstand på handlekurv
             return handlekurv;
         },
 
         leggTilMonster: function(monster){
+            //legger til et monster og returnerer ny tilstand på handlekurv
             eksisterendeMonster = handlekurv[monster.navn];
             if (!eksisterendeMonster)
                 handlekurv[monster.navn] = {monster: monster, antall: 1};
@@ -18,11 +20,20 @@ monsterButikken.factory('handlekurvService',[ '$q', function($q) {
         },
 
         fjernMonster: function(kjop){
+            //fjerner et monster og returnerer ny tilstand på handlekurv
             if (kjop.antall === 1)
                 delete handlekurv[kjop.monster.navn];
             else
                 handlekurv[kjop.monster.navn] = {monster: kjop.monster, antall: kjop.antall - 1};
 
+            var deferred = $q.defer();
+            deferred.resolve(handlekurv);
+            return deferred.promise;
+        },
+
+        betal: function(){
+            //gjennomfører en handel, returnerer handlekurven som ble betalt
+            handlekurv = {};
             var deferred = $q.defer();
             deferred.resolve(handlekurv);
             return deferred.promise;
@@ -42,13 +53,6 @@ monsterButikken.factory('handlekurvService',[ '$q', function($q) {
         handlekurvTom: function(){
             for (var prop in handlekurv) if (handlekurv.hasOwnProperty(prop)) return false;
             return true;
-        },
-
-        betal: function(){
-            handlekurv = {};
-            var deferred = $q.defer();
-            deferred.resolve(handlekurv);
-            return deferred.promise;
         }
     };
 }]);
