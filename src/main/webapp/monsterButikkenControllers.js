@@ -23,7 +23,7 @@ monsterButikken.controller('MonsterController', ['$scope', '$http', '$modal', 'm
     $scope.handlekurvTom = handlekurvService.handlekurvTom;
 
     $scope.betal = function(){
-        if (!loggInnService.innloggetBruker())
+        if (!$scope.brukernavn)
             $scope.loggInn().then(function() {
                 betal();
             });
