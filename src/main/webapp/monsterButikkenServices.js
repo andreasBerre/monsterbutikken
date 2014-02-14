@@ -3,11 +3,13 @@ monsterButikken.factory('handlekurvService',[ '$q', function($q) {
     return {
         getHandlekurv: function(){
             //returnerer nåværende tilstand på handlekurv
-            return handlekurv;
+            var deferred = $q.defer();
+            deferred.resolve(handlekurv);
+            return deferred.promise;
         },
 
         leggTilMonster: function(monster){
-            //legger til et monster og returnerer ny tilstand på handlekurv
+            //legger et monster i handlekurven
             eksisterendeMonster = handlekurv[monster.navn];
             if (!eksisterendeMonster)
                 handlekurv[monster.navn] = {monster: monster, antall: 1};
@@ -15,19 +17,19 @@ monsterButikken.factory('handlekurvService',[ '$q', function($q) {
                 handlekurv[monster.navn] = {monster: monster, antall: eksisterendeMonster.antall + 1};
 
             var deferred = $q.defer();
-            deferred.resolve(handlekurv);
+            deferred.resolve();
             return deferred.promise;
         },
 
         fjernMonster: function(kjop){
-            //fjerner et monster og returnerer ny tilstand på handlekurv
+            //fjerner et monster fra handlekurven. Om dette resulterer at det er ingen av typen igjen fjernes monsteret.
             if (kjop.antall === 1)
                 delete handlekurv[kjop.monster.navn];
             else
                 handlekurv[kjop.monster.navn] = {monster: kjop.monster, antall: kjop.antall - 1};
 
             var deferred = $q.defer();
-            deferred.resolve(handlekurv);
+            deferred.resolve();
             return deferred.promise;
         },
 
@@ -35,7 +37,7 @@ monsterButikken.factory('handlekurvService',[ '$q', function($q) {
             //gjennomfører en handel, returnerer handlekurven som ble betalt
             handlekurv = {};
             var deferred = $q.defer();
-            deferred.resolve(handlekurv);
+            deferred.resolve();
             return deferred.promise;
         },
 
@@ -47,7 +49,9 @@ monsterButikken.factory('handlekurvService',[ '$q', function($q) {
                     sum = sum + (kjop.antall * kjop.monster.pris);
                 }
             }
-            return sum;
+            var deferred = $q.defer();
+            deferred.resolve(sum);
+            return deferred.promise;
         },
 
         handlekurvTom: function(){
