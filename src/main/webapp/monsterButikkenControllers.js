@@ -7,14 +7,18 @@ monsterButikken.controller('MonsterController', ['$scope', '$http', '$modal', 'm
             e.preventDefault();
             e.stopPropagation();
         }
-        handlekurvService.leggTilMonster(monster).then(function(data){
-            $scope.handlekurv = data;
+        handlekurvService.leggTilMonster(monster).then(function(){
+            handlekurvService.getHandlekurv().then(function(data){
+                $scope.handlekurv = data;
+            })
         });
     };
 
     $scope.fjernMonster = function(kjop){
-        handlekurvService.fjernMonster(kjop).then(function(data){
-            $scope.handlekurv = data;
+        handlekurvService.fjernMonster(kjop).then(function(){
+            handlekurvService.getHandlekurv().then(function(data){
+                $scope.handlekurv = data;
+            })
         });
     };
 
@@ -52,8 +56,6 @@ monsterButikken.controller('MonsterController', ['$scope', '$http', '$modal', 'm
             });
         });
     }
-
-
 
     $scope.loggInn = function(){
         var modalInstance = $modal.open({
