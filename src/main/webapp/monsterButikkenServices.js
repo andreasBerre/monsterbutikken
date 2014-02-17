@@ -1,115 +1,57 @@
-monsterButikken.factory('handlekurvService',[ '$q', function($q) {
-    var handlekurv = {};
+monsterApp.factory('handlekurvService',[ '$q', '$http', function($q, $http) {
     return {
         getHandlekurv: function(){
             //returnerer nåværende tilstand på handlekurv
-            var deferred = $q.defer();
-            deferred.resolve(handlekurv);
-            return deferred.promise;
+            return $http.get('/service/handlekurv/');
         },
 
-        leggTilMonster: function(monster){
-            //legger et monster i handlekurven
-            eksisterendeMonster = handlekurv[monster.navn];
-            if (!eksisterendeMonster)
-                handlekurv[monster.navn] = {monster: monster, antall: 1};
-            else
-                handlekurv[monster.navn] = {monster: monster, antall: eksisterendeMonster.antall + 1};
-
-            var deferred = $q.defer();
-            deferred.resolve();
-            return deferred.promise;
+        leggTilMonster: function(monsternavn){
+            //legger til et monster i handlekurven. Om det er en eksisterende ordrelinje økes antallet, ellers opprettes en ordrelinje.
+            return $http.post('/service/handlekurv/leggTil/' + monsternavn);
         },
 
-        fjernMonster: function(kjop){
-            //fjerner et monster fra handlekurven. Om dette resulterer at det er ingen av typen igjen fjernes monsteret.
-            if (kjop.antall === 1)
-                delete handlekurv[kjop.monster.navn];
-            else
-                handlekurv[kjop.monster.navn] = {monster: kjop.monster, antall: kjop.antall - 1};
-
-            var deferred = $q.defer();
-            deferred.resolve();
-            return deferred.promise;
+        fjernMonster: function(monsternavn){
+            //fjerner et monster fra handlekurven. Om dette resulterer at det er ingen av typen igjen fjernes ordrelinjen.
+            return $http.post('/service/handlekurv/fjern/' + monsternavn);
         },
 
-        betal: function(){
-            //gjennomfører en handel, returnerer handlekurven som ble betalt
-            handlekurv = {};
-            var deferred = $q.defer();
-            deferred.resolve();
-            return deferred.promise;
+        bekreftOrdre: function(){
+            //oppretter en ordre basert på innholdet i handlekurven, og tømmer denne.
+            return $http.post('/service/handlekurv/bekreftOrdre');
         },
 
-        getHandlekurvSum: function(){
-            var sum = 0;
-            for (var monsterNavn in handlekurv) {
-                if (handlekurv.hasOwnProperty(monsterNavn)){
-                    var kjop = handlekurv[monsterNavn];
-                    sum = sum + (kjop.antall * kjop.monster.pris);
-                }
-            }
-            var deferred = $q.defer();
-            deferred.resolve(sum);
-            return deferred.promise;
-        },
-
-        handlekurvTom: function(){
-            for (var prop in handlekurv)
-                if (handlekurv.hasOwnProperty(prop)) return false;
-            return true;
+        handlekurvSum: function(){
+            //henter sum av pris * antall for alle ordrelinjer i handlekurven.
+            return $http.get('/service/handlekurv/sum');
         }
+
     };
 }]);
 
-monsterButikken.factory('loggInnService',[ '$q', function($q) {
+monsterApp.factory('autentiseringService',[ '$q', '$http', function($q, $http) {
     return {
-        loggInn: function(brukernavn){
-            //logger inn kunden. I monsterbutikken stoler vi på våre kunder, så det er ikke noe passord. Returnerer true om innlogging gikk ok.
-            this.brukernavn = brukernavn;
-            var deferred = $q.defer();
-            deferred.resolve(true);
-            return deferred.promise;
+        loggInn: function(kundenavn){
+            //logger inn kunden. I monsterbutikken stoler vi på våre kunder, så det er ikke noe passord. Kundenavnet settes på session på serversiden.
+            return $http.post('/service/autentisering/logginn/' + kundenavn)
+        },
+
+        loggUt: function(){
+            //logger kunden ut, fjerner kundenavn fra session
+            return $http.post('/service/autentisering/loggut')
+        },
+
+        innloggetKunde: function(){
+            //henter kundenavnet til innlogget kunde
+            return $http.get('/service/autentisering/innloggetKunde')
         }
     }
 }]);
 
 
-monsterButikken.factory('monsterService', ['$http', function($http) {
+monsterApp.factory('monsterService', ['$http', function($http) {
     return {
         getMonstre: function() {
-            return $http.get('/service/monstre').error(function(){
-                    console.log("klarte ikke hente monstre fra server, laster fra klient")
-                    $scope.monstre = [
-                        {navn: "Ao (skilpadde)", pris: 100000},
-                        {navn: "Bakeneko", pris: 120000},
-                        {navn: "Basilisk", pris: 175000},
-                        {navn: "Det erymanthiske villsvin", pris: 100},
-                        {navn: "Griff", pris: 100},
-                        {navn: "Hamløper", pris: 100},
-                        {navn: "Hippogriff", pris: 100},
-                        {navn: "Hydra", pris: 100},
-                        {navn: "Kentaur", pris: 100},
-                        {navn: "Kerberos", pris: 100},
-                        {navn: "Kraken", pris: 100},
-                        {navn: "Mannbjørn", pris: 100},
-                        {navn: "Mantikora", pris: 100},
-                        {navn: "Margyge", pris: 100},
-                        {navn: "Marmæle", pris: 100},
-                        {navn: "Minotauros", pris: 100},
-                        {navn: "Nekomusume", pris: 100},
-                        {navn: "Rokk", pris: 100},
-                        {navn: "Seljordsormen", pris: 100},
-                        {navn: "Sfinks", pris: 100},
-                        {navn: "Sirene", pris: 100},
-                        {navn: "Sjøorm", pris: 100},
-                        {navn: "Succubus", pris: 100},
-                        {navn: "Valravn", pris: 100},
-                        {navn: "Vampyr", pris: 100},
-                        {navn: "Varulv", pris: 100}
-                    ];
-                }
-            )
+            return $http.get('/service/monstre');
         }
     };
 }]);

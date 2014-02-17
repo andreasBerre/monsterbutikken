@@ -1,41 +1,59 @@
-var monsterButikken = angular.module('monsterButikken', ['ui.bootstrap']);
+monsterApp.controller('MonsterController', ['$scope', '$http', '$modal', 'monsterService', 'handlekurvService', 'autentiseringService', '$location', function($scope, $http, $modal, monsterService, handlekurvService, autentiseringService, $location) {
 
-monsterButikken.controller('MonsterController', ['$scope', '$http', '$modal', 'monsterService', 'handlekurvService', 'loggInnService', function($scope, $http, $modal, monsterService, handlekurvService, loggInnService) {
-    $scope.leggTilMonster = function(monster, e){
+    autentiseringService.innloggetKunde().success(function(data){
+        $scope.kundenavn = data.kundenavn;
+    });
+
+    $scope.loggUt = function(){
+        autentiseringService.loggUt();
+        $location.url('/');
+    };
+
+    $scope.handlekurvTom = true;
+
+    function getHandlekurv() {
+        handlekurvService.getHandlekurv().success(function(data){
+            $scope.handlekurv = data;
+        })
+    }
+
+    getHandlekurv();
+
+    $scope.$watch('handlekurv', function() {
+        var handlekurvTom = true;
+        for (var prop in $scope.handlekurv){
+            if ($scope.handlekurv.hasOwnProperty(prop)){
+                handlekurvTom = false;
+            }
+        }
+        $scope.handlekurvTom = handlekurvTom;
+    }, true);
+
+    $scope.leggTilMonster = function(monsternavn, e){
         $scope.takkForKjop = false;
         if (e) {
             e.preventDefault();
             e.stopPropagation();
         }
-        handlekurvService.leggTilMonster(monster).then(function(){
-            handlekurvService.getHandlekurv().then(function(data){
-                $scope.handlekurv = data;
-            })
+        handlekurvService.leggTilMonster(monsternavn).then(function(){
+            getHandlekurv();
         });
     };
 
-    $scope.fjernMonster = function(kjop){
-        handlekurvService.fjernMonster(kjop).then(function(){
-            handlekurvService.getHandlekurv().then(function(data){
-                $scope.handlekurv = data;
-            })
+   $scope.fjernMonster = function(monsternavn){
+        handlekurvService.fjernMonster(monsternavn).then(function(){
+            getHandlekurv();
         });
     };
 
-    $scope.getHandlekurvSum = handlekurvService.getHandlekurvSum;
+    $scope.$watch('handlekurv', function() {
+        handlekurvService.handlekurvSum().success(function(data){
+            $scope.handlekurvSum =  data.sum;
+        })
 
-    $scope.handlekurvTom = handlekurvService.handlekurvTom;
+    }, true);
 
     $scope.betal = function(){
-        if (!$scope.brukernavn)
-            $scope.loggInn().then(function() {
-                betal();
-            });
-        else
-            betal();
-    };
-
-    function betal(){
         var modalInstance = $modal.open({
             templateUrl: 'kjopModal.html',
             controller: 'KjopModalCtrl',
@@ -44,51 +62,29 @@ monsterButikken.controller('MonsterController', ['$scope', '$http', '$modal', 'm
                     return handlekurvService.getHandlekurv();
                 },
                 sum: function () {
-                    return handlekurvService.getHandlekurvSum();
+                    return handlekurvService.handlekurvSum();
                 }
             }
         });
 
         modalInstance.result.then(function () {
-            handlekurvService.betal().then(function(data){
-                $scope.handlekurv = data;
+            handlekurvService.bekreftOrdre().success(function(){
+                getHandlekurv();
                 $scope.takkForKjop = true;
             });
         });
-    }
-
-    $scope.loggInn = function(){
-        var modalInstance = $modal.open({
-            templateUrl: 'loggInnModal.html',
-            controller: 'LoggInnModalCtrl'
-        });
-
-        return modalInstance.result.then(function (brukernavn) {
-            loggInnService.loggInn(brukernavn).then(function(){
-                $scope.brukernavn = brukernavn;
-            })
-        });
-    }
+    };
 
     $scope.monstre = monsterService.getMonstre().success(function(data){
         $scope.monstre = data;
-    });
+    })
 
 }]);
 
-monsterButikken.controller('LoggInnModalCtrl', ['$scope', '$modalInstance', function($scope, $modalInstance) {
-    $scope.loggInn = function () {
-        $modalInstance.close(this.brukernavn);
-    };
+monsterApp.controller('KjopModalCtrl', ['$scope', '$modalInstance', 'handlekurv', 'sum', function($scope, $modalInstance, handlekurv, sum) {
+    $scope.handlekurv = handlekurv.data;
 
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
-    };
-}]);
-
-monsterButikken.controller('KjopModalCtrl', ['$scope', '$modalInstance', 'handlekurv', 'sum', function($scope, $modalInstance, handlekurv, sum) {
-    $scope.handlekurv = handlekurv;
-    $scope.sum = sum;
+    $scope.sum = sum.data.sum;
 
     $scope.bekreftKjop = function () {
         $modalInstance.close();

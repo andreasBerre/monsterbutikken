@@ -6,117 +6,26 @@
     <title>MonsterButikken</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="monsterbutikken.css">
 </head>
-<body >
-
-<div class="container" ng-controller='MonsterController'>
-
-    <div class="page-header">
-        <img class="center" src="img/logo.png" alt="Monsterbutikken">
-    </div>
-    <div class="panel panel-default col-md-10">
-        <div class="panel-body" ng-show="brukernavn">
-            <span class="pull-right" style="margin-left: 5px"> Logget inn som {{brukernavn}} </span><span class="glyphicon glyphicon-user pull-right"></span>
+<body>
+<div class="container">
+        <div class="page-header">
+            <img class="center" src="img/logo.png" alt="Monsterbutikken">
         </div>
-        <div class="panel-body" ng-show="!brukernavn">
-            <button class="pull-right" ng-click="loggInn()"><span class="glyphicon glyphicon-user"></span> Logg inn</button>
-        </div>
-    </div>
-
-    <div class="row" >
-            <accordion class="col-md-6" close-others="oneAtATime" >
-                <accordion-group  ng-repeat="monster in monstre">
-                    <accordion-heading>
-                        <span class="col-md-1 glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></span>
-                        <span>{{monster.navn}}</span>
-                        <button class="btn pull-right btn-primary btn-xs" ng-click="leggTilMonster(monster, $event)">{{monster.pris | currency}}</button>
-                    </accordion-heading>
-                        <div class="col-md-offset-1">"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</div>
-                </accordion-group>
-            </accordion>
-        <div class="col-md-4" ng-hide="takkForKjop">
-            <div class="panel panel-default">
-                <div class="panel-heading"><span class="glyphicon glyphicon-shopping-cart"></span> Handlekurv</div>
-                <div class="panel-body">
-                    <div class="list-group">
-                        <div class="list-group-item" ng-show="handlekurvTom()">
-                            <span>Ingen varer i handlekurv</span>
-                        </div>
-                        <div class="list-group-item" ng-repeat="kjop in handlekurv">
-                            <div class="row">
-                                <button style="margin-left: 15px" class="btn btn-danger btn-xs" ng-click="fjernMonster(kjop)">Fjern</button><span class="list-group-item-heading"> {{kjop.monster.navn}} ({{kjop.antall}})</span>
-                                <span style="margin-right: 15px" class="pull-right list-group-item-heading">{{kjop.monster.pris * kjop.antall | currency}}</span>
-                            </div>
-                        </div>
-                        <div class="list-group-item">
-                            <div class="row">
-                            <strong style="margin-right: 15px" ng-hide="handlekurvTom()" class="pull-right list-group-item-heading ">{{getHandlekurvSum() | currency}}</strong>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="btn btn-success" ng-click="betal()" ng-hide="handlekurvTom()">Betal</button>
-                </div>
-            </div>
-
-        </div>
-        <div class="col-md-4" ng-show="takkForKjop">
-            <div class="alert alert-success">
-                <p>Tusen takk for ditt kjøp. Monstrene vil bli levert til ditt hemmelige hovedkvarter så raskt som mulig</p><p>Monsterbutikken påtar seg intet ansvar for evt. skader monstrer forårsakes på matriell eller personell.</p> <br>
-                <button class="btn btn-success" ng-click="takkForKjop = false">Kjøp flere monstre</button>
-            </div>
-        </div>
-    </div>
-
-    <script type="text/ng-template" id="loggInnModal.html">
-        <div class="modal-header">
-            <h3>Logg inn for å gå videre</h3>
-        </div>
-        <div class="modal-body">
-
-            <form role="form">
-                <div class="form-group">
-                    <label for="brukernavn">Brukernavn</label>
-                    <input type="text" class="form-control" id="brukernavn" ng-model="brukernavn" placeholder="Brukernavn">
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="loggInn()">Logg inn</button>
-            <button class="btn btn-warning" ng-click="cancel()">Avbryt</button>
-        </div>
-    </script>
-
-    <script type="text/ng-template" id="kjopModal.html">
-        <div class="modal-header">
-            <h3>Er du sikker på at du vil kjøpe disse monstrene?</h3>
-        </div>
-        <div class="modal-body">
-            <div class="list-group">
-                <div class="list-group-item" ng-repeat="kjop in handlekurv">
-                    <div class="row">
-                        <span class="list-group-item-heading"> {{kjop.monster.navn}} ({{kjop.antall}})</span>
-                        <span style="margin-right: 15px" class="pull-right list-group-item-heading">{{kjop.monster.pris * kjop.antall | currency}}</span>
-                    </div>
-                </div>
-                <div class="list-group-item">
-                    <div class="row">
-                        <strong style="margin-right: 15px" class="pull-right list-group-item-heading ">{{sum | currency}}</strong>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="bekreftKjop()">Bekreft</button>
-            <button class="btn btn-warning" ng-click="cancel()">Avbryt</button>
-        </div>
-    </script>
-
+        <div class="col-md-8" data-ng-view=""></div>
 </div>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
-<script src="monsterButikkenControllers.js"></script>
-<script src="monsterButikkenServices.js"></script>
 
 </body>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular-route.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.0/angular-mocks.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+
+<script src="monsterApp.js"></script>
+<script src="monsterButikkenServices.js"></script>
+<script src="loginController.js"></script>
+<script src="monsterButikkenControllers.js"></script>
+<script src="http_mock.js"></script>
+
 </html>
