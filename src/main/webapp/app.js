@@ -6,10 +6,10 @@ var monsterApp = angular.module("monsterButikken", ['ngRoute', 'ui.bootstrap'])
                 controller: 'LoginController',
                 templateUrl: 'login.html'
             })
-            .when('/butikken',
+            .when('/butikk',
             {
                 controller: 'MonsterController',
-                templateUrl: 'butikken.html'
+                templateUrl: 'butikk.html'
             })
 }]);
 
@@ -23,7 +23,7 @@ monsterApp.run(['$rootScope', '$location', 'autentiseringService', function ($ro
                 $location.path('/');
             }
             else {
-                $location.path('/butikken');
+                $location.path('/butikk');
             }
         })
     });

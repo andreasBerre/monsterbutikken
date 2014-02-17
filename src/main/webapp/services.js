@@ -1,4 +1,4 @@
-monsterApp.factory('handlekurvService',[ '$q', '$http', function($q, $http) {
+monsterApp.factory('handlekurvService',['$http', function($http) {
     return {
         getHandlekurv: function(){
             //returnerer nåværende tilstand på handlekurv
@@ -28,7 +28,7 @@ monsterApp.factory('handlekurvService',[ '$q', '$http', function($q, $http) {
     };
 }]);
 
-monsterApp.factory('autentiseringService',[ '$q', '$http', function($q, $http) {
+monsterApp.factory('autentiseringService',['$http', function($http) {
     return {
         loggInn: function(kundenavn){
             //logger inn kunden. I monsterbutikken stoler vi på våre kunder, så det er ikke noe passord. Kundenavnet settes på session på serversiden.
@@ -46,7 +46,6 @@ monsterApp.factory('autentiseringService',[ '$q', '$http', function($q, $http) {
         }
     }
 }]);
-
 
 monsterApp.factory('monsterService', ['$http', function($http) {
     return {

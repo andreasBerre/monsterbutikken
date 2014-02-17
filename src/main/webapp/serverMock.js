@@ -8,6 +8,7 @@ monsterApp.run(function($httpBackend) {
 
     //Mocks for AutorisasjonService
     var innloggetKunde;
+
     $httpBackend.whenPOST(/\/service\/autentisering\/logginn\/.*/).respond(function(method, url){
         innloggetKunde = url.substr(url.lastIndexOf('/') + 1, url.length)
         return [200];
@@ -25,6 +26,7 @@ monsterApp.run(function($httpBackend) {
 
     //Mocks for HandlekurvService
     var handlekurv = {};
+
     $httpBackend.whenGET('/service/handlekurv/').respond(function(){
         return [200, handlekurv];
     });
