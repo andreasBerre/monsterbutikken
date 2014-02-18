@@ -1,8 +1,8 @@
-monsterApp.config(function($provide) {
+app.config(function($provide) {
     $provide.decorator('$httpBackend', angular.mock.e2e.$httpBackendDecorator);
 });
 
-monsterApp.run(function($httpBackend) {
+app.run(function($httpBackend) {
     $httpBackend.whenGET(/.*html/).passThrough();
 
 

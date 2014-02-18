@@ -1,4 +1,4 @@
-var monsterApp = angular.module("monsterButikken", ['ngRoute', 'ui.bootstrap'])
+var app = angular.module("monsterButikken", ['ngRoute', 'ui.bootstrap'])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/',
@@ -14,12 +14,11 @@ var monsterApp = angular.module("monsterButikken", ['ngRoute', 'ui.bootstrap'])
 }]);
 
 
-monsterApp.run(['$rootScope', '$location', 'autentiseringService', function ($rootScope, $location, autentiseringService) {
+app.run(['$rootScope', '$location', 'autentiseringService', function ($rootScope, $location, autentiseringService) {
     $rootScope.$on('$routeChangeStart', function () {
 
         autentiseringService.innloggetKunde().success(function(innloggetKunde){
             if (!innloggetKunde.kundenavn) {
-               // event.preventDefault();
                 $location.path('/');
             }
             else {

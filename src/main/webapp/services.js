@@ -1,4 +1,4 @@
-monsterApp.factory('handlekurvService',['$http', function($http) {
+app.factory('handlekurvService',['$http', function($http) {
     return {
         getHandlekurv: function(){
             // Returnerer nåværende tilstand på handlekurv. Handlekurv er et js objekt med en property pr ordrelinje, med
@@ -28,11 +28,10 @@ monsterApp.factory('handlekurvService',['$http', function($http) {
             // Henter sum av pris * antall for alle ordrelinjer i handlekurven. Sum er et objekt med en property, sum.
             return $http.get('/service/handlekurv/sum');
         }
-
     };
 }]);
 
-monsterApp.factory('autentiseringService',['$http', function($http) {
+app.factory('autentiseringService',['$http', function($http) {
     return {
         loggInn: function(kundenavn){
             // Logger inn kunden. I monsterbutikken stoler vi på våre kunder, så det er ikke noe passord. Kundenavnet
@@ -52,7 +51,7 @@ monsterApp.factory('autentiseringService',['$http', function($http) {
     }
 }]);
 
-monsterApp.factory('monsterService', ['$http', function($http) {
+app.factory('monsterService', ['$http', function($http) {
     return {
         getMonstre: function() {
             return $http.get('/service/monstre');

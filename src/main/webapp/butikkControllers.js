@@ -1,4 +1,4 @@
-monsterApp.controller('MonsterController', ['$scope', '$modal', 'monsterService', 'handlekurvService', 'autentiseringService', '$location', function($scope, $modal, monsterService, handlekurvService, autentiseringService, $location) {
+app.controller('MonsterController', ['$scope', '$modal', 'monsterService', 'handlekurvService', 'autentiseringService', '$location', function($scope, $modal, monsterService, handlekurvService, autentiseringService, $location) {
 
     autentiseringService.innloggetKunde().success(function(data){
         $scope.kundenavn = data.kundenavn;
@@ -80,7 +80,7 @@ monsterApp.controller('MonsterController', ['$scope', '$modal', 'monsterService'
 
 }]);
 
-monsterApp.controller('KjopModalCtrl', ['$scope', '$modalInstance', 'handlekurv', 'sum', function($scope, $modalInstance, handlekurv, sum) {
+app.controller('KjopModalCtrl', ['$scope', '$modalInstance', 'handlekurv', 'sum', function($scope, $modalInstance, handlekurv, sum) {
     $scope.handlekurv = handlekurv.data;
 
     $scope.sum = sum.data.sum;
