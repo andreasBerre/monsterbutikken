@@ -16,7 +16,6 @@ var app = angular.module("monsterButikken", ['ngRoute', 'ui.bootstrap'])
 
 app.run(['$rootScope', '$location', 'autentiseringService', function ($rootScope, $location, autentiseringService) {
     $rootScope.$on('$routeChangeStart', function () {
-
         autentiseringService.innloggetKunde().success(function(innloggetKunde){
             if (!innloggetKunde.kundenavn) {
                 $location.path('/');

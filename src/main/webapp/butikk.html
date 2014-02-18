@@ -39,7 +39,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-success" data-ng-click="betal()" data-ng-hide="handlekurvTom">Betal</button>
+                    <button class="btn btn-success" data-ng-click="bestill()" data-ng-hide="handlekurvTom">Bestill monstre</button>
                 </div>
             </div>
         </div>
@@ -52,9 +52,9 @@
         </div>
     </div>
 
-    <script type="text/ng-template" id="kjopModal.html">
+    <script type="text/ng-template" id="bekreftOrdreModal.html">
         <div class="modal-header">
-            <h3>Er du sikker på at du vil kjøpe disse monstrene?</h3>
+            <h3>Er du sikker på at du vil bestille disse monstrene?</h3>
         </div>
         <div class="modal-body">
             <div class="list-group">
@@ -72,7 +72,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" data-ng-click="bekreftKjop()">Bekreft</button>
+            <button class="btn btn-primary" data-ng-click="bekreftOrdre()">Bekreft ordre</button>
             <button class="btn btn-warning" data-ng-click="cancel()">Avbryt</button>
         </div>
     </script>
