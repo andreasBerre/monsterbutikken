@@ -1,27 +1,31 @@
 monsterApp.factory('handlekurvService',['$http', function($http) {
     return {
         getHandlekurv: function(){
-            //returnerer nåværende tilstand på handlekurv
+            // Returnerer nåværende tilstand på handlekurv. Handlekurv er et js objekt med en property pr ordrelinje, med
+            // monsternavn som nøkkel og et ordrelinjeobjekt som value. Ordrelinjeobjektet har properties monsternavn,
+            // pris, og antall
             return $http.get('/service/handlekurv/');
         },
 
         leggTilMonster: function(monsternavn){
-            //legger til et monster i handlekurven. Om det er en eksisterende ordrelinje økes antallet, ellers opprettes en ordrelinje.
+            // Legger til et monster i handlekurven. Om en eksisterende ordrelinje finnes for monstertypen inkrementeres
+            // antall, hvis ikke opprettes en ny ordrelinje i brukerens handlekurv.
             return $http.post('/service/handlekurv/leggTil/' + monsternavn);
         },
 
         fjernMonster: function(monsternavn){
-            //fjerner et monster fra handlekurven. Om dette resulterer at det er ingen av typen igjen fjernes ordrelinjen.
+            // Fjerner et monster fra handlekurven (dekrementerer antall i ordrelinjen). Hvis resultatet er at antall blir
+            // null fjernes ordrelinjen.
             return $http.post('/service/handlekurv/fjern/' + monsternavn);
         },
 
         bekreftOrdre: function(){
-            //oppretter en ordre basert på innholdet i handlekurven, og tømmer denne.
+            // Oppretter en ordre basert på innholdet i handlekurven, og tømmer brukerens handlekurv.
             return $http.post('/service/handlekurv/bekreftOrdre');
         },
 
         handlekurvSum: function(){
-            //henter sum av pris * antall for alle ordrelinjer i handlekurven.
+            // Henter sum av pris * antall for alle ordrelinjer i handlekurven. Sum er et objekt med en property, sum.
             return $http.get('/service/handlekurv/sum');
         }
 
@@ -31,17 +35,18 @@ monsterApp.factory('handlekurvService',['$http', function($http) {
 monsterApp.factory('autentiseringService',['$http', function($http) {
     return {
         loggInn: function(kundenavn){
-            //logger inn kunden. I monsterbutikken stoler vi på våre kunder, så det er ikke noe passord. Kundenavnet settes på session på serversiden.
+            // Logger inn kunden. I monsterbutikken stoler vi på våre kunder, så det er ikke noe passord. Kundenavnet
+            // settes på session på serversiden.
             return $http.post('/service/autentisering/logginn/' + kundenavn)
         },
 
         loggUt: function(){
-            //logger kunden ut, fjerner kundenavn fra session
+            // Logger kunden ut ved å fjerne kundenavn fra session.
             return $http.post('/service/autentisering/loggut')
         },
 
         innloggetKunde: function(){
-            //henter kundenavnet til innlogget kunde
+            // Henter kundenavnet til innlogget kunde. Kundenavn er et objekt med en property, kundenavn.
             return $http.get('/service/autentisering/innloggetKunde')
         }
     }
