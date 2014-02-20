@@ -6,7 +6,7 @@ Monsterbutikken er det perfekte sted å bestille avskyelige udyr for å bevokte 
 ##Oppdrag
 
 
-Du er hentet inn som kunsulent av Monsterbutikken for å erstatte en tidligere utvikler som ikke ble ferdig med jobben før han kom ut for en stygg ulykke medet av produktene.
+Du er hentet inn som kunsulent av Monsterbutikken for å erstatte en tidligere utvikler som ikke ble ferdig med jobben før han kom ut for en stygg ulykke med et av produktene.
 
 Den avdøde utvileren rakk å gjøre ferdig klient-siden av appen og hadde akkurat kommet i gang med å lage REST-api'ene når han ble monster-mat.
 
