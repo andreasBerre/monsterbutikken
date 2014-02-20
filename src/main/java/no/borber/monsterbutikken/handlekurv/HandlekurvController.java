@@ -18,16 +18,17 @@ public class HandlekurvController {
     /**
      * Henter nåværende tilstand for en kundes handlekurv.
      *
-     * @return Map bestående av String:monsternavn og ordrelinjen for det aktuelle monsteret
+     * @return Map bestående av String:monsternavn og handlekurvlinjen for det aktuelle monsteret
      */
     @RequestMapping(value = "/handlekurv/",  method=RequestMethod.GET)
     @ResponseBody()
-    public Map<String, Ordrelinje> getHandlekurv(){
+    public Map<String, Handlekurvlinje> getHandlekurv(){
         return null;
     }
 
     /**
-     * Fjerner et monster fra en kundes handlekurv.
+     * Fjerner et monster fra en kundes handlekurv. Om dette gjør at antall for handlekurvlinjen blir null fjernes
+     * linjen fra handlekurven.
      *
      * @param monsternavn navnet på monsteret som skal fjernes
      */
@@ -36,13 +37,14 @@ public class HandlekurvController {
     public void fjernMonster(@PathVariable String monsternavn){}
 
     /**
-     * Legger til et monster i en kundes handlekurv
+     * Legger til ett monster i en kundes handlekurv. Om handlekurvlinjen finnes fra før økes antallet, hvis ikke lages
+     * det en ny linje.
      *
-     * @param monsterNavn navnet på monsteret som skal legges til
+     * @param monsternavn navnet på monsteret som skal legges til
      */
-    @RequestMapping(value = "/handlekurv/leggTil/{monsterNavn}",  method=RequestMethod.POST)
+    @RequestMapping(value = "/handlekurv/leggTil/{monsternavn}",  method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public void leggTilMonster(@PathVariable String monsterNavn){}
+    public void leggTilMonster(@PathVariable String monsternavn){}
 
     /**
      * Genererer en ny ordre, og tømmer kundes handlekurv.
@@ -51,9 +53,8 @@ public class HandlekurvController {
     @ResponseStatus(HttpStatus.OK)
     public void bekreftOrdre(){}
 
-
     /**
-     * Kalkulerer sum av handlekurvLinjer i kundes nåværende handlekurv
+     * Kalkulerer sum av handlekurvLinjer (antall * pris) i kundes nåværende handlekurv
      */
     @RequestMapping(value = "/handlekurv/sum",  method=RequestMethod.GET)
     @ResponseBody
