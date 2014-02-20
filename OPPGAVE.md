@@ -31,7 +31,7 @@ På blodige ark finner du notatene under:
 * Kommenter ut serverMock.js fra index.htm, og lag et fungerende rest api!
 
 #### Lenker
-----------------------------------------------------------------------
-monsterbutikken java  | https://github.com/andreasBerre/monsterbutikken
-monsterbutikken c#	  | https://github.com/oven/monsterbutikken.net
-presentasjon          | http://goo.gl/G1U9HS
+
+monsterbutikken java    https://github.com/andreasBerre/monsterbutikken
+monsterbutikken c#      https://github.com/oven/monsterbutikken.net
+presentasjon            http://goo.gl/G1U9HS
