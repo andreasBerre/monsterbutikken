@@ -1,4 +1,4 @@
-package no.borber.monsterbutikken;
+package no.borber.monsterbutikken.monstre;
 
 public class MonsterJson implements Comparable<MonsterJson>{
     private final String navn;
@@ -24,9 +24,8 @@ public class MonsterJson implements Comparable<MonsterJson>{
 
         MonsterJson that = (MonsterJson) o;
 
-        if (navn != null ? !navn.equals(that.navn) : that.navn != null) return false;
+        return !(navn != null ? !navn.equals(that.navn) : that.navn != null);
 
-        return true;
     }
 
     @Override
