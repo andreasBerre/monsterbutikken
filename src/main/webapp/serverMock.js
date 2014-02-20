@@ -5,25 +5,6 @@ app.config(function($provide) {
 app.run(function($httpBackend) {
     $httpBackend.whenGET(/.*html/).passThrough();
 
-
-    //Mocks for AutorisasjonService
-    var innloggetKunde;
-
-    $httpBackend.whenPOST(/\/service\/autentisering\/logginn\/.*/).respond(function(method, url){
-        innloggetKunde = url.substr(url.lastIndexOf('/') + 1, url.length)
-        return [200];
-    });
-
-    $httpBackend.whenPOST('/service/autentisering/loggut').respond(function(method, url){
-        innloggetKunde = null;
-        return [200];
-    });
-
-    $httpBackend.whenGET('/service/autentisering/innloggetKunde').respond(function(){
-        return [200, {kundenavn: innloggetKunde}];
-    });
-
-
     //Mocks for HandlekurvService
     var handlekurv = {};
 
@@ -69,6 +50,24 @@ app.run(function($httpBackend) {
             }
         }
         return [200, {sum: sum}];
+    });
+
+
+    //Mocks for AutorisasjonService
+    var innloggetKunde;
+
+    $httpBackend.whenPOST(/\/service\/autentisering\/logginn\/.*/).respond(function(method, url){
+        innloggetKunde = url.substr(url.lastIndexOf('/') + 1, url.length)
+        return [200];
+    });
+
+    $httpBackend.whenPOST('/service/autentisering/loggut').respond(function(method, url){
+        innloggetKunde = null;
+        return [200];
+    });
+
+    $httpBackend.whenGET('/service/autentisering/innloggetKunde').respond(function(){
+        return [200, {kundenavn: innloggetKunde}];
     });
 
 
