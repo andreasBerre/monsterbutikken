@@ -7,7 +7,7 @@ Den avdøde utvileren rakk å gjøre ferdig klient-siden av appen og hadde akkur
 
 På blodige ark finner du notatene under:
 
-### Domeneanalyse:
+#### Domeneanalyse
 
 * _Monster_ Et skummelt og dødelig vesen du kan kjøpe i monsterbutikken. Identifiseres av monsternavn.
 * _Handlekurvlinje_ En monstertype plassert i handlekurven, i et visst antall til en viss pris.
@@ -18,20 +18,20 @@ På blodige ark finner du notatene under:
 * _Kunde_ En person som handler i monsterbutikken. Identifiseres med kundenavn.
 
 
-#### Notater til etablering av server-side:
+#### Notater til etablering av server-side
 
 ![Event Sourcing](eventsourcing.png "Event Sourcing")
 
-# Eventstore skal kunne ta i mot hendelser og lagre i en logg.
-# Projeksjoner skal abonnere på hendelser, og endre tilstand ved mottak.
-# Eventstore skal publisere mottatte hendelser til abonnerende projeksjoner.
-# CommandHandler skal motta og validere commands, og sende hendelser til EventStore hvis commanden er gyldig.
-# Controller skal sende commands til CommandHandler
-# Controller skal lese fra projeksjoner
-# Kommenter ut serverMock.js fra index.htm, og lag et fungerende rest api!
+* Eventstore skal kunne ta i mot hendelser og lagre i en logg.
+* Projeksjoner skal abonnere på hendelser, og endre tilstand ved mottak.
+* Eventstore skal publisere mottatte hendelser til abonnerende projeksjoner.
+* CommandHandler skal motta og validere commands, og sende hendelser til EventStore hvis commanden er gyldig.
+* Controller skal sende commands til CommandHandler
+* Controller skal lese fra projeksjoner
+* Kommenter ut serverMock.js fra index.htm, og lag et fungerende rest api!
 
 #### Lenker
-
+----------------------------------------------------------------------
 monsterbutikken java  | https://github.com/andreasBerre/monsterbutikken
 monsterbutikken c#	  | https://github.com/oven/monsterbutikken.net
 presentasjon          | http://goo.gl/G1U9HS
