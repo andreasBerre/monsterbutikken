@@ -3,7 +3,7 @@ Monsterbutikken
 
 Monsterbutikken er det perfekte sted å bestille avskyelige udyr for å bevokte ditt hemmelige hovedkvarter! Velg monstre direkte fra en brukervennlig webside!
 
-#Oppdrag
+##Oppdrag
 
 
 Du er hentet inn som kunsulent av Monsterbutikken for å erstatte en tidligere utvikler som ikke ble ferdig med jobben før han kom ut for en stygg ulykke medet av produktene.
@@ -12,7 +12,7 @@ Den avdøde utvileren rakk å gjøre ferdig klient-siden av appen og hadde akkur
 
 På blodige ark finner du notatene under:
 
-#### Domeneanalyse
+### Domeneanalyse
 
 * _Monster_: Et skummelt og dødelig vesen du kan kjøpe i monsterbutikken. Identifiseres av monsternavn.
 * _Handlekurvlinje_: En monstertype plassert i handlekurven, i et visst antall til en viss pris.
@@ -23,7 +23,7 @@ På blodige ark finner du notatene under:
 * _Kunde_: En person som handler i monsterbutikken. Identifiseres med kundenavn.
 
 
-#### Notater til etablering av server-side
+### Notater til etablering av server-side
 
 Det er så vidt startet på server-side delen av oppgaven. Innlogging og henting av produktkatalogen (monstere) er tatt hånd om. men rest API'et for handlekurven har bare stubs uten implementasjon. Det er heller ikke lagd noe skrive eller lese-lag for applikasjonen.
 
@@ -37,10 +37,10 @@ Det er så vidt startet på server-side delen av oppgaven. Innlogging og henting
 * Controller skal lese fra projeksjoner.
 * Kommenter ut serverMock.js fra index.htm, og lag et fungerende rest api!
  
-#### Notater til etablering av klient-side
-Her bør man ikke trenge å gjøre noe mer enn å kommentere ut serverMock.js i index.html.
+### Notater til etablering av klient-side
+Her bør man ikke trenge å gjøre noe mer enn å kommentere ut serverMock.js i index.html. Det fjerner mocken, og gjør at appen går rett mot server.
 
-#### Lenker
+### Lenker
 
 monsterbutikken java    https://github.com/andreasBerre/monsterbutikken  
 monsterbutikken c#      https://github.com/oven/monsterbutikken.net  
