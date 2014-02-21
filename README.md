@@ -1,4 +1,4 @@
-The Monster Shop
+![Event Sourcing](src/main/webapp/img/logo.png "The Monster Shop")
 ================
 
 Need monsters to populate the dungeons of your secret lair? The Monster Shop provides the internets best selection of foul beasts and terrifying horrors, all accessible through a user friendly webpage.
@@ -9,9 +9,11 @@ You've been brought in as a consultant to complete the work on the Monster Shop 
 
 The late developer completed the client side, and had just started the rest API's before becoming monster food - so we have a working front end, but the back end consists of the login handling and a few API stubs.
 
-After giving his bloody notes a quick clean you gather the following information:
+After giving his bloody notes a quick clean you gather the information below:
+
 
 ---------------------------------------
+
 
 ### The domain
 
@@ -43,6 +45,6 @@ The server side implementation has been started, but not completed. Login and re
 
 ### Resources
 
-monstershopen java    https://github.com/andreasBerre/monstershopen
-monstershopen c#      https://github.com/oven/monstershopen.net
-presentasjon            http://goo.gl/G1U9HS  
+* monstershopen java: https://github.com/andreasBerre/monstershopen
+* monstershopen c#: https://github.com/oven/monstershopen.net
+* slides from presentation: http://goo.gl/G1U9HS  
