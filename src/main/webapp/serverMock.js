@@ -5,112 +5,113 @@ app.config(function($provide) {
 app.run(function($httpBackend) {
     $httpBackend.whenGET(/.*html/).passThrough();
 
-    //Mocks for HandlekurvService
-    var handlekurv = {};
+    //Mocks for BasketService
+    var basket = {};
 
-    $httpBackend.whenGET('/service/handlekurv/').respond(function(){
-        return [200, handlekurv];
+    $httpBackend.whenGET('/service/basket/').respond(function(){
+        return [200, basket];
     });
 
-    $httpBackend.whenPOST(/\/service\/handlekurv\/leggTil\/.*/).respond(function(method, url){
-        var monsternavn = url.substr(url.lastIndexOf('/') + 1, url.length)
+    $httpBackend.whenPOST(/\/service\/basket\/add\/.*/).respond(function(method, url){
+        var name = decodeURIComponent(url.substr(url.lastIndexOf('/') + 1, url.length));
 
-        var ordrelinje = handlekurv[monsternavn];
-        if (!ordrelinje) {
-            handlekurv[monsternavn] = {monsternavn: monsternavn, antall: 1, pris: getMonster(monsternavn).pris};
+        var basketItem = basket[name];
+        if (!basketItem) {
+            basket[name] = {name: name, number: 1, price: getMonsterType(name).price};
         } else {
-            ordrelinje.antall++;
+            basketItem.number++;
         }
         return [200];
     });
 
-    $httpBackend.whenPOST(/\/service\/handlekurv\/fjern\/.*/).respond(function(method, url){
-        var monsternavn = url.substr(url.lastIndexOf('/') + 1, url.length)
+    $httpBackend.whenPOST(/\/service\/basket\/remove\/.*/).respond(function(method, url){
+        var name = decodeURIComponent(url.substr(url.lastIndexOf('/') + 1, url.length));
 
-        var ordrelinje = handlekurv[monsternavn];
-        if (ordrelinje.antall === 1)
-            delete handlekurv[ordrelinje.monsternavn];
+        var basketItem = basket[name];
+        if (basketItem.number === 1)
+            delete basket[basketItem.name];
         else
-            ordrelinje.antall--;
+            basketItem.number--;
 
         return [200];
     });
 
-    $httpBackend.whenPOST('/service/handlekurv/bekreftOrdre').respond(function(){
-        handlekurv = {};
+    $httpBackend.whenPOST('/service/basket/confirm').respond(function(){
+        basket = {};
         return [200];
     });
 
-    $httpBackend.whenGET('/service/handlekurv/sum').respond(function(){
+    $httpBackend.whenGET('/service/basket/sum').respond(function(){
         var sum = 0;
-        for (var monsternavn in handlekurv) {
-            if (handlekurv.hasOwnProperty(monsternavn)){
-                var ordrelinje = handlekurv[monsternavn];
-                sum = sum + (ordrelinje.antall * ordrelinje.pris);
+        for (var monsterTypeName in basket) {
+            if (basket.hasOwnProperty(monsterTypeName)){
+                var basketItem = basket[monsterTypeName];
+                sum = sum + (basketItem.number * basketItem.price);
             }
         }
         return [200, {sum: sum}];
     });
 
 
-    //Mocks for AutorisasjonService
-    var innloggetKunde;
+    //Mocks for authService
+    var customer;
 
-    $httpBackend.whenPOST(/\/service\/autentisering\/logginn\/.*/).respond(function(method, url){
-        innloggetKunde = url.substr(url.lastIndexOf('/') + 1, url.length)
+    $httpBackend.whenPOST(/\/service\/auth\/logIn\/.*/).respond(function(method, url){
+        customer = decodeURIComponent(url.substr(url.lastIndexOf('/') + 1, url.length));
         return [200];
     });
 
-    $httpBackend.whenPOST('/service/autentisering/loggut').respond(function(method, url){
-        innloggetKunde = null;
+    $httpBackend.whenPOST('/service/auth/logOut').respond(function(){
+        customer = null;
+        basket = {};
         return [200];
     });
 
-    $httpBackend.whenGET('/service/autentisering/innloggetKunde').respond(function(){
-        return [200, {kundenavn: innloggetKunde}];
+    $httpBackend.whenGET('/service/auth/customer').respond(function(){
+        return [200, {customerName: customer}];
     });
 
 
     //Mocks for MonsterService
-    var monstre = [
-        {navn: "Ao (skilpadde)", pris: 100000},
-        {navn: "Bakeneko", pris: 120000},
-        {navn: "Basilisk", pris: 175000},
-        {navn: "Det erymanthiske villsvin", pris: 100},
-        {navn: "Griff", pris: 100},
-        {navn: "Hamløper", pris: 100},
-        {navn: "Hippogriff", pris: 100},
-        {navn: "Hydra", pris: 100},
-        {navn: "Kentaur", pris: 100},
-        {navn: "Kerberos", pris: 100},
-        {navn: "Kraken", pris: 100},
-        {navn: "Mannbjørn", pris: 100},
-        {navn: "Mantikora", pris: 100},
-        {navn: "Margyge", pris: 100},
-        {navn: "Marmæle", pris: 100},
-        {navn: "Minotauros", pris: 100},
-        {navn: "Nekomusume", pris: 100},
-        {navn: "Rokk", pris: 100},
-        {navn: "Seljordsormen", pris: 100},
-        {navn: "Sfinks", pris: 100},
-        {navn: "Sirene", pris: 100},
-        {navn: "Sjøorm", pris: 100},
-        {navn: "Succubus", pris: 100},
-        {navn: "Valravn", pris: 100},
-        {navn: "Vampyr", pris: 100},
-        {navn: "Varulv", pris: 100}
+    var monsterTypes = [
+        {name: "Ao (skilpadde)", price: 100000},
+        {name: "Bakeneko", price: 120000},
+        {name: "Basilisk", price: 175000},
+        {name: "Det erymanthiske villsvin", price: 100},
+        {name: "Griff", price: 100},
+        {name: "Hamløper", price: 100},
+        {name: "Hippogriff", price: 100},
+        {name: "Hydra", price: 100},
+        {name: "Kentaur", price: 100},
+        {name: "Kerberos", price: 100},
+        {name: "Kraken", price: 100},
+        {name: "Mannbjørn", price: 100},
+        {name: "Mantikora", price: 100},
+        {name: "Margyge", price: 100},
+        {name: "Marmæle", price: 100},
+        {name: "Minotauros", price: 100},
+        {name: "Nekomusume", price: 100},
+        {name: "Rokk", price: 100},
+        {name: "Seljordsormen", price: 100},
+        {name: "Sfinks", price: 100},
+        {name: "Sirene", price: 100},
+        {name: "Sjøorm", price: 100},
+        {name: "Succubus", price: 100},
+        {name: "Valravn", price: 100},
+        {name: "Vampyr", price: 100},
+        {name: "Varulv", price: 100}
     ];
 
-    function getMonster(monsternavn){
-        for (var i = 0; i < monstre.length; i++) {
-            if (monstre[i].navn === monsternavn)
-                return monstre[i]
+    function getMonsterType(name){
+        for (var i = 0; i < monsterTypes.length; i++) {
+            if (monsterTypes[i].name === name)
+                return monsterTypes[i]
         }
         return null;
     }
 
-    $httpBackend.whenGET('/service/monstre').respond(function(){
-        return [200, monstre];
+    $httpBackend.whenGET('/service/monsterTypes').respond(function(){
+        return [200, monsterTypes];
     });
 
 });

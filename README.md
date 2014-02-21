@@ -1,47 +1,48 @@
-Monsterbutikken
-===============
+The Monster Shop
+================
 
-Monsterbutikken er det perfekte sted å bestille avskyelige udyr for å bevokte ditt hemmelige hovedkvarter! Velg monstre direkte fra en brukervennlig webside!
+Need monsters to populate the dungeons of your secret lair? The Monster Shop provides the internets best selection of foul beasts and terrifying horrors, all accessible through a user friendly webpage.
 
-##Oppdrag
+##Your mission (should you choose to accept it)
+
+You've been brought in as a consultant to complete the work on the Monster Shop after the previous developer had an unfortunate accident involving one of the shops products.
+
+The late developer completed the client side, and had just started the rest API's before becoming monster food - so we have a working front end, but the back end consists of the login handling and a few API stubs.
+
+After giving his bloody notes a quick clean you gather the following information:
+
+__________________________________________________________________________________________________________________________________________________________________________________-
+
+### The domain
+
+The context of our domain is the Monster Shop, and it's mechanisms for shopping and placing orders.
+
+* _Monster type_: A species of monster avaliable for sale in the monster shop
+* _Monster_: A "monster instance": the physical monster transported to the customer upon a confirmed order.
+* _Basket_: The temporary shopping basket a customer uses to create his order. A item in the basket is transformed to a item in an order upon confirmation.
+* _Basket line item_: A item in the basket, consisting of a specified monster type, a price, and an amount of monsters of that type.
+* _Order confirmation_: A confirmation issued by the customer transforming the basket to an order.
+* _Order_: A confirmed order consisting of one ore more order line items.
+* _Order line item_: A confirmed order for a specified number of monsters at a specified unit price.
+* _Customer_: A evil overlord shopping and placing orders at the monster shop.
 
 
-Du er hentet inn som kunsulent av Monsterbutikken for å erstatte en tidligere utvikler som ikke ble ferdig med jobben før han kom ut for en stygg ulykke med et av produktene.
+### Plans for the server side
 
-Den avdøde utvileren rakk å gjøre ferdig klient-siden av appen og hadde akkurat kommet i gang med å lage REST-api'ene når han ble monster-mat.
-
-På blodige ark finner du notatene under:
-
-### Domeneanalyse
-
-* _Monster_: Et skummelt og dødelig vesen du kan kjøpe i monsterbutikken. Identifiseres av monsternavn.
-* _Handlekurvlinje_: En monstertype plassert i handlekurven, i et visst antall til en viss pris.
-* _Handlekurv_: Foreløpig, ubekreftet ordre. Har en eller flere handlekurvlinjer. En kunde kan bare ha en handlekurv om gangen.
-* _Ordre bekreftelse_: Omdanner innholdet i handlekurven til en ordre og tømmer handlekurven.
-* _Ordre_: En bekreftet ordre fra en kunde med en eller flere ordrelinjer.
-* _Ordrelinje_: En bekreftet ordre på en monstertype, i et visst antall til en viss pris.
-* _Kunde_: En person som handler i monsterbutikken. Identifiseres med kundenavn.
-
-
-### Notater til etablering av server-side
-
-Det er så vidt startet på server-side delen av oppgaven. Innlogging og henting av produktkatalogen (monstere) er tatt hånd om. men rest API'et for handlekurven har bare stubs uten implementasjon. Det er heller ikke lagd noe skrive eller lese-lag for applikasjonen.
+The server side implementation has been started, but not completed. Login and retrial of the product catalogue has been taken care of, but the api for doing the actual shopping consists of stubs with no implementation. There is no read or write layer either.
 
 ![Event Sourcing](eventsourcing.png "Event Sourcing")
 
-* Eventstore skal kunne ta i mot hendelser og lagre i en logg. Eksempel på en hendelse kan være MonsterLagtTilIHandlekurv.
-* Projeksjoner skal abonnere på hendelser, og endre tilstand ved mottak. 
-* Eventstore skal publisere mottatte hendelser til abonnerende projeksjoner.
-* CommandHandler skal motta og validere commands, og sende hendelser til EventStore hvis commanden er gyldig.
-* Controller skal sende commands til CommandHandler.
-* Controller skal lese fra projeksjoner.
-* Kommenter ut serverMock.js fra index.htm, og lag et fungerende rest api!
- 
-### Notater til etablering av klient-side
-Her bør man ikke trenge å gjøre noe mer enn å kommentere ut serverMock.js i index.html. Det fjerner mocken, og gjør at appen går rett mot server.
+* The _event store_ need to be able to receive events and store them to a journal. In a first implementation the journal might simply be an array in the event store class.
+* A _projection_ should be able to receive events and change state according to the nature of the event. This state could be kept in a suitable collection within the class representing a spesific projection.
+* The event store should, after a event is received and stored, publish the event to _subscribing_ projections. Projections usually subscribe to all events within a specified aggregate, and in the case of the Monster Shop it might be convenient to operate with one aggregate only.
+* The _command handler_ should be able to receive and validate commands, dispatching derived events to the event store.
+* The API controller should be able to _dispatch commands_ to the command handler when a api-action results in a state-change.
+* The API controller should _query_ the projection to retrieve system state when needed.
+* Finally, remove the serverMock.js include from the index.html file - this will switch off mocking and the client will make its requests directly to the server.
 
-### Lenker
+### Resources
 
-monsterbutikken java    https://github.com/andreasBerre/monsterbutikken  
-monsterbutikken c#      https://github.com/oven/monsterbutikken.net  
+monstershopen java    https://github.com/andreasBerre/monstershopen
+monstershopen c#      https://github.com/oven/monstershopen.net
 presentasjon            http://goo.gl/G1U9HS  

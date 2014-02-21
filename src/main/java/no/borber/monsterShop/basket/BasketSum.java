@@ -1,9 +1,9 @@
-package no.borber.monsterbutikken.handlekurv;
+package no.borber.monsterShop.basket;
 
-public class HandlekurvSum {
+public class BasketSum {
     private double sum;
 
-    public HandlekurvSum(double sum) {
+    public BasketSum(double sum) {
         this.sum = sum;
     }
 

@@ -1,7 +1,7 @@
-app.controller('LoginController', ['$scope', 'autentiseringService', '$location',  function($scope, autentiseringService, $location) {
-    $scope.loggInn = function(){
-        autentiseringService.loggInn($scope.kundenavn).then(function(){
-            $location.url('/butikk');
+app.controller('LoginController', ['$scope', 'authService', '$location',  function($scope, authService, $location) {
+    $scope.logIn = function(){
+        authService.logIn($scope.customerName).then(function(){
+            $location.url('/shop');
         })
     }
 }]);

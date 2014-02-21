@@ -1,4 +1,4 @@
-package no.borber.monsterbutikken.monstre;
+package no.borber.monsterShop.monsterTypes;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,11 +8,11 @@ import java.util.Set;
 
 
 @Controller
-public class MonstreController {
+public class MonsterTypesController {
 
-    @RequestMapping(value = "/monstre")
+    @RequestMapping(value = "monsterTypes")
     @ResponseBody
-    public Set<MonsterJson> getMonstre(){
-        return MonsterRepo.getMonstre();
+    public Set<MonsterTypeJson> getMonsterTypes(){
+        return MonsterTypesRepo.getMonsterTypes();
     }
 }

@@ -1,4 +1,4 @@
-var app = angular.module("monsterButikken", ['ngRoute', 'ui.bootstrap'])
+var app = angular.module("MonsterShopApp", ['ngRoute', 'ui.bootstrap'])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/',
@@ -6,22 +6,22 @@ var app = angular.module("monsterButikken", ['ngRoute', 'ui.bootstrap'])
                 controller: 'LoginController',
                 templateUrl: 'login.html'
             })
-            .when('/butikk',
+            .when('/shop',
             {
-                controller: 'MonsterController',
-                templateUrl: 'butikk.html'
+                controller: 'ShopController',
+                templateUrl: 'shop.html'
             })
 }]);
 
 
-app.run(['$rootScope', '$location', 'autentiseringService', function ($rootScope, $location, autentiseringService) {
+app.run(['$rootScope', '$location', 'authService', function ($rootScope, $location, authService) {
     $rootScope.$on('$routeChangeStart', function () {
-        autentiseringService.innloggetKunde().success(function(innloggetKunde){
-            if (!innloggetKunde.kundenavn) {
+        authService.customer().success(function(customer){
+            if (!customer.customerName) {
                 $location.path('/');
             }
             else {
-                $location.path('/butikk');
+                $location.path('/shop');
             }
         })
     });
