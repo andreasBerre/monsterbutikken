@@ -11,7 +11,7 @@ The late developer completed the client side, and had just started the rest API'
 
 After giving his bloody notes a quick clean you gather the following information:
 
-__________________________________________________________________________________________________________________________________________________________________________________-
+---------------------------------------
 
 ### The domain
 
