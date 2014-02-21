@@ -31,7 +31,9 @@ The context of our domain is the Monster Shop, and it's mechanisms for shopping 
 
 ### Plans for the server side
 
-The server side implementation has been started, but not completed. Login and retrial of the product catalogue has been taken care of, but the api for doing the actual shopping consists of stubs with no implementation. There is no read or write layer either.
+The server side implementation has been started, but not completed. Login and retrial of the product catalogue has been taken care of, but the api for doing the actual shopping consists of stubs with no implementation. There is no write or read layer either.
+
+The plan is to implement the write layer as an event store, and the read layer as projections of the events in this store, as shown in the illustration below.
 
 ![Event Sourcing](eventsourcing.png "Event Sourcing")
 
