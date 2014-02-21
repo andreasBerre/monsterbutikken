@@ -37,6 +37,8 @@ The plan is to implement the write layer as an event store, and the read layer a
 
 ![Event Sourcing](eventsourcing.png "Event Sourcing")
 
+Note that there are multiple patterns for event sourcing, the above being one of the more common. So while you're free to choose your own implementation, the below could function as a guide.
+
 * The _event store_ need to be able to receive events and store them to a journal. In a first implementation the journal might simply be an array in the event store class.
 * A _projection_ should be able to receive events and change state according to the nature of the event. This state could be kept in a suitable collection within the class representing a spesific projection.
 * The event store should, after a event is received and stored, publish the event to _subscribing_ projections. Projections usually subscribe to all events within a specified aggregate, and in the case of the Monster Shop it might be convenient to operate with one aggregate only.
