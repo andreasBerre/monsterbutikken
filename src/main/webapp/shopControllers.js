@@ -1,5 +1,5 @@
-app.controller('ShopController', ['$scope', '$modal', 'monsterService', 'basketService', 'authService', '$location',
-    function($scope, $modal, monsterService, basketService, authService, $location) {
+app.controller('ShopController', ['$scope', '$modal', 'monsterService', 'basketService', 'authService', '$location', 'orderService',
+    function($scope, $modal, monsterService, basketService, authService, $location, orderService) {
 
     authService.customer().success(function(customer){
         $scope.customerName = customer.customerName;
@@ -63,12 +63,21 @@ app.controller('ShopController', ['$scope', '$modal', 'monsterService', 'basketS
         });
 
         confirmationModal.result.then(function () {
-            basketService.confirmOrder().success(function(){
+            orderService.placeOrder().success(function(){
                 getBasket();
+                getOrders();
                 $scope.thanksForYourOrder = true;
             });
         });
     };
+
+    getOrders();
+
+    function getOrders() {
+        basketService.getOrders().success(function(orders){
+            $scope.orders = orders;
+        })
+    }
 
     monsterService.getMonsterTypes().success(function(monsterTypes){
         $scope.monsterTypes = monsterTypes;

@@ -36,11 +36,6 @@ app.run(function($httpBackend) {
         return [200];
     });
 
-    $httpBackend.whenPOST('/service/basket/confirm').respond(function(){
-        basket = {};
-        return [200];
-    });
-
     $httpBackend.whenGET('/service/basket/sum').respond(function(){
         var sum = 0;
         for (var monsterTypeName in basket) {
@@ -52,6 +47,19 @@ app.run(function($httpBackend) {
         return [200, {sum: sum}];
     });
 
+
+    //Mocks for orderService
+    var orders = [];
+    $httpBackend.whenPOST('/service/orders').respond(function(){
+        var order = {orderTime: new Date(), orderSum: getBasketSum(), orderLineItems: basket}
+        orders.add(order);
+        basket = {};
+        return [200];
+    });
+
+    $httpBackend.whenGet('/service/orders').respond(function(){
+        return [200, orders];
+    });
 
     //Mocks for authService
     var customer;

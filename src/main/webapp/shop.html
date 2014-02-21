@@ -50,6 +50,19 @@
                 <button class="btn btn-success" data-ng-click="thanksForYourOrder = false">Order more monsters</button>
             </div>
         </div>
+
+        <div class="col-md-4" >
+            <div class="panel panel-default">
+                <div class="panel-heading"><span class="glyphicon glyphicon-list-alt"></span> Orders</div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        <div data-ng-repeat="order in orders">
+                            <span class="list-group-item-heading"> {{order.date}} {{order.sum}} </span><button class="btn btn-success" data-ng-click="viewOrder()">View order</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script type="text/ng-template" id="confirmOrderModal.html">
