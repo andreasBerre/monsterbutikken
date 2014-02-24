@@ -30,7 +30,7 @@ public class BasketController extends MonsterShopController{
      */
     @RequestMapping(value = "/basket/remove/{monstertype}",  method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public void removeMonster(@PathVariable String monstertype){}
+    public void remove(@PathVariable String monstertype){}
 
     /**
      * Adds a new monster of a specified type to the customers basket. If there is an existing basket item the number
@@ -38,9 +38,9 @@ public class BasketController extends MonsterShopController{
      *
      * @param monstertype name of the monstertype to be added
      */
-    @RequestMapping(value = "/handlekurv/leggTil/{monstertype}",  method=RequestMethod.POST)
+    @RequestMapping(value = "/basket/add/{monstertype}",  method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public void addMonster(@PathVariable String monstertype){}
+    public void add(@PathVariable String monstertype){}
 
     /**
      * Generates a new order based on the contents of the customers basket, and empties the basket.
@@ -54,7 +54,7 @@ public class BasketController extends MonsterShopController{
      */
     @RequestMapping(value = "/basket/sum",  method=RequestMethod.GET)
     @ResponseBody
-    public BasketSum getSum(){
+    public BasketSum sum(){
         return null;
     }
 
