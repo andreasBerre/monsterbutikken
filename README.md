@@ -24,8 +24,8 @@ The context of our domain is the Monster Shop, and it's mechanisms for shopping 
 * _Basket_: The temporary shopping basket a customer uses to create his order. A item in the basket is transformed to a item in an order upon confirmation.
 * _Basket line item_: A item in the basket, consisting of a specified monster type, a price, and an amount of monsters of that type.
 * _Order confirmation_: A confirmation issued by the customer transforming the basket to an order.
-* _Order_: A confirmed order consisting of one ore more order line items.
-* _Order line item_: A confirmed order for a specified number of monsters at a specified unit price.
+* _Order_: A confirmed order consisting of one or more order line items.
+* _Order line item_: A confirmed order for a specified number of monsters at a specified price.
 * _Customer_: A evil overlord shopping and placing orders at the monster shop.
 
 
