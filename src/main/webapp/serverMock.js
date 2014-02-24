@@ -88,6 +88,7 @@ app.run(function($httpBackend) {
     $httpBackend.whenPOST('/service/auth/logOut').respond(function(){
         customer = null;
         basket = {};
+        orders = {};
         return [200];
     });
 
