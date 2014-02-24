@@ -11,8 +11,6 @@ public class JettyRun {
     public static void main(String... args) throws Exception {
 
         Server server = new Server(9090);
-
-
         WebAppContext context = new WebAppContext("src/main/webapp","/");
 
         context.setDescriptor("src/main/webapp/WEB-INF/web.xml");

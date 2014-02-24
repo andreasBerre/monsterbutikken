@@ -37,6 +37,10 @@ app.run(function($httpBackend) {
     });
 
     $httpBackend.whenGET('/service/basket/sum').respond(function(){
+        return [200, {sum: getBasketSum()}];
+    });
+
+    function getBasketSum(){
         var sum = 0;
         for (var monsterTypeName in basket) {
             if (basket.hasOwnProperty(monsterTypeName)){
@@ -44,21 +48,33 @@ app.run(function($httpBackend) {
                 sum = sum + (basketItem.number * basketItem.price);
             }
         }
-        return [200, {sum: sum}];
-    });
+        return sum;
+    }
 
 
     //Mocks for orderService
-    var orders = [];
+    var orders = {};
     $httpBackend.whenPOST('/service/orders').respond(function(){
-        var order = {orderTime: new Date(), orderSum: getBasketSum(), orderLineItems: basket}
-        orders.add(order);
+        var orderLineItems = [];
+        for (var monsterTypeName in basket) {
+            if (basket.hasOwnProperty(monsterTypeName)){
+                orderLineItems.push(basket[monsterTypeName]);
+            }
+        }
+
+        orders[guid()] = {date: new Date(), sum: getBasketSum(), orderLineItems: orderLineItems};
         basket = {};
         return [200];
     });
 
-    $httpBackend.whenGet('/service/orders').respond(function(){
+    $httpBackend.whenGET('/service/orders').respond(function(){
         return [200, orders];
+    });
+
+    $httpBackend.whenGET(/\/service\/orders\/.*/).respond(function(method, url){
+        var orderId = decodeURIComponent(url.substr(url.lastIndexOf('/') + 1, url.length));
+
+        return [200, orders[orderId]];
     });
 
     //Mocks for authService
@@ -121,6 +137,17 @@ app.run(function($httpBackend) {
     $httpBackend.whenGET('/service/monsterTypes').respond(function(){
         return [200, monsterTypes];
     });
+
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    };
+
+    function guid() {
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+            s4() + '-' + s4() + s4() + s4();
+    }
 
 });
 

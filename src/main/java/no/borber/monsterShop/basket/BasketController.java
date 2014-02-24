@@ -1,19 +1,15 @@
 package no.borber.monsterShop.basket;
 
+import no.borber.monsterShop.MonsterShopController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 
 @Controller
-public class BasketController {
-
-    @Resource
-    private HttpServletRequest httpRequest;
+public class BasketController extends MonsterShopController{
 
     /**
      * Gets the current state of a customers basket
@@ -62,7 +58,4 @@ public class BasketController {
         return null;
     }
 
-    private String getCurrentCustomer() {
-        return (String)httpRequest.getSession().getAttribute("customerName");
-    }
 }

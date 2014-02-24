@@ -73,8 +73,20 @@ app.controller('ShopController', ['$scope', '$modal', 'monsterService', 'basketS
 
     getOrders();
 
+    $scope.viewOrder = function(orderId){
+        $modal.open({
+            templateUrl: 'viewOrderModal.html',
+            controller: 'ViewOrderModalCtrl',
+            resolve: {
+                orders: function () {
+                    return orderService.getOrder(orderId);
+                }
+            }
+        });
+    };
+
     function getOrders() {
-        basketService.getOrders().success(function(orders){
+        orderService.getOrders().success(function(orders){
             $scope.orders = orders;
         })
     }
@@ -97,3 +109,12 @@ app.controller('ConfirmOrderModalCtrl', ['$scope', '$modalInstance', 'basket', '
         $modalInstance.dismiss('cancel');
     };
 }]);
+
+app.controller('ViewOrderModalCtrl', ['$scope', '$modalInstance', 'orders', function($scope, $modalInstance, order) {
+    $scope.order = order.data;
+
+    $scope.close = function () {
+        $modalInstance.dismiss();
+    };
+}]);
+

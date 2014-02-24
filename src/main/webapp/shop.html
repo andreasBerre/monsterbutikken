@@ -56,8 +56,9 @@
                 <div class="panel-heading"><span class="glyphicon glyphicon-list-alt"></span> Orders</div>
                 <div class="panel-body">
                     <div class="list-group">
-                        <div data-ng-repeat="order in orders">
-                            <span class="list-group-item-heading"> {{order.date}} {{order.sum}} </span><button class="btn btn-success" data-ng-click="viewOrder()">View order</button>
+                        <div data-ng-repeat="(key, value) in orders">
+                            <span class="list-group-item-heading"> {{value.date | date:"dd.MM.yyyy"}} {{value.sum | currency}} </span><button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search pull-left" data-ng-click="viewOrder(key)"></span></button>
+                            <br>
                         </div>
                     </div>
                 </div>
@@ -87,6 +88,30 @@
         <div class="modal-footer">
             <button class="btn btn-primary" data-ng-click="confirm()">Confirm order</button>
             <button class="btn btn-warning" data-ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="viewOrderModal.html">
+        <div class="modal-header">
+            <h3>Your order placed on {{order.date | date:"dd.MM.yyyy"}} at {{order.date | date:"HH:mm"}}</h3>
+        </div>
+        <div class="modal-body">
+            <div class="list-group">
+                <div class="list-group-item" data-ng-repeat="orderLineItem in order.orderLineItems">
+                    <div class="row">
+                        <span class="list-group-item-heading"> {{orderLineItem.name}} ({{orderLineItem.number}})</span>
+                        <span style="margin-right: 15px" class="pull-right list-group-item-heading">{{orderLineItem.price * orderLineItem.number | currency}}</span>
+                    </div>
+                </div>
+                <div class="list-group-item">
+                    <div class="row">
+                        <strong style="margin-right: 15px" class="pull-right list-group-item-heading ">{{order.sum | currency}}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" data-ng-click="close()">Close</button>
         </div>
     </script>
 
