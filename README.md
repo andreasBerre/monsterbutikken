@@ -47,6 +47,25 @@ Note that there are multiple patterns for event sourcing, the above being one of
 * The REST controller should _query_ the projections to retrieve system state when needed.
 * Finally, remove the serverMock.js include from the index.html file - this will switch off mocking and the client will make its requests directly to the server.
 
+### Components of an Event Sourced System
+
+#### The Event Store
+* The event store receives, stores, and publishes incoming events
+* Events are _immutable_ objects
+* The event log is _append-only_
+* All events are read on startup
+* Reading of the log is always done from the oldest to the newest event (no random access)
+
+#### Projections
+* Projections form the read layer of the application
+* Subscribes to events from a store
+* Alter state based on received events
+
+#### Command Handlers
+* Forms, with the event store, the write layer of the application
+* Receives and validates incomming commands. Commands are often validated by reading the state of a projection
+* Performes operations required to complete the command, and dispatches derived events to the event store
+
 ### Resources
 
 * monstershopen java: https://github.com/andreasBerre/monstershopen
