@@ -43,8 +43,8 @@ Note that there are multiple patterns for event sourcing, the above being one of
 * A _projection_ should be able to receive events and change state according to the nature of the event. This state could be kept in a suitable collection within the class.
 * The event store should, after a event is received and stored, publish the event to _subscribing_ projections. 
 * The _command handler_ should be able to receive and validate commands, dispatching derived events to the event store.
-* The API controller should be able to _dispatch commands_ to the command handler when a api-action results in a state-change.
-* The API controller should _query_ the projection to retrieve system state when needed.
+* The REST controller should be able to _dispatch commands_ to the command handler.
+* The REST controller should _query_ the projections to retrieve system state when needed.
 * Finally, remove the serverMock.js include from the index.html file - this will switch off mocking and the client will make its requests directly to the server.
 
 ### Resources
