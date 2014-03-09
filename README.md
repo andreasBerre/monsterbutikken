@@ -40,12 +40,31 @@ The plan is to implement the write layer as an event store, and the read layer a
 Note that there are multiple patterns for event sourcing, the above being one of the more common. So while you're free to choose your own implementation, the below could function as a guide.
 
 * The _event store_ need to be able to receive events and store them to a journal. In a first implementation the journal might simply be an array in the event store class.
-* A _projection_ should be able to receive events and change state according to the nature of the event. This state could be kept in a suitable collection within the class representing a spesific projection.
-* The event store should, after a event is received and stored, publish the event to _subscribing_ projections. Projections usually subscribe to all events within a specified aggregate, and in the case of the Monster Shop it might be convenient to operate with one aggregate only.
+* A _projection_ should be able to receive events and change state according to the nature of the event. This state could be kept in a suitable collection within the class.
+* The event store should, after a event is received and stored, publish the event to _subscribing_ projections. 
 * The _command handler_ should be able to receive and validate commands, dispatching derived events to the event store.
-* The API controller should be able to _dispatch commands_ to the command handler when a api-action results in a state-change.
-* The API controller should _query_ the projection to retrieve system state when needed.
+* The REST controller should be able to _dispatch commands_ to the command handler.
+* The REST controller should _query_ the projections to retrieve system state when needed.
 * Finally, remove the serverMock.js include from the index.html file - this will switch off mocking and the client will make its requests directly to the server.
+
+### Components of an Event Sourced System
+
+#### The Event Store
+* The event store receives, stores, and publishes incoming events
+* Events are _immutable_ objects
+* The event log is _append-only_
+* All events are read on startup
+* Reading of the log is always done from the oldest to the newest event (no random access)
+
+#### Projections
+* Projections form the read layer of the application
+* Subscribes to events from a store
+* Alter state based on received events
+
+#### Command Handlers
+* Forms, with the event store, the write layer of the application
+* Receives and validates incomming commands. Commands are often validated by reading the state of a projection
+* Performes operations required to complete the command, and dispatches derived events to the event store
 
 ### Resources
 
