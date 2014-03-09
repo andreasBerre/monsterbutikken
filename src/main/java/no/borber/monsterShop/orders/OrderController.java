@@ -22,26 +22,24 @@ public class OrderController extends MonsterShopController {
         return null;
     }
 
-
     /**
      * Gets a single order
      *
      * @param orderId identifier for the order to be retrieved
      */
-    @RequestMapping(value = "/order/{orderId}",  method=RequestMethod.GET)
+    @RequestMapping(value = "/orders/{orderId}",  method=RequestMethod.GET)
     @ResponseBody()
-    public Order getOrders(@PathVariable String orderId){
+    public Order getOrder(@PathVariable String orderId){
         return null;
     }
 
     /**
      * Submits a new order for the current customer
      *
-     * @param order name of the monstertype to be removed
      */
-    @RequestMapping(value = "/orders",  method=RequestMethod.POST)
+    @RequestMapping(value = "/orders/placeOrder",  method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public void submitOrder(@RequestBody Order order){}
+    public void placeOrder(){}
 }
 
 

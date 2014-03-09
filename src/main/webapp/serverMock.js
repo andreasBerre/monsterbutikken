@@ -54,7 +54,7 @@ app.run(function($httpBackend) {
 
     //Mocks for orderService
     var orders = {};
-    $httpBackend.whenPOST('/service/orders').respond(function(){
+    $httpBackend.whenPOST('/service/orders/placeOrder').respond(function(){
         var orderLineItems = [];
         for (var monsterTypeName in basket) {
             if (basket.hasOwnProperty(monsterTypeName)){
@@ -102,29 +102,29 @@ app.run(function($httpBackend) {
         {name: "Ao (skilpadde)", price: 100000},
         {name: "Bakeneko", price: 120000},
         {name: "Basilisk", price: 175000},
-        {name: "Det erymanthiske villsvin", price: 100},
-        {name: "Griff", price: 100},
-        {name: "Hamløper", price: 100},
-        {name: "Hippogriff", price: 100},
-        {name: "Hydra", price: 100},
-        {name: "Kentaur", price: 100},
-        {name: "Kerberos", price: 100},
-        {name: "Kraken", price: 100},
-        {name: "Mannbjørn", price: 100},
-        {name: "Mantikora", price: 100},
-        {name: "Margyge", price: 100},
-        {name: "Marmæle", price: 100},
-        {name: "Minotauros", price: 100},
-        {name: "Nekomusume", price: 100},
-        {name: "Rokk", price: 100},
-        {name: "Seljordsormen", price: 100},
-        {name: "Sfinks", price: 100},
-        {name: "Sirene", price: 100},
-        {name: "Sjøorm", price: 100},
-        {name: "Succubus", price: 100},
-        {name: "Valravn", price: 100},
-        {name: "Vampyr", price: 100},
-        {name: "Varulv", price: 100}
+        {name: "Det erymanthiske villsvin", price: 25000},
+        {name: "Griff", price: 12000},
+        {name: "Hamløper", price: 8000},
+        {name: "Hippogriff", price: 128000},
+        {name: "Hydra", price: 38000},
+        {name: "Kentaur", price: 76000},
+        {name: "Kerberos", price: 31000},
+        {name: "Kraken", price: 2800},
+        {name: "Mannbjørn", price: 49000},
+        {name: "Mantikora", price: 21000},
+        {name: "Margyge", price: 73000},
+        {name: "Marmæle", price: 149000},
+        {name: "Minotauros", price: 28000},
+        {name: "Nekomusume", price: 62000},
+        {name: "Rokk", price: 12000},
+        {name: "Seljordsormen", price: 56000},
+        {name: "Sfinks", price: 39000},
+        {name: "Sirene", price: 12900},
+        {name: "Sjøorm", price: 240000},
+        {name: "Succubus", price: 84000},
+        {name: "Valravn", price: 92300},
+        {name: "Vampyr", price: 420000},
+        {name: "Varulv", price: 69000}
     ];
 
     function getMonsterType(name){

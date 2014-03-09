@@ -25,11 +25,11 @@ app.controller('ShopController', ['$scope', '$modal', 'monsterService', 'basketS
             e.preventDefault();
             e.stopPropagation();
         }
-        basketService.addMonster(monsterType).then(getBasket());
+        basketService.addMonster(monsterType).then(getBasket);
     };
 
    $scope.removeMonster = function(monsterType){
-       basketService.removeMonster(monsterType).then(getBasket());
+       basketService.removeMonster(monsterType).then(getBasket);
     };
 
     $scope.basketEmpty = true;

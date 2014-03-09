@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class AuthController extends MonsterShopController {
 
-
     @RequestMapping(value= "auth/logIn/{customerName}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void loggIn(@PathVariable String customerName){

@@ -9,7 +9,7 @@ app.factory('orderService',['$http', function($http) {
         },
 
         placeOrder: function(){
-            return $http.post('/service/orders');
+            return $http.post('/service/orders/placeOrder');
         }
     };
 }]);

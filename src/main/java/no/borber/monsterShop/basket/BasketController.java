@@ -46,14 +46,7 @@ public class BasketController extends MonsterShopController{
 
     }
 
-    /**
-     * Generates a new order based on the contents of the customers basket, and empties the basket.
-     * */
-    @RequestMapping(value = "/basket/confirm",  method=RequestMethod.POST)
-    @ResponseStatus(HttpStatus.OK)
-    public void confirm(){
 
-    }
 
     /**
      * Calculates the sum of (price * number) for all items in the basket.
