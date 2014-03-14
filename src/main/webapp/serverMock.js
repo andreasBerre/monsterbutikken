@@ -54,7 +54,7 @@ app.run(function($httpBackend) {
 
     //Mocks for orderService
     var orders = {};
-    $httpBackend.whenPOST('/service/orders/placeOrder').respond(function(){
+    $httpBackend.whenPOST('/service/orders').respond(function(){
         var orderLineItems = [];
         for (var monsterTypeName in basket) {
             if (basket.hasOwnProperty(monsterTypeName)){
