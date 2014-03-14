@@ -12,7 +12,7 @@ app.run(function($httpBackend) {
         return [200, basket];
     });
 
-    $httpBackend.whenPOST(/\/service\/basket\/add\/.*/).respond(function(method, url){
+    $httpBackend.whenPOST(/\/service\/basket\/.*/).respond(function(method, url){
         var name = decodeURIComponent(url.substr(url.lastIndexOf('/') + 1, url.length));
 
         var basketItem = basket[name];
@@ -24,7 +24,7 @@ app.run(function($httpBackend) {
         return [200];
     });
 
-    $httpBackend.whenPOST(/\/service\/basket\/remove\/.*/).respond(function(method, url){
+    $httpBackend.whenDELETE(/\/service\/basket\/.*/).respond(function(method, url){
         var name = decodeURIComponent(url.substr(url.lastIndexOf('/') + 1, url.length));
 
         var basketItem = basket[name];
