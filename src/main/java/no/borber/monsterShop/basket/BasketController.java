@@ -23,18 +23,6 @@ public class BasketController extends MonsterShopController{
     }
 
     /**
-     * Removes a monster from the customers basket. If the resulting number of monsters reaches 0, the basket item is
-     * removed.
-     *
-     * @param monstertype name of the monstertype to be removed
-     */
-    @RequestMapping(value = "/basket/{monstertype}",  method=RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.OK)
-    public void remove(@PathVariable String monstertype){
-
-    }
-
-    /**
      * Adds a new monster of a specified type to the customers basket. If there is an existing basket item the number
      * of monsters is incremented, otherwise a new order baslet item is created.
      *
@@ -46,7 +34,17 @@ public class BasketController extends MonsterShopController{
 
     }
 
+    /**
+     * Removes a monster from the customers basket. If the resulting number of monsters reaches 0, the basket item is
+     * removed.
+     *
+     * @param monstertype name of the monstertype to be removed
+     */
+    @RequestMapping(value = "/basket/{monstertype}",  method=RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public void remove(@PathVariable String monstertype){
 
+    }
 
     /**
      * Calculates the sum of (price * number) for all items in the basket.
