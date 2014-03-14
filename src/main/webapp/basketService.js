@@ -5,11 +5,11 @@ app.factory('basketService',['$http', function($http) {
         },
 
         addMonster: function(monsterType){
-            return $http.post('/service/basket/add/' + encodeURIComponent(monsterType));
+            return $http.post('/service/basket/' + encodeURIComponent(monsterType));
         },
 
         removeMonster: function(monsterType){
-            return $http.post('/service/basket/remove/' + encodeURIComponent(monsterType));
+            return $http.delete('/service/basket/' + encodeURIComponent(monsterType));
         },
 
         basketSum: function(){

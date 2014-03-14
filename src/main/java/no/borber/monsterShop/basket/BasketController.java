@@ -28,7 +28,7 @@ public class BasketController extends MonsterShopController{
      *
      * @param monstertype name of the monstertype to be removed
      */
-    @RequestMapping(value = "/basket/remove/{monstertype}",  method=RequestMethod.POST)
+    @RequestMapping(value = "/basket/{monstertype}",  method=RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void remove(@PathVariable String monstertype){
 
@@ -40,7 +40,7 @@ public class BasketController extends MonsterShopController{
      *
      * @param monstertype name of the monstertype to be added
      */
-    @RequestMapping(value = "/basket/add/{monstertype}",  method=RequestMethod.POST)
+    @RequestMapping(value = "/basket/{monstertype}",  method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void add(@PathVariable String monstertype){
 

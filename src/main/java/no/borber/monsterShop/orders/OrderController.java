@@ -37,7 +37,7 @@ public class OrderController extends MonsterShopController {
      * Submits a new order for the current customer
      *
      */
-    @RequestMapping(value = "/orders/placeOrder",  method=RequestMethod.POST)
+    @RequestMapping(value = "/orders",  method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void placeOrder(){}
 }
