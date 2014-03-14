@@ -61,9 +61,9 @@ Note that there are multiple patterns for event sourcing, the above being one of
 * Subscribes to events from a store
 * Alter state based on received events
 
-#### Command Handlers
+#### Command Handlers/aggregate
 * Forms, with the event store, the write layer of the application
-* Receives and validates incomming commands. Commands are often validated by reading the state of a projection
+* Receives and validates incomming commands. Commands are validated if state is required to validate the command, state is created by reading the event store.
 * Performes operations required to complete the command, and dispatches derived events to the event store
 
 ### Resources
