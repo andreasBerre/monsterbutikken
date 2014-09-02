@@ -71,12 +71,9 @@ NOTE: Many event-sourced applications are async in nature, however, the Monster 
 * Subscribes to events from a store
 * Alter state based on received events
 
-#### Repository
-* Reads events from the eventstore by aggregate id and creates aggregates.
-
-#### Application services / command handlers
+#### Application services
 * Forms, with the event store, the write layer of the application
-* Receives and validates incomming commands. Some commands require access to aggregate state for validation, these use aggregate state from aggregates returned from the repository.
+* Receives and validates incomming commands. 
 * Performes operations required to complete the command, and dispatches derived events to the event store
 
 ### Resources
