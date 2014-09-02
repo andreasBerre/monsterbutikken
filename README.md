@@ -39,13 +39,20 @@ The plan is to implement the write layer as an event store, and the read layer a
 
 Note that there are multiple patterns for event sourcing, the above being one of the more common. So while you're free to choose your own implementation, the below could function as a guide.
 
+Some general advice: Start by getting a complete loop working before implementing remaining features. Test driven development is your friend: each component can be tested by itself before you integrate them.
+
+NOTE: Many event-sourced applications are async in nature, however, the Monster Shop has been designed with an syncronous event store in mind, in order to keep complexity low.
+
 1. The _event store_ should accept new events and store them to a journal. The events should include an _aggregate root id_, and an _aggregate type_. The store should also include a method for retireving a aggregates events by its id. The order of events should be maintained. (an ArrayList can work as an eventlog)
 2. A _projection_ should be able to receive events and change state according to the nature of the event. This state could be kept in a suitable collection within the class.
 3. The projection should be able to _subscribe_ to events from the event store. On recieving a subsscription, the event store should send all stored events to the subscrbing projection.
-4. The event store should, after a new event is received and stored, publish the event to any _subscribing_ projections. 
-5. The _aggregate_ domain object should be able to accept and validate commands, dispatching derived events to the aggregates event store.
-6. The aggregate domiain object should be able to recreate its state by reading a list of previous events.
-7. The application service should be able to construct an aggregate at its current state by fetching the aggregates events from the event store and passing them to the aggregate.
+4. The event store should, after a new event is received and stored, publish the event to any _subscribing_ projections.
+5. The _application service_ should implement command methods. These should 
+  * Get stored events from the _event store_ by the supplied aggregate id.
+  * Construct aggregate by supplying stored events
+  * Call command method on aggregate
+  * Retrieve derived events from aggregate, and store them to the event store.
+5. The _aggregate_ domain object should be able to recreate its state by reading supplied events, and alter its state and derive events on receipt of command.
 8. The REST controller should be able to _dispatch commands_ to the application service.
 9. The REST controller should _query_ the projections to retrieve system state when needed.
 10. Finally, remove the serverMock.js include from the index.html file - this will switch off mocking and the client will make its requests directly to the server. 
