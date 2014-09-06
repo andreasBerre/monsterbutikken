@@ -79,6 +79,4 @@ NOTE: Many event-sourced applications are async in nature, however, the Monster 
 ### Resources
 
 * monstershopen java: https://github.com/andreasBerre/monstershopen
-* monstershopen c#: https://github.com/oven/monstershopen.net
-* slides from presentation: http://goo.gl/G1U9HS
 * slides from presentation: http://goo.gl/BgQAYH
