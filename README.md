@@ -7,7 +7,7 @@ Need monsters for the dungeons of your secret lair? Require foul beasts to unlea
 
 You've been brought in as a consultant to complete work on the Monster Shops backend after the previous developer had an unfortunate accident involving one of the shops products.
 
-The late developer completed the client side of the applicabtion, and had just started work on the API's before becoming monster food - so we have a working front end, but the back end consists of the login subsystem and a few API stubs.
+The late developer completed the client side of the application, and had just started work on the API's before becoming monster food - so we have a working front end, but the back end consists of the login subsystem and a few API stubs.
 
 After giving his bloody notes a quick clean you gather the information below:
 
