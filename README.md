@@ -82,5 +82,5 @@ A suggested path for the implementation:
 
 ### Resources
 
-* The monster-shop (Java Edition): https://github.com/andreasBerre/monstershopen
+* The monster-shop (Java Edition): https://github.com/andreasBerre/monsterbutikken
 * Slides from presentation: http://goo.gl/BgQAYH
