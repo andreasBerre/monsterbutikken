@@ -1,7 +1,7 @@
 ![Event Sourcing](src/main/webapp/img/logo.png "The Monster Shop")
 ================
 
-Need monsters to populate the dungeons of your secret lair? Require foul beasts to unleash on an unsuspecting population? The Monster Shop provides the webs best selection of terrifying horrors, all accessible through a user friendly webpage.
+Need monsters for the dungeons of your secret lair? Require foul beasts to unleash on an unsuspecting population? The Monster Shop provides the webs best selection of terrifying horrors, all accessible through a user friendly webpage.
 
 ##Your mission (should you choose to accept it)
 
