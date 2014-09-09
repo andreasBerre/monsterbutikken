@@ -47,7 +47,7 @@ Some general advice:
  
 A suggested path for the implementation:
 
-1. The _event store_ should accept new events and store them to a journal. The events should include an _aggregate root id_, and an _aggregate type_. The store should also include a method for retireving an aggregates events by its id. The order of events should be maintained. A simple ArrayList works fine as an eventlog).
+1. The _event store_ should accept new events and store them to a eventlog. The events should include an _aggregate root id_, and an _aggregate type_. The store should also include a method for retireving an aggregates events by its id. The order of events should be maintained. A simple ArrayList works fine as an eventlog).
 2. A _projection_ should be able to receive events and change state according to the nature of the event. This state could be kept in a suitable structure within the class.
 3. The projection should be able to _subscribe_ to events from the event store. On recieving a subscription, the event store should send all stored events to the subscribing projection.
 4. The event store should, after a new event is received and stored, publish the event to any _subscribing_ projections.
