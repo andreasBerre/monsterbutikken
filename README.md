@@ -47,15 +47,15 @@ Some general advice:
  
 A suggested path for the implementation:
 
-1. The _event store_ should accept new events and store them to a eventlog. The events should include an _aggregate root id_, and an _aggregate type_. The store should also include a method for retireving an aggregates events by its id. The order of events should be maintained. A simple ArrayList works fine as an eventlog).
-2. A _projection_ should be able to receive events and change state according to the nature of the event. This state could be kept in a suitable structure within the class.
-3. The projection should be able to _subscribe_ to events from the event store. On recieving a subscription, the event store should send all stored events to the subscribing projection.
-4. The event store should, after a new event is received and stored, publish the event to any _subscribing_ projections.
 5. The _application service_ should implement command methods. These should 
   * Get stored events from the _event store_ by the supplied aggregate id.
   * Construct aggregate by supplying stored events
   * Call command method on aggregate
   * Retrieve derived events from aggregate, and store them to the event store.
+1. The _event store_ should accept new events and store them to a eventlog. The events should include an _aggregate root id_, and an _aggregate type_. The store should also include a method for retireving an aggregates events by its id. The order of events should be maintained. A simple ArrayList works fine as an eventlog).
+2. A _projection_ should be able to receive events and change state according to the nature of the event. This state could be kept in a suitable structure within the class.
+3. The projection should be able to _subscribe_ to events from the event store. On recieving a subscription, the event store should send all stored events to the subscribing projection.
+4. The event store should, after a new event is received and stored, publish the event to any _subscribing_ projections.
 5. The _aggregate_ domain object should be able to recreate its state by reading supplied events, and alter its state and derive events on receipt of command.
 8. The HTTP-Api controller should be able to _dispatch commands_ to the application service.
 9. The HTTP-Api controller should _query_ the projections to retrieve system state when needed.
