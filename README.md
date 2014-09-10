@@ -80,6 +80,21 @@ A suggested path for the implementation:
 * Receives and validates incomming commands. 
 * Performes operations required to complete the command, and dispatches derived events to the event store
 
+
+```
+interface CustomerApplicationService {
+  ...
+  public void reportRelocation(CustomerId id, Address newAddress){
+	events = eventStore.getEventsById(id)
+	customer = new Customer(events)
+	customer.reportRelocation(newAddress)
+	derivedEvents = customer.getDerivedEvents()
+	eventStore.save(derivedEvents)
+ }
+ ...
+}
+```
+
 ### Resources
 
 * The monster-shop (Java Edition): https://github.com/andreasBerre/monsterbutikken
