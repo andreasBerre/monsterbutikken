@@ -42,13 +42,13 @@ First, some general advice:
 * Before you start hammering out code: think. What aggregates do you need? What commands will they implement? What will your projections look like?
 * Start by focusing on the framwork of the application, getting your first application service, event store, projections, subscriptions etc. working before moving on to completing the API stubs.
 * Test driven development is your friend: each component can be tested by itself before you later integrate them.
-* You'll have to wire up your application in some way, injecting your event store into the applications services and projections, and your services into the controllers. One way is to use Spring, which is already included in the project.
+* You'll have to wire up your application in some way, injecting your event store into the applications services and projections, and your services into the controllers. One approach is to use Spring, which is already included in the project.
 * Many event-sourced applications are async in nature, however, the Monster Shop has been designed with an syncronous event store in mind. While you're free to create an async solution, it will make the task quite a bit more complex.
  
 We'll now present the different components of an event sourced system, in an order we feel makes sense implementation wise.
 
 #### The Application Services
-Implementing the application service is a good place to start. This is were the mechanics of your event-sourced write layer comes together. Here's an example of what an application service might look like in Java:
+The application service is a good place to start. This is were the mechanics of your event-sourced write layer comes together. Here's an example of what an application service might look like in Java:
 
 ```Java
 class CustomerApplicationService {
