@@ -47,53 +47,48 @@ Some general advice:
  
 A suggested path for the implementation:
 
-5. The _application service_ should implement command methods. These should 
-  * Get stored events from the _event store_ by the supplied aggregate id.
-  * Construct aggregate by supplying stored events
-  * Call command method on aggregate
-  * Retrieve derived events from aggregate, and store them to the event store.
-1. The _event store_ should accept new events and store them to a eventlog. The events should include an _aggregate root id_, and an _aggregate type_. The store should also include a method for retireving an aggregates events by its id. The order of events should be maintained. A simple ArrayList works fine as an eventlog).
-2. A _projection_ should be able to receive events and change state according to the nature of the event. This state could be kept in a suitable structure within the class.
-3. The projection should be able to _subscribe_ to events from the event store. On recieving a subscription, the event store should send all stored events to the subscribing projection.
-4. The event store should, after a new event is received and stored, publish the event to any _subscribing_ projections.
-5. The _aggregate_ domain object should be able to recreate its state by reading supplied events, and alter its state and derive events on receipt of command.
-8. The HTTP-Api controller should be able to _dispatch commands_ to the application service.
-9. The HTTP-Api controller should _query_ the projections to retrieve system state when needed.
-10. Finally, remove the serverMock.js include from the index.html file - this will switch off mocking and the client will make its requests directly to the server. 
+#### The application service
+Implementing the application service is a good place to start. This is were the mechanics of your event-sourced write layer comes together. Here's an example of what an application service might look like in Java:
 
-### General information: components of an Event Sourced System
-
-#### The Event Store
-* The event store receives, stores, and publishes incoming events
-* Events are _immutable_ objects
-* The event log is _append-only_
-* All events are read on startup
-* Reading of the log is always done from the oldest to the newest event (no random access)
-
-#### Projections
-* Projections form the read layer of the application
-* Subscribes to events from a store
-* Alter state based on received events
-
-#### Application services
-* Forms, with the event store, the write layer of the application
-* Receives and validates incomming commands. 
-* Performes operations required to complete the command, and dispatches derived events to the event store
-
-
-```
+```Java
 interface CustomerApplicationService {
   ...
   public void reportRelocation(CustomerId id, Address newAddress){
-	events = eventStore.getEventsById(id)
-	customer = new Customer(events)
+	List<Event> events = eventStore.getEventsById(id)
+	Customer customer = new Customer(events)
 	customer.reportRelocation(newAddress)
-	derivedEvents = customer.getDerivedEvents()
+	List<Event> derivedEvents = customer.getDerivedEvents()
 	eventStore.save(derivedEvents)
  }
  ...
 }
 ```
+The service gets logged events from the event store and uses this to create a customer aggregate. The aggregate recreates it's internal state based on these events, and is then ready for use. 
+Calling the reportRelocation method on the aggregate causes it to validate the command and to produce derived events from this command, which are then retrieved and saved to the event log.
+* Forms, with the event store, the write layer of the application
+* Receives and validates incomming commands. 
+* Performes operations required to complete the command, and dispatches derived events to the event store
+
+#### The aggregates
+The _aggregate_ domain object should be able to recreate its state by reading supplied events, and alter its state and derive events on receipt of command.
+
+#### The event store
+The _event store_ should accept new events and store them to a eventlog. The events should include an _aggregate root id_, and an _aggregate type_. The store should also include a method for retireving an aggregates events by its id. The order of events should be maintained. A simple ArrayList works fine as an eventlog).
+The event store should, after a new event is received and stored, publish the event to any _subscribing_ projections.
+
+#### The projections
+A _projection_ should be able to receive events and change state according to the nature of the event. This state could be kept in a suitable structure within the class.
+The projection should be able to _subscribe_ to events from the event store. On recieving a subscription, the event store should send all stored events to the subscribing projection.
+* Projections form the read layer of the application
+* Subscribes to events from a store
+* Alter state based on received events
+
+#### The HTTP API's
+The HTTP-Api controller should be able to _dispatch commands_ to the application service.
+The HTTP-Api controller should _query_ the projections to retrieve system state when needed.
+
+## The client side 
+Finally, remove the serverMock.js include from the index.html file - this will switch off mocking and the client will make its requests directly to the server. 
 
 ### Resources
 
