@@ -1,15 +1,25 @@
 package no.borber.monsterShop.basket;
 
 import no.borber.monsterShop.MonsterShopController;
+import no.borber.monsterShop.monsterTypes.MonsterTypesRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 
 @Controller
 public class BasketController extends MonsterShopController{
+
+    @Autowired
+    BasketApplicationService basketService;
+
+    @Autowired
+    BasketProjection basketProjection;
 
     /**
      * Gets the current state of a customers basket
@@ -18,8 +28,19 @@ public class BasketController extends MonsterShopController{
      */
     @RequestMapping(value = "/basket/",  method=RequestMethod.GET)
     @ResponseBody()
-    public Map<String, BasketItem> getBasket(){
-        return null;
+    public Map<String, BasketLineItemJson> getBasket(){
+        return getBasketJson();
+    }
+
+    private Map<String, BasketLineItemJson> getBasketJson() {
+        Map<String, BasketLineItemJson> basketLineItemsJson = new HashMap<>();
+
+        Collection<BasketLineItem> lineItems = basketProjection.getBasket(getCurrentBasketId()).getBasketLineItems();
+        for (BasketLineItem item : lineItems) {
+            double lineItemPrice = MonsterTypesRepo.getMonsterType(item.getMonsterType()).getPrice() * item.getCount();
+            basketLineItemsJson.put(item.getMonsterType(), new BasketLineItemJson(item.getMonsterType(), item.getCount(), lineItemPrice));
+        }
+        return basketLineItemsJson;
     }
 
     /**
@@ -31,7 +52,7 @@ public class BasketController extends MonsterShopController{
     @RequestMapping(value = "/basket/{monstertype}",  method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void add(@PathVariable String monstertype){
-
+        basketService.addItemToBasket(getCurrentBasketId(), monstertype);
     }
 
     /**
@@ -43,7 +64,7 @@ public class BasketController extends MonsterShopController{
     @RequestMapping(value = "/basket/{monstertype}",  method=RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void remove(@PathVariable String monstertype){
-
+        basketService.removeItemFromBasket(getCurrentBasketId(), monstertype);
     }
 
     /**
@@ -52,7 +73,13 @@ public class BasketController extends MonsterShopController{
     @RequestMapping(value = "/basket/sum",  method=RequestMethod.GET)
     @ResponseBody
     public BasketSum sum(){
-        return null;
+        double sum = 0;
+
+        for (BasketLineItemJson item : getBasketJson().values()) {
+            sum = sum + item.getLineItemPrice();
+        }
+
+        return new BasketSum(sum);
     }
 
 }

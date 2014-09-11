@@ -29,8 +29,8 @@
                         </div>
                         <div class="list-group-item" data-ng-repeat="basketLineItem in basket">
                             <div class="row">
-                                <button style="margin-left: 15px" class="btn btn-danger btn-xs" data-ng-click="removeMonster(basketLineItem.name)">Remove</button><span class="list-group-item-heading"> {{basketLineItem.name}} ({{basketLineItem.number}})</span>
-                                <span style="margin-right: 15px" class="pull-right list-group-item-heading">{{basketLineItem.price * basketLineItem.number | currency}}</span>
+                                <button style="margin-left: 15px" class="btn btn-danger btn-xs" data-ng-click="removeMonster(basketLineItem.monsterType)">Remove</button><span class="list-group-item-heading"> {{basketLineItem.monsterType}} ({{basketLineItem.count}})</span>
+                                <span style="margin-right: 15px" class="pull-right list-group-item-heading">{{basketLineItem.price * basketLineItem.count | currency}}</span>
                             </div>
                         </div>
                         <div class="list-group-item">
@@ -75,8 +75,8 @@
             <div class="list-group">
                 <div class="list-group-item" data-ng-repeat="basketLineItem in basket">
                     <div class="row">
-                        <span class="list-group-item-heading"> {{basketLineItem.name}} ({{basketLineItem.number}})</span>
-                        <span style="margin-right: 15px" class="pull-right list-group-item-heading">{{basketLineItem.price * basketLineItem.number | currency}}</span>
+                        <span class="list-group-item-heading"> {{basketLineItem.monsterType}} ({{basketLineItem.count}})</span>
+                        <span style="margin-right: 15px" class="pull-right list-group-item-heading">{{basketLineItem.price * basketLineItem.count | currency}}</span>
                     </div>
                 </div>
                 <div class="list-group-item">
