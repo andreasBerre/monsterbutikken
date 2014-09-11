@@ -34,7 +34,7 @@ The server side implementation has been started, but not completed. Login and re
 
 The plan is to create an event sourced presistance mechanism, with projections from this store forming the read layer, as shown in the illustration below.
 
-![Event Sourcing](https://www.lucidchart.com/publicSegments/view/53270feb-641c-4392-8090-20110a005809/image.png "Event Sourcing")
+![Event Sourcing](https://www.lucidchart.com/publicSegments/view/5411c5c9-10c0-4272-b0a8-07ea0a009a66/image.png "Event Sourcing")
 
 Note that there are multiple patterns for event sourcing, the above being one of the more common. So while you're free to choose your own implementation, the below could function as a guide.
 
