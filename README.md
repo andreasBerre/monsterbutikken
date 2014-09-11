@@ -40,7 +40,7 @@ Note that there are multiple patterns for event sourcing, the above being one of
 
 First, some general advice:
 * Before you start hammering out code: think. What aggregates do you need? What commands will they implement? What will your projections look like?
-* Start by focusing on the framwork of the application, getting your first application service, event store, projections, subscriptions etc. working before moving on to completing the API stubs.
+* Focus on the framwork of your application. Get your first application service, event store, projections, subscriptions etc. working before moving on to complete the API stubs.
 * Test driven development is your friend: each component can be tested by itself before you later integrate them.
 * You'll have to wire up your application in some way, injecting your event store into the applications services and projections, and your services into the controllers. One approach is to use Spring, which is already included in the project.
 * Many event-sourced applications are async in nature, however, the Monster Shop has been designed with an syncronous event store in mind. While you're free to create an async solution, it will make the task quite a bit more complex.
@@ -65,15 +65,18 @@ class CustomerApplicationService {
 ```
 The service gets logged events from the event store and uses this to create a customer aggregate. The aggregate recreates it's internal state based on these events, and is then ready for use. 
 Calling the reportRelocation method on the aggregate causes it to validate the command and to produce derived events from this command, which are then retrieved and saved to the event log.
-* Forms, with the event store, the write layer of the application
-* Receives and validates incomming commands. 
-* Performes operations required to complete the command, and dispatches derived events to the event store
 
 #### Aggregates
-The _aggregate_ domain object should be able to recreate its state by reading supplied events, and alter its state and derive events on receipt of command.
+The _aggregate_ domain object should be able to recreate its state by reading supplied events. When receiving a command it should validate it against this state, and derive relevant events..
+
+#### Events
+Events describe a change of application state, and are created by aggregates in response to commands. They are always named in the past tense; they describe something that has happened. They should include the following information:
+* An id uniquely identifying the aggregate the event applies to, e.g. customer id.
+* Fields describing the state change which occured, e.g. a customer relocated event could include the new address
+* The aggregate type of the event, describing which type of aggregate it applies to, e.g. "CUSTOMER". This will allow projections to subscribe to a category of events, instead of spesific events.
 
 #### Event Store
-The _event store_ should accept new events and store them to a eventlog. The events should include an _aggregate root id_, and an _aggregate type_. The store should also include a method for retireving an aggregates events by its id. The order of events should be maintained. A simple ArrayList works fine as an eventlog).
+The _event store_ should accept new events and store them to an internal eventlog, which could be as simple as an array list. The store should also include a method for retireving an aggregates events by its id. The order of events should be maintained. A simple ArrayList works fine as an eventlog).
 The event store should, after a new event is received and stored, publish the event to any _subscribing_ projections.
 
 #### Projections
