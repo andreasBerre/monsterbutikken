@@ -69,25 +69,25 @@ Calling the reportRelocation method on the aggregate causes it to validate the c
 * Receives and validates incomming commands. 
 * Performes operations required to complete the command, and dispatches derived events to the event store
 
-#### The Aggregates
+#### Aggregates
 The _aggregate_ domain object should be able to recreate its state by reading supplied events, and alter its state and derive events on receipt of command.
 
-#### The Event Store
+#### Event Store
 The _event store_ should accept new events and store them to a eventlog. The events should include an _aggregate root id_, and an _aggregate type_. The store should also include a method for retireving an aggregates events by its id. The order of events should be maintained. A simple ArrayList works fine as an eventlog).
 The event store should, after a new event is received and stored, publish the event to any _subscribing_ projections.
 
-#### The Projections
+#### Projections
 A _projection_ should be able to receive events and change state according to the nature of the event. This state could be kept in a suitable structure within the class.
 The projection should be able to _subscribe_ to events from the event store. On recieving a subscription, the event store should send all stored events to the subscribing projection.
 * Projections form the read layer of the application
 * Subscribes to events from a store
 * Alter state based on received events
 
-#### The HTTP API's
+#### HTTP Controllers
 The HTTP-Api controller should be able to _dispatch commands_ to the application service.
 The HTTP-Api controller should _query_ the projections to retrieve system state when needed.
 
-#### The client side 
+#### Client side 
 Finally, remove the serverMock.js include from the index.html file - this will switch off mocking and the client will make its requests directly to the server. 
 
 ### Resources
