@@ -30,7 +30,6 @@ The context of our domain is the Monster Shop, and its mechanisms for browsing m
 
 
 ### Plans for the server side
-
 The server side implementation has been started, but not completed. Login and retrial of the product catalogue has been taken care of, but the API for doing the actual shopping consists of stubs with no implementation. 
 
 The plan is to create an event sourced presistance mechanism, with projections from this store forming the read layer, as shown in the illustration below.
@@ -39,15 +38,16 @@ The plan is to create an event sourced presistance mechanism, with projections f
 
 Note that there are multiple patterns for event sourcing, the above being one of the more common. So while you're free to choose your own implementation, the below could function as a guide.
 
-Some general advice: 
-
-* Start by implementing the framwork of the application (event store, projections, subscriptions etc) before moving on to implement the missing features in the Monster Shop.
-* Test driven development is your friend: each component can be tested by itself before you integrate them.
+First, some general advice:
+* Before you start hammering out code: think. What aggregates do you need? What commands will they implement? What will your projections look like?
+* Start by focusing on the framwork of the application, getting your first application service, event store, projections, subscriptions etc. working before moving on to completing the API stubs.
+* Test driven development is your friend: each component can be tested by itself before you later integrate them.
+* You'll have to wire up your application in some way, injecting your event store into the applications services and projections, and your services into the controllers. One way is to use Spring, which is already included in the project.
 * Many event-sourced applications are async in nature, however, the Monster Shop has been designed with an syncronous event store in mind. While you're free to create an async solution, it will make the task quite a bit more complex.
  
-A suggested path for the implementation:
+We'll now present the different components of an event sourced system, in an order we feel makes sense implementation wise.
 
-#### The application service
+#### The Application Services
 Implementing the application service is a good place to start. This is were the mechanics of your event-sourced write layer comes together. Here's an example of what an application service might look like in Java:
 
 ```Java
@@ -69,14 +69,14 @@ Calling the reportRelocation method on the aggregate causes it to validate the c
 * Receives and validates incomming commands. 
 * Performes operations required to complete the command, and dispatches derived events to the event store
 
-#### The aggregates
+#### The Aggregates
 The _aggregate_ domain object should be able to recreate its state by reading supplied events, and alter its state and derive events on receipt of command.
 
-#### The event store
+#### The Event Store
 The _event store_ should accept new events and store them to a eventlog. The events should include an _aggregate root id_, and an _aggregate type_. The store should also include a method for retireving an aggregates events by its id. The order of events should be maintained. A simple ArrayList works fine as an eventlog).
 The event store should, after a new event is received and stored, publish the event to any _subscribing_ projections.
 
-#### The projections
+#### The Projections
 A _projection_ should be able to receive events and change state according to the nature of the event. This state could be kept in a suitable structure within the class.
 The projection should be able to _subscribe_ to events from the event store. On recieving a subscription, the event store should send all stored events to the subscribing projection.
 * Projections form the read layer of the application
@@ -87,10 +87,9 @@ The projection should be able to _subscribe_ to events from the event store. On 
 The HTTP-Api controller should be able to _dispatch commands_ to the application service.
 The HTTP-Api controller should _query_ the projections to retrieve system state when needed.
 
-## The client side 
+#### The client side 
 Finally, remove the serverMock.js include from the index.html file - this will switch off mocking and the client will make its requests directly to the server. 
 
 ### Resources
-
 * The monster-shop (Java Edition): https://github.com/andreasBerre/monsterbutikken
 * Slides from presentation: http://goo.gl/BgQAYH
