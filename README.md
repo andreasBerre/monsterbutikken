@@ -51,7 +51,7 @@ A suggested path for the implementation:
 Implementing the application service is a good place to start. This is were the mechanics of your event-sourced write layer comes together. Here's an example of what an application service might look like in Java:
 
 ```Java
-interface CustomerApplicationService {
+class CustomerApplicationService {
   ...
   public void reportRelocation(CustomerId id, Address newAddress){
 	List<Event> events = eventStore.getEventsById(id)
