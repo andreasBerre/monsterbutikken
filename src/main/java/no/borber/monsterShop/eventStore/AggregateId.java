@@ -24,4 +24,8 @@ public abstract class AggregateId {
     public int hashCode() {
         return aggregateId != null ? aggregateId.hashCode() : 0;
     }
+
+    public String getStringRepresentation() {
+        return aggregateId;
+    }
 }

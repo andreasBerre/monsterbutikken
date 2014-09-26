@@ -15,24 +15,32 @@ public class BasketApplicationService {
 
     public void createBasket(BasketId id) {
         List<Event> events = eventStore.getEventsByAggregateId(id);
-        Basket basket = new Basket(events);
-        basket.createBasket(id);
-        List<Event> derivedEvents = basket.getDerivedEvents();
+        BasketAggregate basketAggregate = new BasketAggregate(events);
+        basketAggregate.createBasket(id);
+        List<Event> derivedEvents = basketAggregate.getDerivedEvents();
         eventStore.storeEvents(derivedEvents);
     }
 
     public void addItemToBasket(BasketId id, String monsterType) {
         List<Event> events = eventStore.getEventsByAggregateId(id);
-        Basket basket = new Basket(events);
-        basket.addItemToBasket(monsterType);
-        List<Event> derivedEvents = basket.getDerivedEvents();
+        BasketAggregate basketAggregate = new BasketAggregate(events);
+        basketAggregate.addItemToBasket(monsterType);
+        List<Event> derivedEvents = basketAggregate.getDerivedEvents();
         eventStore.storeEvents(derivedEvents);
     }
 
     public void removeItemFromBasket(BasketId id, String monsterType) {
         List<Event> events = eventStore.getEventsByAggregateId(id);
-        Basket basket = new Basket(events);
-        basket.removeItemFromBasket(monsterType);
+        BasketAggregate basketAggregate = new BasketAggregate(events);
+        basketAggregate.removeItemFromBasket(monsterType);
+        List<Event> derivedEvents = basketAggregate.getDerivedEvents();
+        eventStore.storeEvents(derivedEvents);
+    }
+
+    public void placeOrder(BasketId basketId) {
+        List<Event> events = eventStore.getEventsByAggregateId(basketId);
+        BasketAggregate basket = new BasketAggregate(events);
+        basket.generateOrder();
         List<Event> derivedEvents = basket.getDerivedEvents();
         eventStore.storeEvents(derivedEvents);
     }

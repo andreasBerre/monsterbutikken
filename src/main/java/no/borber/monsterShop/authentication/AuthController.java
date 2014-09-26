@@ -20,7 +20,7 @@ public class AuthController extends MonsterShopController {
     @RequestMapping(value= "auth/logIn/{customerName}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void loggIn(@PathVariable String customerName) {
-        setCurrentCustomer(customerName);
+        setCurrentCustomerId(new CustomerId(customerName));
         if (getCurrentBasketId() == null){
             BasketId basketId = new BasketId(UUID.randomUUID().toString());
             basketService.createBasket(basketId);
@@ -37,6 +37,6 @@ public class AuthController extends MonsterShopController {
     @RequestMapping(value= "auth/customer", method = RequestMethod.GET)
     @ResponseBody
     public Customer getCustomer(){
-        return new Customer(getCurrentCustomer());
+        return new Customer(getCurrentCustomerId().getStringRepresentation());
     }
 }

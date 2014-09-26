@@ -1,6 +1,7 @@
 package no.borber.monsterShop.orders;
 
 import no.borber.monsterShop.MonsterShopController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,15 +12,32 @@ import java.util.Map;
 @Controller
 public class OrderController extends MonsterShopController {
 
+
+    @Autowired
+    OrderApplicationService orderService;
+
+    @Autowired
+    OrderProjection orderProjection;
+
     /**
-     * Gets the current customers orders
+     * Submits a new order for the current customer
+     *
+     */
+    @RequestMapping(value = "/orders",  method=RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public void placeOrder(){
+        orderService.placeOrder(getCurrentCustomerId());
+    }
+
+    /**
+     * Gets all orders placed by the current customer
      *
      * @return Map of orders, where the key is the order-id and the value an order object.
      */
     @RequestMapping(value = "/orders",  method=RequestMethod.GET)
     @ResponseBody()
     public Map<String, Order> getOrders(){
-        return null;
+        return orderProjection.getOrders(getCurrentCustomerId());
     }
 
     /**
@@ -33,13 +51,7 @@ public class OrderController extends MonsterShopController {
         return null;
     }
 
-    /**
-     * Submits a new order for the current customer
-     *
-     */
-    @RequestMapping(value = "/orders",  method=RequestMethod.POST)
-    @ResponseStatus(HttpStatus.OK)
-    public void placeOrder(){}
+
 }
 
 

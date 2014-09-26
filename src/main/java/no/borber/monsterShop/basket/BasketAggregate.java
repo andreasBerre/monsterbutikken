@@ -1,16 +1,17 @@
 package no.borber.monsterShop.basket;
 
+import no.borber.monsterShop.authentication.CustomerId;
 import no.borber.monsterShop.eventStore.CommandValidationException;
 import no.borber.monsterShop.eventStore.Event;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Basket {
+public class BasketAggregate {
     private BasketState basketState;
     private List<Event> derivedEvents = new ArrayList<>();
 
-    public Basket(List<Event> events) {
+    public BasketAggregate(List<Event> events) {
         for (Event event : events) {
             if (event instanceof BasketCreated)
                 basketState = new BasketState((BasketId) event.getAggregateId());
@@ -49,7 +50,14 @@ public class Basket {
         }
     }
 
+    public void checkoutBasket()
+
     public List<Event> getDerivedEvents() {
         return derivedEvents;
+    }
+
+    public void generateOrder() {
+
+
     }
 }

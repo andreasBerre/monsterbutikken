@@ -1,5 +1,7 @@
 package no.borber.monsterShop;
 
+import no.borber.monsterShop.authentication.Customer;
+import no.borber.monsterShop.authentication.CustomerId;
 import no.borber.monsterShop.basket.BasketId;
 
 import javax.annotation.Resource;
@@ -10,11 +12,11 @@ public abstract class MonsterShopController {
     @Resource
     private HttpServletRequest httpRequest;
 
-    protected String getCurrentCustomer() {
-        return (String)httpRequest.getSession().getAttribute("customerName");
+    protected CustomerId getCurrentCustomerId() {
+        return (CustomerId)httpRequest.getSession().getAttribute("customerName");
     }
 
-    protected void setCurrentCustomer(String customerName) {
+    protected void setCurrentCustomerId(CustomerId customerName) {
         httpRequest.getSession().setAttribute("customerName", customerName);
     }
 
