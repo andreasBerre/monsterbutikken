@@ -7,9 +7,8 @@ import no.borber.monsterShop.eventStore.Event;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BasketAggregate {
+public class BasketAggregate extends Aggregate {
     private BasketState basketState;
-    private List<Event> derivedEvents = new ArrayList<>();
 
     public BasketAggregate(List<Event> events) {
         for (Event event : events) {
@@ -35,6 +34,8 @@ public class BasketAggregate {
     public void addItemToBasket(String monsterType) {
         if (basketState == null){
             throw new CommandValidationException("Attempt to add item to non-existing basket, add item failed");
+        } else if (basketState.getBasketCheckedOut()){
+            throw new CommandValidationException("Attempt to add monster to basket that has been checked out, add item failed");
         } else {
             basketState.addItemToBasket(monsterType);
             derivedEvents.add(new ItemAddedToBasket(basketState.getBasketId(), monsterType));
@@ -44,20 +45,26 @@ public class BasketAggregate {
     public void removeItemFromBasket(String monsterType) {
         if (basketState == null){
             throw new CommandValidationException("Attempt to remove item from non-existing basket, remove item failed");
-        } else {
+        } else if (basketState.getBasketCheckedOut()){
+            throw new CommandValidationException("Attempt to remove monster from basket that has been checked out, remove item failed");
+        }
+        else {
             basketState.removeItemFromBasket(monsterType);
             derivedEvents.add(new ItemRemovedFromBasket(basketState.getBasketId(), monsterType));
         }
     }
 
-    public void checkoutBasket()
+    public List<BasketLineItem> checkoutBasket(){
+        if (basketState == null){
+            throw new CommandValidationException("Attempt to checkout non-existing basket, checkout failed");
+        } else if (basketState.getBasketCheckedOut()){
+            throw new CommandValidationException("Attempt to checkout basket that has been previously checked out, checkout failed");
+        }else {
+            basketState.setBasketCheckedOut();
+            derivedEvents.add(new BasketCheckedOut(basketState.getBasketId()));
+            return basketState.getBasketLineItems();
+        }
 
-    public List<Event> getDerivedEvents() {
-        return derivedEvents;
     }
 
-    public void generateOrder() {
-
-
-    }
 }

@@ -13,11 +13,11 @@ public abstract class MonsterShopController {
     private HttpServletRequest httpRequest;
 
     protected CustomerId getCurrentCustomerId() {
-        return (CustomerId)httpRequest.getSession().getAttribute("customerName");
+        return (CustomerId)httpRequest.getSession().getAttribute("currentCustomerId");
     }
 
-    protected void setCurrentCustomerId(CustomerId customerName) {
-        httpRequest.getSession().setAttribute("customerName", customerName);
+    protected void setCurrentCustomerId(CustomerId customerId) {
+        httpRequest.getSession().setAttribute("currentCustomerId", customerId);
     }
 
     protected BasketId getCurrentBasketId(){
@@ -29,7 +29,7 @@ public abstract class MonsterShopController {
     }
 
     protected void logoutCurrentCustomer() {
-        httpRequest.getSession().removeAttribute("customerName");
+        httpRequest.getSession().removeAttribute("customerId");
     }
 
 }

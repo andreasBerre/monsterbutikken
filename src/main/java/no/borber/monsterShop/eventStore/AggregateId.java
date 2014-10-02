@@ -17,7 +17,6 @@ public abstract class AggregateId {
         AggregateId that = (AggregateId) o;
 
         return !(aggregateId != null ? !aggregateId.equals(that.aggregateId) : that.aggregateId != null);
-
     }
 
     @Override
@@ -25,7 +24,8 @@ public abstract class AggregateId {
         return aggregateId != null ? aggregateId.hashCode() : 0;
     }
 
-    public String getStringRepresentation() {
+    @Override
+    public String toString() {
         return aggregateId;
     }
 }

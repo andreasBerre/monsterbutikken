@@ -63,7 +63,7 @@ app.controller('ShopController', ['$scope', '$modal', 'monsterService', 'basketS
         });
 
         confirmationModal.result.then(function () {
-            orderService.placeOrder().success(function(){
+            basketService.checkout().success(function(){
                 getBasket();
                 getOrders();
                 $scope.thanksForYourOrder = true;

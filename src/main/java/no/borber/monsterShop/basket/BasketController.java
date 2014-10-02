@@ -1,6 +1,7 @@
 package no.borber.monsterShop.basket;
 
 import no.borber.monsterShop.MonsterShopController;
+import no.borber.monsterShop.monsterTypes.MonsterTypeJson;
 import no.borber.monsterShop.monsterTypes.MonsterTypesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 
 @Controller
@@ -37,6 +39,7 @@ public class BasketController extends MonsterShopController{
 
         Collection<BasketLineItem> lineItems = basketProjection.getBasket(getCurrentBasketId()).getBasketLineItems();
         for (BasketLineItem item : lineItems) {
+            MonsterTypeJson type = MonsterTypesRepo.getMonsterType(item.getMonsterType());
             double lineItemPrice = MonsterTypesRepo.getMonsterType(item.getMonsterType()).getPrice() * item.getCount();
             basketLineItemsJson.put(item.getMonsterType(), new BasketLineItemJson(item.getMonsterType(), item.getCount(), lineItemPrice));
         }
@@ -65,6 +68,16 @@ public class BasketController extends MonsterShopController{
     @ResponseStatus(HttpStatus.OK)
     public void remove(@PathVariable String monstertype){
         basketService.removeItemFromBasket(getCurrentBasketId(), monstertype);
+    }
+
+
+    /**
+     * Checks out the customers current basket and creates an order based on the basket contents.
+     */
+    @RequestMapping(value = "/basket/checkout",  method=RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public void checkout(){
+        basketService.checkoutBasket(getCurrentBasketId(), getCurrentCustomerId(), new OrderId(UUID.randomUUID().toString()));
     }
 
     /**

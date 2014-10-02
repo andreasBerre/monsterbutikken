@@ -37,6 +37,6 @@ public class AuthController extends MonsterShopController {
     @RequestMapping(value= "auth/customer", method = RequestMethod.GET)
     @ResponseBody
     public Customer getCustomer(){
-        return new Customer(getCurrentCustomerId().getStringRepresentation());
+        return getCurrentCustomerId() != null ? new Customer(getCurrentCustomerId().toString()) : null;
     }
 }

@@ -1,5 +1,7 @@
 package no.borber.monsterShop.orders;
 
+import no.borber.monsterShop.basket.OrderId;
+
 import java.util.Date;
 import java.util.List;
 
@@ -9,10 +11,10 @@ public class Order {
     private double sum;
     private List<OrderLineItem> orderLineItems;
 
-    public Order(Date date, double sum, List<OrderLineItem> orderLineItems) {
+    public Order(Date date, OrderId aggregateId, List<OrderLineItem> orderLineItems, double sum) {
         this.date = date;
-        this.sum = sum;
         this.orderLineItems = orderLineItems;
+        this.sum = sum;
     }
 
     public Date getDate() {
@@ -23,7 +25,7 @@ public class Order {
         return sum;
     }
 
-    public List<OrderLineItem> getOrderLineItems() {
+    public List<OrderLineItem> getLineItems() {
         return orderLineItems;
     }
 }

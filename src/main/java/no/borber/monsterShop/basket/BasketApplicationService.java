@@ -1,8 +1,11 @@
 package no.borber.monsterShop.basket;
 
+import no.borber.monsterShop.authentication.CustomerId;
 import no.borber.monsterShop.eventStore.Event;
 import no.borber.monsterShop.eventStore.EventStore;
+import no.borber.monsterShop.orders.OrderAggregate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BasketApplicationService {
@@ -37,11 +40,19 @@ public class BasketApplicationService {
         eventStore.storeEvents(derivedEvents);
     }
 
-    public void placeOrder(BasketId basketId) {
-        List<Event> events = eventStore.getEventsByAggregateId(basketId);
-        BasketAggregate basket = new BasketAggregate(events);
-        basket.generateOrder();
-        List<Event> derivedEvents = basket.getDerivedEvents();
+    public void checkoutBasket(BasketId basketId, CustomerId customerId, OrderId orderId) {
+        List<Event> basketEvents = eventStore.getEventsByAggregateId(basketId);
+        BasketAggregate basket = new BasketAggregate(basketEvents);
+        List<BasketLineItem> currentBasketLineItems = basket.checkoutBasket();
+
+        List<Event> orderEvents = eventStore.getEventsByAggregateId(orderId);
+        OrderAggregate order = new OrderAggregate(orderEvents);
+        order.createOrder(orderId, customerId, currentBasketLineItems);
+
+        List<Event> derivedEvents = new ArrayList<>();
+        derivedEvents.addAll(basket.getDerivedEvents());
+        derivedEvents.addAll(order.getDerivedEvents());
+
         eventStore.storeEvents(derivedEvents);
     }
 }

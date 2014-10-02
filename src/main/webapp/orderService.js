@@ -6,10 +6,6 @@ app.factory('orderService',['$http', function($http) {
 
         getOrder: function(orderId){
             return $http.get('/service/orders/' + encodeURIComponent(orderId));
-        },
-
-        placeOrder: function(){
-            return $http.post('/service/orders');
         }
     };
 }]);

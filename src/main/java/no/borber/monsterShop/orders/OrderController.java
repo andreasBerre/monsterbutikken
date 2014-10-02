@@ -12,22 +12,8 @@ import java.util.Map;
 @Controller
 public class OrderController extends MonsterShopController {
 
-
-    @Autowired
-    OrderApplicationService orderService;
-
     @Autowired
     OrderProjection orderProjection;
-
-    /**
-     * Submits a new order for the current customer
-     *
-     */
-    @RequestMapping(value = "/orders",  method=RequestMethod.POST)
-    @ResponseStatus(HttpStatus.OK)
-    public void placeOrder(){
-        orderService.placeOrder(getCurrentCustomerId());
-    }
 
     /**
      * Gets all orders placed by the current customer
@@ -48,9 +34,8 @@ public class OrderController extends MonsterShopController {
     @RequestMapping(value = "/orders/{orderId}",  method=RequestMethod.GET)
     @ResponseBody()
     public Order getOrder(@PathVariable String orderId){
-        return null;
+        return orderProjection.getOrder(getCurrentCustomerId(), orderId);
     }
-
 
 }
 
