@@ -10,14 +10,6 @@ app.factory('basketService',['$http', function($http) {
 
         removeMonster: function(monsterType){
             return $http.delete('/service/basket/' + encodeURIComponent(monsterType));
-        },
-
-        checkout: function(){
-            return $http.post('/service/basket/checkout');
-        },
-
-        basketSum: function(){
-            return $http.get('/service/basket/sum');
         }
     };
 }]);

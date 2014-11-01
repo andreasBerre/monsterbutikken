@@ -6,6 +6,14 @@ app.factory('orderService',['$http', function($http) {
 
         getOrder: function(orderId){
             return $http.get('/service/orders/' + encodeURIComponent(orderId));
+        },
+
+        cancelOrder: function(orderId){
+            return $http.delete('/service/orders/' + encodeURIComponent(orderId));
+        },
+
+        checkout: function(){
+            return $http.post('/service/orders');
         }
     };
 }]);

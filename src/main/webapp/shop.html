@@ -30,7 +30,7 @@
                         <div class="list-group-item" data-ng-repeat="basketLineItem in basket">
                             <div class="row">
                                 <button style="margin-left: 15px" class="btn btn-danger btn-xs" data-ng-click="removeMonster(basketLineItem.monsterType)">Remove</button><span class="list-group-item-heading"> {{basketLineItem.monsterType}} ({{basketLineItem.count}})</span>
-                                <span style="margin-right: 15px" class="pull-right list-group-item-heading">{{basketLineItem.price * basketLineItem.count | currency}}</span>
+                                <span style="margin-right: 15px" class="pull-right list-group-item-heading">{{(getMonsterPrice(basketLineItem.monsterType) * basketLineItem.count) | currency}}</span>
                             </div>
                         </div>
                         <div class="list-group-item">
@@ -56,9 +56,13 @@
                 <div class="panel-heading"><span class="glyphicon glyphicon-list-alt"></span> Orders</div>
                 <div class="panel-body">
                     <div class="list-group">
-                        <div data-ng-repeat="(key, value) in orders">
-                            <button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search pull-left" data-ng-click="viewOrder(key)"></span></button>
-                            <span class="list-group-item-heading"> {{value.date | date:"dd.MM.yyyy"}} {{value.sum | currency}} </span>
+                        <div data-ng-repeat="order in orders">
+                            <button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search pull-left" data-ng-click="viewOrder(order.orderId)"></span></button>
+                            <s class="list-group-item-heading" data-ng-if="order.canceled"> {{order.formattedOrderTime  | date:"dd.MM.yyyy HH:mm"}} {{order.sum | currency}} </s>
+
+                            <button data-ng-if="!order.canceled" type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove pull-left" data-ng-click="cancelOrder(order.orderId)"></span></button>
+                            <span data-ng-if="!order.canceled" class="list-group-item-heading"> {{order.formattedOrderTime  | date:"dd.MM.yyyy HH:mm"}} {{order.sum | currency}} </span>
+
                             <br>
                         </div>
                     </div>
@@ -76,7 +80,7 @@
                 <div class="list-group-item" data-ng-repeat="basketLineItem in basket">
                     <div class="row">
                         <span class="list-group-item-heading"> {{basketLineItem.monsterType}} ({{basketLineItem.count}})</span>
-                        <span style="margin-right: 15px" class="pull-right list-group-item-heading">{{basketLineItem.price * basketLineItem.count | currency}}</span>
+                        <span style="margin-right: 15px" class="pull-right list-group-item-heading">{{getMonsterPrice(basketLineItem.monsterType) * basketLineItem.count | currency}}</span>
                     </div>
                 </div>
                 <div class="list-group-item">
@@ -94,14 +98,14 @@
 
     <script type="text/ng-template" id="viewOrderModal.html">
         <div class="modal-header">
-            <h3>Your order placed on {{order.date | date:"dd.MM.yyyy"}} at {{order.date | date:"HH:mm"}}</h3>
+            <h3>Your order placed on {{order.formattedOrderTime | date:"dd.MM.yyyy"}} at {{order.formattedOrderTime | date:"HH:mm"}}</h3>
         </div>
         <div class="modal-body">
             <div class="list-group">
                 <div class="list-group-item" data-ng-repeat="orderLineItem in order.orderLineItems">
                     <div class="row">
-                        <span class="list-group-item-heading"> {{orderLineItem.name}} ({{orderLineItem.number}})</span>
-                        <span style="margin-right: 15px" class="pull-right list-group-item-heading">{{orderLineItem.price * orderLineItem.number | currency}}</span>
+                        <span class="list-group-item-heading"> {{orderLineItem.monsterType}} ({{orderLineItem.count}})</span>
+                        <span style="margin-right: 15px" class="pull-right list-group-item-heading">{{orderLineItem.monsterTypePrice * orderLineItem.count | currency}}</span>
                     </div>
                 </div>
                 <div class="list-group-item">
@@ -113,6 +117,17 @@
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" data-ng-click="close()">Close</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="cancelOrderModal.html">
+        <div class="modal-header">
+            <h3>Are you sure you want to cancel the order you placed on {{order.formattedOrderTime | date:"dd.MM.yyyy"}} at {{order.formattedOrderTime | date:"HH:mm"}}</h3>
+            <button class="btn btn-primary" data-ng-click="confirm()">Cancel order</button>
+            <button class="btn btn-primary" data-ng-click="cancel()">Keep order</button>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" data-ng-click="cancel()">Close</button>
         </div>
     </script>
 

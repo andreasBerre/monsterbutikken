@@ -1,18 +1,17 @@
 package no.borber.serialized;
 
-import no.borber.monsterShop.basket.BasketId;
-import no.borber.monsterShop.eventStore.AggregateType;
+import no.borber.monsterShop.application.AggregateType;
 
 public class BasketEvent extends Event {
 
-    private final BasketId basketId;
+    private final String basketId;
 
-    public BasketEvent(BasketId basketId) {
+    public BasketEvent(String basketId) {
         this.basketId = basketId;
     }
 
     @Override
-    public BasketId getAggregateId() {
+    public String getAggregateId() {
         return basketId;
     }
 

@@ -1,19 +1,18 @@
 package no.borber.serialized;
 
 
-import no.borber.monsterShop.eventStore.AggregateType;
-import no.borber.monsterShop.orders.OrderId;
+import no.borber.monsterShop.application.AggregateType;
 
 public class OrderEvent extends Event {
 
-    private final OrderId orderId;
+    private final String orderId;
 
-    public OrderEvent(OrderId orderId) {
+    public OrderEvent(String orderId) {
         this.orderId = orderId;
     }
 
     @Override
-    public OrderId getAggregateId() {
+    public String getAggregateId() {
         return orderId;
     }
 
