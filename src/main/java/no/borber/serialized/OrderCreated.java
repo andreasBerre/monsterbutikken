@@ -1,7 +1,9 @@
-package no.borber.monsterShop.orders;
+package no.borber.serialized;
 
 import no.borber.monsterShop.authentication.CustomerId;
-import no.borber.monsterShop.basket.OrderId;
+import no.borber.monsterShop.orders.OrderEvent;
+import no.borber.monsterShop.orders.OrderId;
+import no.borber.monsterShop.orders.OrderLineItem;
 
 import java.util.List;
 

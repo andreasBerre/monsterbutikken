@@ -1,4 +1,4 @@
-package no.borber.monsterShop.eventStore;
+package no.borber.serialized;
 
 
 public abstract class AggregateId {
@@ -6,7 +6,10 @@ public abstract class AggregateId {
     private final String aggregateId;
 
     protected AggregateId(String aggregateId) {
-        this.aggregateId = aggregateId;
+        if (aggregateId == null || aggregateId.isEmpty())
+            throw new IllegalArgumentException("Attempt to create aggregate id with null or empty string.");
+        else
+            this.aggregateId = aggregateId;
     }
 
     @Override
@@ -16,12 +19,12 @@ public abstract class AggregateId {
 
         AggregateId that = (AggregateId) o;
 
-        return !(aggregateId != null ? !aggregateId.equals(that.aggregateId) : that.aggregateId != null);
+        return aggregateId.equals(that.aggregateId);
     }
 
     @Override
     public int hashCode() {
-        return aggregateId != null ? aggregateId.hashCode() : 0;
+        return aggregateId.hashCode();
     }
 
     @Override

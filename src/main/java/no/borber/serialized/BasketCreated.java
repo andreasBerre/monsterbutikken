@@ -1,4 +1,6 @@
-package no.borber.monsterShop.basket;
+package no.borber.serialized;
+
+import no.borber.monsterShop.basket.BasketId;
 
 public class BasketCreated extends BasketEvent{
 
