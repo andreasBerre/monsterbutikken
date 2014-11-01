@@ -1,6 +1,6 @@
 package no.borber.monsterShop.basket;
 
-import no.borber.monsterShop.eventStore.AggregateId;
+import no.borber.serialized.AggregateId;
 
 import java.util.Collection;
 import java.util.HashMap;

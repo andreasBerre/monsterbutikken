@@ -1,5 +1,7 @@
 package no.borber.monsterShop.eventStore;
 
+import no.borber.serialized.Event;
+
 public abstract class Projection {
 
     public Projection(EventStore eventStore) {

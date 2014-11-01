@@ -2,27 +2,38 @@ package no.borber.monsterShop.orders;
 
 import no.borber.monsterShop.MonsterShopController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.List;
 
 
-@Controller
+@RestController
 public class OrderController extends MonsterShopController {
 
     @Autowired
     OrderProjection orderProjection;
 
+    @Autowired
+    OrderApplicationService orderApplicationService;
+
+    /**
+     * Cancels an order placed by the current customer
+     *
+     * @param orderId identifier for the order to be canceled
+     */
+    @RequestMapping(value = "/orders/{orderId}",  method=RequestMethod.DELETE)
+    public void cancelOrder(@PathVariable String orderId){
+        orderApplicationService.cancelOrder(getCurrentCustomerId(), new OrderId(orderId));
+    }
+
     /**
      * Gets all orders placed by the current customer
      *
-     * @return Map of orders, where the key is the order-id and the value an order object.
+     * @return List of orders.
      */
     @RequestMapping(value = "/orders",  method=RequestMethod.GET)
-    @ResponseBody()
-    public Map<String, Order> getOrders(){
+    public List<Order> getOrders(){
         return orderProjection.getOrders(getCurrentCustomerId());
     }
 
@@ -32,9 +43,8 @@ public class OrderController extends MonsterShopController {
      * @param orderId identifier for the order to be retrieved
      */
     @RequestMapping(value = "/orders/{orderId}",  method=RequestMethod.GET)
-    @ResponseBody()
     public Order getOrder(@PathVariable String orderId){
-        return orderProjection.getOrder(getCurrentCustomerId(), orderId);
+        return orderProjection.getOrder(getCurrentCustomerId(), new OrderId(orderId)).orElse(null);
     }
 
 }

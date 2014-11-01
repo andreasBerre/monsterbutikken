@@ -1,7 +1,18 @@
 package no.borber.monsterShop.orders;
 
-/**
- * Created by Andreas on 04.10.2014.
- */
+import no.borber.monsterShop.authentication.CustomerId;
+import no.borber.monsterShop.eventStore.EventStore;
+
 public class OrderApplicationService {
+    private final EventStore eventStore;
+
+    public OrderApplicationService(EventStore eventStore) {
+        this.eventStore = eventStore;
+    }
+
+    public void cancelOrder(CustomerId customerId, OrderId orderId) {
+        OrderAggregate order = new OrderAggregate(eventStore.getEventsByAggregateId(orderId));
+        order.cancelOrder(customerId);
+
+    }
 }

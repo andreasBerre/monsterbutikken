@@ -2,14 +2,16 @@ package no.borber.monsterShop.orders;
 
 import no.borber.monsterShop.authentication.CustomerId;
 import no.borber.monsterShop.eventStore.AggregateType;
-import no.borber.monsterShop.eventStore.Event;
 import no.borber.monsterShop.eventStore.EventStore;
 import no.borber.monsterShop.eventStore.Projection;
+import no.borber.serialized.Event;
+import no.borber.serialized.OrderCreated;
 
 import java.util.*;
 
 public class OrderProjection extends Projection{
-    private Map<CustomerId, Map<String, Order>> orders = new HashMap<>();
+    private Map<OrderId, Order> ordersByOrderId = new HashMap<>();
+    private Map<CustomerId, List<Order>> ordersByCustomerId = new HashMap<>();
 
     public OrderProjection(EventStore eventStore) {
         super(eventStore);
@@ -23,21 +25,29 @@ public class OrderProjection extends Projection{
     @Override
     public void handleEvent(Event event) {
         if (event instanceof OrderCreated){
-            OrderCreated orderCreated = (OrderCreated) event;
-
-            if (orders.get(orderCreated.getCustomerId()) == null)
-                orders.put(orderCreated.getCustomerId(), new HashMap<String, Order>());
-
-            orders.get(orderCreated.getCustomerId()).put(
-                    orderCreated.getAggregateId().toString(),
-                    new Order(
-                            new Date(),
-                            orderCreated.getAggregateId(),
-                            orderCreated.getOrderLineItems(),
-                            calculateTotal(orderCreated.getOrderLineItems())
-                    )
-            );
+            handleOrderCreated((OrderCreated) event);
+        } else if (event instanceof OrderCanceled){
+            handleOrderCanceled((OrderCanceled) event);
         }
+    }
+
+    private void handleOrderCreated(OrderCreated orderCreated) {
+        Order order = new Order(
+                orderCreated.getOrderTime(),
+                orderCreated.getAggregateId(),
+                orderCreated.getOrderLineItems(),
+                calculateTotal(orderCreated.getOrderLineItems())
+        );
+
+        ordersByOrderId.put(order.getOrderId(), order);
+
+        if (ordersByCustomerId.get(orderCreated.getCustomerId()) == null)
+            ordersByCustomerId.put(orderCreated.getCustomerId(), new ArrayList<>());
+        ordersByCustomerId.get(orderCreated.getCustomerId()).add(order);
+    }
+
+    private void handleOrderCanceled(OrderCanceled orderCanceled) {
+        ordersByOrderId.get(orderCanceled.getAggregateId()).setCanceled(true);
     }
 
     private double calculateTotal(List<OrderLineItem> orderLineItems) {
@@ -48,11 +58,14 @@ public class OrderProjection extends Projection{
         return cost;
     }
 
-    public Map<String, Order> getOrders(CustomerId customerId) {
-        return orders.get(customerId);
+    public List<Order> getOrders(CustomerId customerId) {
+        List<Order> customerOrders = ordersByCustomerId.get(customerId);
+        return customerOrders != null ? customerOrders : Collections.emptyList();
     }
 
-    public Order getOrder(CustomerId customerId, String orderId) {
-        return orders.get(customerId).get(orderId);
+    public Optional<Order> getOrder(final CustomerId customerId, final OrderId orderId) {
+        return ordersByCustomerId.get(customerId).stream()
+                .filter(order -> order.getOrderId().equals(orderId))
+                .findFirst();
     }
 }

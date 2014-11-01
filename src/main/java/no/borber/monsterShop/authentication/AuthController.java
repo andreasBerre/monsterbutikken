@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 
-@Controller
+@RestController
 public class AuthController extends MonsterShopController {
 
     @Autowired
@@ -19,7 +19,7 @@ public class AuthController extends MonsterShopController {
 
     @RequestMapping(value= "auth/logIn/{customerName}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public void loggIn(@PathVariable String customerName) {
+    public void logIn(@PathVariable String customerName) {
         setCurrentCustomerId(new CustomerId(customerName));
         if (getCurrentBasketId() == null){
             BasketId basketId = new BasketId(UUID.randomUUID().toString());
@@ -35,7 +35,6 @@ public class AuthController extends MonsterShopController {
     }
 
     @RequestMapping(value= "auth/customer", method = RequestMethod.GET)
-    @ResponseBody
     public Customer getCustomer(){
         return getCurrentCustomerId() != null ? new Customer(getCurrentCustomerId().toString()) : null;
     }

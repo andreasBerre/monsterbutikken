@@ -1,7 +1,7 @@
 package no.borber.monsterShop.authentication;
 
 
-import no.borber.monsterShop.eventStore.AggregateId;
+import no.borber.serialized.AggregateId;
 
 public class CustomerId extends AggregateId{
     public CustomerId(String customerName) {

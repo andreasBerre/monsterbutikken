@@ -1,6 +1,5 @@
 package no.borber.monsterShop;
 
-import no.borber.monsterShop.authentication.Customer;
 import no.borber.monsterShop.authentication.CustomerId;
 import no.borber.monsterShop.basket.BasketId;
 

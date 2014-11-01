@@ -1,5 +1,8 @@
 package no.borber.monsterShop.eventStore;
 
+import no.borber.serialized.AggregateId;
+import no.borber.serialized.Event;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

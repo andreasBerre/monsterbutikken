@@ -1,10 +1,8 @@
 package no.borber.monsterShop.basket;
 
-import no.borber.monsterShop.authentication.CustomerId;
 import no.borber.monsterShop.eventStore.CommandValidationException;
-import no.borber.monsterShop.eventStore.Event;
+import no.borber.serialized.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BasketAggregate extends Aggregate {

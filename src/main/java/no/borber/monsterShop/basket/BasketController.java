@@ -1,20 +1,19 @@
 package no.borber.monsterShop.basket;
 
 import no.borber.monsterShop.MonsterShopController;
-import no.borber.monsterShop.monsterTypes.MonsterTypeJson;
 import no.borber.monsterShop.monsterTypes.MonsterTypesRepo;
+import no.borber.monsterShop.orders.OrderId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
-@Controller
+@RestController
 public class BasketController extends MonsterShopController{
 
     @Autowired
@@ -26,22 +25,19 @@ public class BasketController extends MonsterShopController{
     /**
      * Gets the current state of a customers basket
      *
-     * @return Map of String monsterType og basketItem for the applicable monster type.
+     * @return List of basket line items for the current customer.
      */
     @RequestMapping(value = "/basket/",  method=RequestMethod.GET)
-    @ResponseBody()
-    public Map<String, BasketLineItemJson> getBasket(){
+    public List<BasketLineItemJson> getBasket(){
         return getBasketJson();
     }
 
-    private Map<String, BasketLineItemJson> getBasketJson() {
-        Map<String, BasketLineItemJson> basketLineItemsJson = new HashMap<>();
+    private List<BasketLineItemJson> getBasketJson() {
+        List<BasketLineItemJson> basketLineItemsJson = new ArrayList<>();
 
-        Collection<BasketLineItem> lineItems = basketProjection.getBasket(getCurrentBasketId()).getBasketLineItems();
-        for (BasketLineItem item : lineItems) {
-            MonsterTypeJson type = MonsterTypesRepo.getMonsterType(item.getMonsterType());
+        for (BasketLineItem item : basketProjection.getBasket(getCurrentBasketId()).getBasketLineItems()) {
             double lineItemPrice = MonsterTypesRepo.getMonsterType(item.getMonsterType()).getPrice() * item.getCount();
-            basketLineItemsJson.put(item.getMonsterType(), new BasketLineItemJson(item.getMonsterType(), item.getCount(), lineItemPrice));
+            basketLineItemsJson.add(new BasketLineItemJson(item.getMonsterType(), item.getCount(), lineItemPrice));
         }
         return basketLineItemsJson;
     }
@@ -84,13 +80,11 @@ public class BasketController extends MonsterShopController{
      * Calculates the sum of (price * number) for all items in the basket.
      */
     @RequestMapping(value = "/basket/sum",  method=RequestMethod.GET)
-    @ResponseBody
     public BasketSum sum(){
         double sum = 0;
 
-        for (BasketLineItemJson item : getBasketJson().values()) {
+        for (BasketLineItemJson item : getBasketJson())
             sum = sum + item.getLineItemPrice();
-        }
 
         return new BasketSum(sum);
     }

@@ -1,6 +1,6 @@
 package no.borber.monsterShop.basket;
 
-import no.borber.monsterShop.eventStore.Event;
+import no.borber.serialized.Event;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package no.borber.monsterShop.orders;
 
-import no.borber.monsterShop.eventStore.AggregateId;
+import no.borber.serialized.AggregateId;
 
 public class OrderId extends AggregateId{
     public OrderId(String aggregateId) {
