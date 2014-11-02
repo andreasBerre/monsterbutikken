@@ -9,35 +9,37 @@ app.run(function($httpBackend) {
     var basket = {};
 
     $httpBackend.whenGET('/service/basket/').respond(function(){
-        return [200, basket];
+        var keys = Object.keys(basket);
+        var basketContents = [];
+        for (var i = 0; i < keys.length; i++) {
+            basketContents.push(basket[keys[i]]);
+        }
+
+        return [200, basketContents];
     });
 
     $httpBackend.whenPOST(/\/service\/basket\/.*/).respond(function(method, url){
-        var name = decodeURIComponent(url.substr(url.lastIndexOf('/') + 1, url.length));
+        var monsterType = decodeURIComponent(url.substr(url.lastIndexOf('/') + 1, url.length));
 
-        var basketItem = basket[name];
+        var basketItem = basket[monsterType];
         if (!basketItem) {
-            basket[name] = {name: name, number: 1, price: getMonsterType(name).price};
+            basket[monsterType] = {monsterType: monsterType, quantity: 1};
         } else {
-            basketItem.number++;
+            basketItem.quantity++;
         }
         return [200];
     });
 
     $httpBackend.whenDELETE(/\/service\/basket\/.*/).respond(function(method, url){
-        var name = decodeURIComponent(url.substr(url.lastIndexOf('/') + 1, url.length));
+        var monsterType = decodeURIComponent(url.substr(url.lastIndexOf('/') + 1, url.length));
 
-        var basketItem = basket[name];
-        if (basketItem.number === 1)
-            delete basket[basketItem.name];
+        var basketItem = basket[monsterType];
+        if (basketItem.quantity === 1)
+            delete basket[basketItem.monsterType];
         else
-            basketItem.number--;
+            basketItem.quantity--;
 
         return [200];
-    });
-
-    $httpBackend.whenGET('/service/basket/sum').respond(function(){
-        return [200, {sum: getBasketSum()}];
     });
 
     function getBasketSum(){
@@ -45,7 +47,7 @@ app.run(function($httpBackend) {
         for (var monsterTypeName in basket) {
             if (basket.hasOwnProperty(monsterTypeName)){
                 var basketItem = basket[monsterTypeName];
-                sum = sum + (basketItem.number * basketItem.price);
+                sum = sum + (basketItem.quantity * getMonsterType(monsterTypeName).price);
             }
         }
         return sum;
@@ -58,11 +60,22 @@ app.run(function($httpBackend) {
         var orderLineItems = [];
         for (var monsterTypeName in basket) {
             if (basket.hasOwnProperty(monsterTypeName)){
-                orderLineItems.push(basket[monsterTypeName]);
+                orderLineItems.push(
+                    {
+                        monsterType: basket[monsterTypeName].monsterType,
+                        quantity: basket[monsterTypeName].quantity,
+                        unitPrice: getMonsterType(monsterTypeName).price
+                    });
             }
         }
+        var orderId = guid();
 
-        orders[guid()] = {date: new Date(), sum: getBasketSum(), orderLineItems: orderLineItems};
+        orders[orderId] = {
+            orderId: orderId,
+            timePlaced: new Date(),
+            total: getBasketSum(),
+            lineItems: orderLineItems,
+            canceled: false};
         basket = {};
         return [200];
     });
@@ -77,22 +90,28 @@ app.run(function($httpBackend) {
         return [200, orders[orderId]];
     });
 
+    $httpBackend.whenDELETE(/\/service\/orders\/.*/).respond(function(method, url){
+        var orderId = decodeURIComponent(url.substr(url.lastIndexOf('/') + 1, url.length));
+        orders[orderId].canceled = true;
+        return [200];
+    });
+
     //Mocks for authService
     var customer;
 
-    $httpBackend.whenPOST(/\/service\/auth\/logIn\/.*/).respond(function(method, url){
+    $httpBackend.whenPOST(/\/service\/currentCustomer\/.*/).respond(function(method, url){
         customer = decodeURIComponent(url.substr(url.lastIndexOf('/') + 1, url.length));
         return [200];
     });
 
-    $httpBackend.whenPOST('/service/auth/logOut').respond(function(){
+    $httpBackend.whenDELETE('/\/service\/currentCustomer\/.*/').respond(function(){
         customer = null;
         basket = {};
         orders = {};
         return [200];
     });
 
-    $httpBackend.whenGET('/service/auth/customer').respond(function(){
+    $httpBackend.whenGET('/service/currentCustomer/').respond(function(){
         return [200, {customerName: customer}];
     });
 
