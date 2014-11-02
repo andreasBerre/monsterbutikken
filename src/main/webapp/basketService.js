@@ -10,10 +10,6 @@ app.factory('basketService',['$http', function($http) {
 
         removeMonster: function(monsterType){
             return $http.delete('/service/basket/' + encodeURIComponent(monsterType));
-        },
-
-        basketSum: function(){
-            return $http.get('/service/basket/sum');
         }
     };
 }]);

@@ -19,6 +19,16 @@ app.controller('ShopController', ['$scope', '$modal', 'monsterService', 'basketS
         })
     }
 
+    $scope.getMonsterPrice = function(monsterType){
+        if ($scope.monsterTypes){
+            var arrayLength = $scope.monsterTypes.length;
+            for (var i = 0; i < arrayLength; i++) {
+                if ($scope.monsterTypes[i].name === monsterType)
+                    return $scope.monsterTypes[i].price
+            }
+        }
+    };
+
     $scope.addMonster = function(monsterType, e){
         $scope.thanksForYourOrder = false;
         if (e) {
@@ -43,10 +53,18 @@ app.controller('ShopController', ['$scope', '$modal', 'monsterService', 'basketS
     }, true);
 
     $scope.$watch('basket', function() {
-        basketService.basketSum().success(function(basketSum){
-            $scope.basketSum =  basketSum.sum;
-        })
+
+        var sum = 0;
+        if ($scope.basket){
+            var arrayLength = $scope.basket.length;
+            for (var i = 0; i < arrayLength; i++) {
+                sum = sum + ($scope.getMonsterPrice($scope.basket[i].monsterType) * $scope.basket[i].quantity)
+            }
+        }
+        $scope.basketSum = sum;
     }, true);
+
+
 
     $scope.order = function(){
         var confirmationModal = $modal.open({
@@ -56,17 +74,38 @@ app.controller('ShopController', ['$scope', '$modal', 'monsterService', 'basketS
                 basket: function () {
                     return basketService.getBasket();
                 },
+                getMonsterPrice : function () {
+                    return $scope.getMonsterPrice;
+                },
                 sum: function () {
-                    return basketService.basketSum();
+                    return $scope.basketSum;
                 }
             }
         });
 
         confirmationModal.result.then(function () {
-            orderService.placeOrder().success(function(){
+            orderService.checkout().success(function(){
                 getBasket();
                 getOrders();
                 $scope.thanksForYourOrder = true;
+            });
+        });
+    };
+
+    $scope.cancelOrder = function(orderId){
+        var cancelOrderModal = $modal.open({
+            templateUrl: 'cancelOrderModal.html',
+            controller: 'CancelOrderModalCtrl',
+            resolve: {
+                orders: function () {
+                    return orderService.getOrder(orderId);
+                }
+            }
+        });
+
+        cancelOrderModal.result.then(function () {
+            orderService.cancelOrder(orderId).success(function(){
+                getOrders();
             });
         });
     };
@@ -97,9 +136,22 @@ app.controller('ShopController', ['$scope', '$modal', 'monsterService', 'basketS
 
 }]);
 
-app.controller('ConfirmOrderModalCtrl', ['$scope', '$modalInstance', 'basket', 'sum', function($scope, $modalInstance, basket, sum) {
+app.controller('ConfirmOrderModalCtrl', ['$scope', '$modalInstance', 'basket', 'getMonsterPrice', 'sum', function($scope, $modalInstance, basket, getMonsterPrice, sum) {
     $scope.basket = basket.data;
-    $scope.sum = sum.data.sum;
+    $scope.getMonsterPrice = getMonsterPrice;
+    $scope.sum = sum;
+
+    $scope.confirm = function () {
+        $modalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+}]);
+
+app.controller('CancelOrderModalCtrl', ['$scope', '$modalInstance', 'orders', function($scope, $modalInstance, order) {
+    $scope.order = order.data;
 
     $scope.confirm = function () {
         $modalInstance.close();

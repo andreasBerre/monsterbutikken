@@ -16,7 +16,7 @@ public class JettyRun {
         context.setDescriptor("src/main/webapp/WEB-INF/web.xml");
         context.setConfigurations(new Configuration[]{
                 new AnnotationConfiguration(), new WebXmlConfiguration(),
-                new WebInfConfiguration(), new TagLibConfiguration(),
+                new WebInfConfiguration(), //new TagLibConfiguration(),
                 new PlusConfiguration(), new MetaInfConfiguration(),
                 new FragmentConfiguration(), new EnvConfiguration()});
 

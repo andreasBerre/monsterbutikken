@@ -1,10 +1,10 @@
-package no.borber.monsterShop.monsterTypes;
+package no.borber.monsterShop.readLayer.monster;
 
-public class MonsterTypeJson implements Comparable<MonsterTypeJson>{
+public class MonsterType implements Comparable<MonsterType>{
     private final String name;
     private final double price;
 
-    public MonsterTypeJson(String name, double price) {
+    public MonsterType(String name, double price) {
         this.name = name;
         this.price = price;
     }
@@ -22,10 +22,9 @@ public class MonsterTypeJson implements Comparable<MonsterTypeJson>{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        MonsterTypeJson that = (MonsterTypeJson) o;
+        MonsterType that = (MonsterType) o;
 
         return !(name != null ? !name.equals(that.name) : that.name != null);
-
     }
 
     @Override
@@ -35,7 +34,7 @@ public class MonsterTypeJson implements Comparable<MonsterTypeJson>{
 
 
     @Override
-    public int compareTo(MonsterTypeJson monsterJson) {
+    public int compareTo(MonsterType monsterJson) {
         if(monsterJson == null) return 0;
         return name.compareTo(monsterJson.getName());
     }

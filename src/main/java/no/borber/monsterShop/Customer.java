@@ -1,4 +1,4 @@
-package no.borber.monsterShop.authentication;
+package no.borber.monsterShop;
 
 public class Customer {
     private String customerName;
