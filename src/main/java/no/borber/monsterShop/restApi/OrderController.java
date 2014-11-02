@@ -25,7 +25,7 @@ public class OrderController extends MonsterShopController {
     OrderApplicationService orderApplicationService;
 
     /**
-     * Checks out the customers current basket and creates an order based on the basket contents.
+     * Checks out the customers current basket, creating an order based on the basket contents.
      */
     @RequestMapping(value = "/orders",  method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)

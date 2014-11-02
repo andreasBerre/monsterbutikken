@@ -1,11 +1,12 @@
 package no.borber.monsterShop.application.order;
 
 import no.borber.monsterShop.application.Aggregate;
+import no.borber.monsterShop.application.CommandValidationException;
 import no.borber.monsterShop.application.basket.BasketLineItem;
 import no.borber.monsterShop.application.monster.MonsterTypesRepo;
-import no.borber.monsterShop.application.CommandValidationException;
-import no.borber.serialized.Event;
-import no.borber.serialized.OrderCreated;
+import no.borber.monsterShop.application.order.events.OrderCanceled;
+import no.borber.monsterShop.eventStore.Event;
+import no.borber.monsterShop.application.order.events.OrderCreated;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,11 +21,10 @@ public class OrderAggregate extends Aggregate {
             if (event instanceof OrderCreated) {
                 orderState = new OrderState(event.getAggregateId());
                 orderState.setCustomerId(((OrderCreated) event).getCustomerId());
-                orderState.setOrderTime(((OrderCreated) event).getOrderTime());
+                orderState.setOrderTime(((OrderCreated) event).getTimePlaced());
             } else if (event instanceof OrderCanceled){
                 orderState.setCanceled();
             }
-
         }
     }
 
@@ -36,7 +36,7 @@ public class OrderAggregate extends Aggregate {
             for (BasketLineItem basketLineItem : basketLineItems) {
                 orderLineItems.add(new OrderLineItem(
                         basketLineItem.getMonsterType(),
-                        basketLineItem.getCount(),
+                        basketLineItem.getQuantity(),
                         MonsterTypesRepo.getMonsterType(basketLineItem.getMonsterType()).getPrice()));
             }
             derivedEvents.add(new OrderCreated(orderId, customerId, orderLineItems, orderTime));

@@ -1,4 +1,4 @@
-package no.borber.serialized;
+package no.borber.monsterShop.application.basket.events;
 
 
 public class ItemAddedToBasket extends BasketEvent {

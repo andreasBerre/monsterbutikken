@@ -2,24 +2,24 @@ package no.borber.monsterShop.projections;
 
 public class OrderLineItemInfo {
     private final String monsterType;
-    private final int count;
-    private final double monsterTypePrice;
+    private final int quantity;
+    private final double unitPrice;
 
-    public OrderLineItemInfo(String monsterType, int count, double monsterTypePrice) {
+    public OrderLineItemInfo(String monsterType, int quantity, double unitPrice) {
         this.monsterType = monsterType;
-        this.count = count;
-        this.monsterTypePrice = monsterTypePrice;
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
     }
 
     public String getMonsterType() {
         return monsterType;
     }
 
-    public int getCount() {
-        return count;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public double getMonsterTypePrice() {
-        return monsterTypePrice;
+    public double getUnitPrice() {
+        return unitPrice;
     }
 }

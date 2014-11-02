@@ -1,15 +1,14 @@
 package no.borber.monsterShop.eventStore;
 
 import no.borber.monsterShop.application.AggregateType;
-import no.borber.serialized.Event;
 
 public abstract class Projection {
 
     public Projection(EventStore eventStore) {
-        eventStore.subscribe(getAggregateType(), this);
+        eventStore.subscribe(getSubscribedType(), this);
     }
 
-    protected abstract AggregateType getAggregateType();
+    protected abstract AggregateType getSubscribedType();
 
     public abstract void handleEvent(Event event);
 }

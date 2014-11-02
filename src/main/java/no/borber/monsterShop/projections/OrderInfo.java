@@ -1,48 +1,42 @@
 package no.borber.monsterShop.projections;
 
-import no.borber.monsterShop.application.order.OrderLineItem;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class OrderInfo {
 
-    private LocalDateTime orderTime;
-    private double sum;
-    private String orderId;
-    private List<OrderLineItemInfo> orderLineItems;
-    private boolean canceled;
+    private final LocalDateTime timePlaced;
+    private final String orderId;
+    private List<OrderLineItemInfo> lineItems;
+    private boolean canceled = false;
 
-    public OrderInfo(LocalDateTime orderTime, String orderId, List<OrderLineItemInfo> orderLineItems, double sum) {
-        this.orderTime = orderTime;
+    public OrderInfo(LocalDateTime timePlaced, String orderId, List<OrderLineItemInfo> lineItems) {
+        this.timePlaced = timePlaced;
         this.orderId = orderId;
-        this.orderLineItems = orderLineItems;
-        this.sum = sum;
+        this.lineItems = lineItems;
     }
 
-    public LocalDateTime getOrderTime() {
-        return orderTime;
+    public String getTimePlaced(){
+        return timePlaced.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     }
 
-    public String getFormattedOrderTime(){
-        return orderTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    public double getTotal() {
+        return lineItems.stream()
+                .mapToDouble(item -> item.getUnitPrice() * item.getQuantity())
+                .sum();
     }
 
-    public double getSum() {
-        return sum;
-    }
-
-    public List<OrderLineItemInfo> getOrderLineItems() {
-        return orderLineItems;
+    public List<OrderLineItemInfo> getLineItems() {
+        return lineItems;
     }
 
     public String getOrderId() {
         return orderId;
     }
 
-    public void setCanceled(boolean canceled) {
-        this.canceled = canceled;
+    public void setAsCanceled() {
+        this.canceled = true;
     }
 
     public boolean isCanceled() {

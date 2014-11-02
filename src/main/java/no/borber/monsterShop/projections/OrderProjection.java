@@ -1,12 +1,12 @@
 package no.borber.monsterShop.projections;
 
-import no.borber.monsterShop.application.order.OrderCanceled;
-import no.borber.monsterShop.application.order.OrderLineItem;
 import no.borber.monsterShop.application.AggregateType;
+import no.borber.monsterShop.application.order.events.OrderCanceled;
+import no.borber.monsterShop.application.order.OrderLineItem;
 import no.borber.monsterShop.eventStore.EventStore;
 import no.borber.monsterShop.eventStore.Projection;
-import no.borber.serialized.Event;
-import no.borber.serialized.OrderCreated;
+import no.borber.monsterShop.eventStore.Event;
+import no.borber.monsterShop.application.order.events.OrderCreated;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,7 +20,7 @@ public class OrderProjection extends Projection{
     }
 
     @Override
-    protected AggregateType getAggregateType() {
+    protected AggregateType getSubscribedType() {
         return AggregateType.ORDER;
     }
 
@@ -33,39 +33,6 @@ public class OrderProjection extends Projection{
         }
     }
 
-    private void handleOrderCreated(OrderCreated orderCreated) {
-        OrderInfo order = new OrderInfo(
-                orderCreated.getOrderTime(),
-                orderCreated.getAggregateId(),
-                getOrderLineItemInfos(orderCreated.getOrderLineItems()),
-                calculateTotal(orderCreated.getOrderLineItems())
-        );
-
-        ordersByOrderId.put(order.getOrderId(), order);
-
-        if (ordersByCustomerId.get(orderCreated.getCustomerId()) == null)
-            ordersByCustomerId.put(orderCreated.getCustomerId(), new ArrayList<>());
-        ordersByCustomerId.get(orderCreated.getCustomerId()).add(order);
-    }
-
-    private List<OrderLineItemInfo> getOrderLineItemInfos(List<OrderLineItem> orderLineItems) {
-        return orderLineItems.stream()
-                .map(item -> new OrderLineItemInfo(item.getMonsterType(), item.getCount(), item.getMonsterTypePrice()))
-                .collect(Collectors.toList());
-    }
-
-    private void handleOrderCanceled(OrderCanceled orderCanceled) {
-        ordersByOrderId.get(orderCanceled.getAggregateId()).setCanceled(true);
-    }
-
-    private double calculateTotal(List<OrderLineItem> orderLineItems) {
-        double cost = 0;
-        for (OrderLineItem orderLineItem : orderLineItems) {
-            cost += orderLineItem.getCount() * orderLineItem.getMonsterTypePrice();
-        }
-        return cost;
-    }
-
     public List<OrderInfo> getOrders(final String customerId) {
         List<OrderInfo> customerOrders = ordersByCustomerId.get(customerId);
         return customerOrders != null ? customerOrders : Collections.emptyList();
@@ -75,5 +42,33 @@ public class OrderProjection extends Projection{
         return ordersByCustomerId.get(customerId).stream()
                 .filter(order -> order.getOrderId().equals(orderId))
                 .findFirst();
+    }
+
+    private void handleOrderCreated(OrderCreated orderCreated) {
+        OrderInfo order = mapToOrderInfo(orderCreated);
+
+        ordersByOrderId.put(order.getOrderId(), order);
+
+        if (ordersByCustomerId.get(orderCreated.getCustomerId()) == null)
+            ordersByCustomerId.put(orderCreated.getCustomerId(), new ArrayList<>());
+        ordersByCustomerId.get(orderCreated.getCustomerId()).add(order);
+    }
+
+    private void handleOrderCanceled(OrderCanceled orderCanceled) {
+        ordersByOrderId.get(orderCanceled.getAggregateId()).setAsCanceled();
+    }
+
+    private OrderInfo mapToOrderInfo(OrderCreated orderCreated) {
+        return new OrderInfo(
+                orderCreated.getTimePlaced(),
+                orderCreated.getAggregateId(),
+                mapToLineItemInfo(orderCreated.getLineItems())
+        );
+    }
+
+    private List<OrderLineItemInfo> mapToLineItemInfo(List<OrderLineItem> orderLineItems) {
+        return orderLineItems.stream()
+                .map(item -> new OrderLineItemInfo(item.getMonsterType(), item.getQuantity(), item.getUnitPrice()))
+                .collect(Collectors.toList());
     }
 }

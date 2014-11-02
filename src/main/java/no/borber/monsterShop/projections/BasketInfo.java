@@ -20,19 +20,19 @@ public class BasketInfo {
         if (!basketLineItems.containsKey(monsterType))
             basketLineItems.put(monsterType, new BasketLineItemInfo(monsterType));
         else
-            basketLineItems.get(monsterType).increment();
+            basketLineItems.get(monsterType).incrementQuantity();
     }
 
     public void removeItem(String monsterType) {
         if (basketLineItems.containsKey(monsterType)) {
-            basketLineItems.get(monsterType).decrement();
+            basketLineItems.get(monsterType).decrementQuantity();
 
-            if (basketLineItems.get(monsterType).getCount() == 0)
+            if (basketLineItems.get(monsterType).getQuantity() == 0)
                 basketLineItems.remove(monsterType);
         }
     }
 
-    public Collection<BasketLineItemInfo> getBasketLineItems() {
+    public Collection<BasketLineItemInfo> getLineItems() {
         return basketLineItems.values();
     }
 }

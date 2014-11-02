@@ -10,7 +10,7 @@ class BasketState {
     private String basketId;
     private boolean basketCheckedOut = false;
 
-    public BasketState(String basketId) {
+    BasketState(String basketId) {
         this.basketId = basketId;
     }
 
@@ -18,7 +18,7 @@ class BasketState {
         if(!basketLineItems.containsKey(monsterType))
             basketLineItems.put(monsterType, new BasketLineItem(monsterType));
         else
-            basketLineItems.get(monsterType).increment();
+            basketLineItems.get(monsterType).incrementQuantity();
     }
 
     public String getBasketId() {
@@ -27,8 +27,8 @@ class BasketState {
 
     public void removeItemFromBasket(String monsterType) {
         if(basketLineItems.containsKey(monsterType)) {
-            basketLineItems.get(monsterType).decrement();
-            if (basketLineItems.get(monsterType).getCount() == 0)
+            basketLineItems.get(monsterType).decrementQuantity();
+            if (basketLineItems.get(monsterType).getQuantity() == 0)
                 basketLineItems.remove(monsterType);
         }
     }
@@ -44,4 +44,5 @@ class BasketState {
     public List<BasketLineItem> getBasketLineItems() {
         return new ArrayList<>(basketLineItems.values());
     }
+
 }

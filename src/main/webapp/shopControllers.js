@@ -58,7 +58,7 @@ app.controller('ShopController', ['$scope', '$modal', 'monsterService', 'basketS
         if ($scope.basket){
             var arrayLength = $scope.basket.length;
             for (var i = 0; i < arrayLength; i++) {
-                sum = sum + ($scope.getMonsterPrice($scope.basket[i].monsterType) * $scope.basket[i].count)
+                sum = sum + ($scope.getMonsterPrice($scope.basket[i].monsterType) * $scope.basket[i].quantity)
             }
         }
         $scope.basketSum = sum;
@@ -73,6 +73,9 @@ app.controller('ShopController', ['$scope', '$modal', 'monsterService', 'basketS
             resolve: {
                 basket: function () {
                     return basketService.getBasket();
+                },
+                getMonsterPrice : function () {
+                    return $scope.getMonsterPrice;
                 },
                 sum: function () {
                     return $scope.basketSum;
@@ -133,8 +136,9 @@ app.controller('ShopController', ['$scope', '$modal', 'monsterService', 'basketS
 
 }]);
 
-app.controller('ConfirmOrderModalCtrl', ['$scope', '$modalInstance', 'basket', 'sum', function($scope, $modalInstance, basket, sum) {
+app.controller('ConfirmOrderModalCtrl', ['$scope', '$modalInstance', 'basket', 'getMonsterPrice', 'sum', function($scope, $modalInstance, basket, getMonsterPrice, sum) {
     $scope.basket = basket.data;
+    $scope.getMonsterPrice = getMonsterPrice;
     $scope.sum = sum;
 
     $scope.confirm = function () {

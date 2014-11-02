@@ -1,6 +1,4 @@
-package no.borber.monsterShop.application.order;
-
-import no.borber.serialized.OrderEvent;
+package no.borber.monsterShop.application.order.events;
 
 public class OrderCanceled extends OrderEvent {
     public OrderCanceled(String orderId) {

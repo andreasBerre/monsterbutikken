@@ -1,6 +1,6 @@
 package no.borber.monsterShop.application;
 
-import no.borber.serialized.Event;
+import no.borber.monsterShop.eventStore.Event;
 
 import java.util.ArrayList;
 import java.util.List;

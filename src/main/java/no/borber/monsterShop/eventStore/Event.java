@@ -1,4 +1,4 @@
-package no.borber.serialized;
+package no.borber.monsterShop.eventStore;
 
 import no.borber.monsterShop.application.AggregateType;
 

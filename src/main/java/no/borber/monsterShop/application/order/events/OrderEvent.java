@@ -1,7 +1,8 @@
-package no.borber.serialized;
+package no.borber.monsterShop.application.order.events;
 
 
 import no.borber.monsterShop.application.AggregateType;
+import no.borber.monsterShop.eventStore.Event;
 
 public class OrderEvent extends Event {
 

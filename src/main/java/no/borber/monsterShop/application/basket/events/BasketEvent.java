@@ -1,6 +1,7 @@
-package no.borber.serialized;
+package no.borber.monsterShop.application.basket.events;
 
 import no.borber.monsterShop.application.AggregateType;
+import no.borber.monsterShop.eventStore.Event;
 
 public class BasketEvent extends Event {
 

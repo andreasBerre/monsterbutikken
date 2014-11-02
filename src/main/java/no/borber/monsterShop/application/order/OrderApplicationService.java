@@ -10,8 +10,8 @@ public class OrderApplicationService {
     }
 
     public void cancelOrder(String customerId, String orderId) {
-        OrderAggregate order = new OrderAggregate(eventStore.getEventsByAggregateId(orderId));
+        OrderAggregate order = new OrderAggregate(eventStore.getById(orderId));
         order.cancelOrder(customerId);
-        eventStore.storeEvents(order.getDerivedEvents());
+        eventStore.store(order.getDerivedEvents());
     }
 }

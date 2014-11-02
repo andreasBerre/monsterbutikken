@@ -2,7 +2,11 @@ package no.borber.monsterShop.application.basket;
 
 import no.borber.monsterShop.application.Aggregate;
 import no.borber.monsterShop.application.CommandValidationException;
-import no.borber.serialized.*;
+import no.borber.monsterShop.application.basket.events.BasketCheckedOut;
+import no.borber.monsterShop.application.basket.events.BasketCreated;
+import no.borber.monsterShop.application.basket.events.ItemAddedToBasket;
+import no.borber.monsterShop.application.basket.events.ItemRemovedFromBasket;
+import no.borber.monsterShop.eventStore.Event;
 
 import java.util.List;
 
@@ -12,11 +16,11 @@ class BasketAggregate extends Aggregate {
     public BasketAggregate(List<Event> events) {
         for (Event event : events) {
             if (event instanceof BasketCreated)
-                basketState = new BasketState(event.getAggregateId());
+                updateState(event);
             else if (event instanceof ItemAddedToBasket)
-                basketState.addItemToBasket(((ItemAddedToBasket) event).getMonsterType());
+                updateState((ItemAddedToBasket) event);
             else if (event instanceof ItemRemovedFromBasket)
-                basketState.removeItemFromBasket(((ItemRemovedFromBasket) event).getMonsterType());
+                updateState((ItemRemovedFromBasket) event);
         }
     }
 
@@ -25,7 +29,7 @@ class BasketAggregate extends Aggregate {
             throw new CommandValidationException("Attempt to create basket with pre-existing id, create basket failed");
         } else {
             BasketCreated basketCreated = new BasketCreated(id);
-            basketState = new BasketState((basketCreated).getAggregateId());
+            updateState(basketCreated);
             derivedEvents.add(basketCreated);
         }
     }
@@ -64,7 +68,18 @@ class BasketAggregate extends Aggregate {
             derivedEvents.add(new BasketCheckedOut(basketState.getBasketId()));
             return basketState.getBasketLineItems();
         }
+    }
 
+    private void updateState(ItemRemovedFromBasket event) {
+        basketState.removeItemFromBasket(event.getMonsterType());
+    }
+
+    private void updateState(ItemAddedToBasket event) {
+        basketState.addItemToBasket(event.getMonsterType());
+    }
+
+    private void updateState(Event event) {
+        basketState = new BasketState(event.getAggregateId());
     }
 
 }

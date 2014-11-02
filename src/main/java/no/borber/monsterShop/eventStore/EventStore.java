@@ -1,44 +1,37 @@
 package no.borber.monsterShop.eventStore;
 
 import no.borber.monsterShop.application.AggregateType;
-import no.borber.serialized.Event;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class EventStore {
-    private Map<AggregateType, List<Projection>> subscriptions = new HashMap<>();
     private List<Event> events = new ArrayList<>();
+    private Map<AggregateType, List<Projection>> subscribers = new HashMap<>();
 
-    public List<Event> getEventsByAggregateId(String id) {
-        List<Event> aggregateEvents = new ArrayList<>();
-
-        for (Event event : events) {
-            if (event.getAggregateId().equals(id))
-                aggregateEvents.add(event);
-        }
-
-        return aggregateEvents;
+    public void store(List<Event> eventsToSave) {
+        events.addAll(eventsToSave);
+        eventsToSave.stream().forEach(this::publish);
     }
 
-    public void storeEvents(List<Event> derivedEvents) {
-        for (Event event : derivedEvents){
-            events.add(event);
-            sendToSubscribers(event);
-        }
+    public List<Event> getById(String id) {
+        return events.stream()
+                .filter(event -> event.getAggregateId().equals(id))
+                .collect(Collectors.toList());
     }
 
-    private void sendToSubscribers(Event event) {
-        for (Projection projection : subscriptions.get(event.getAggregateType()))
-            projection.handleEvent(event);
+    private void publish(Event event) {
+        subscribers.get(event.getAggregateType()).stream()
+                .forEach(s -> s.handleEvent(event));
     }
 
     public void subscribe(AggregateType aggregateType, Projection projection) {
-        if (subscriptions.get(aggregateType) == null)
-            subscriptions.put(aggregateType, new ArrayList<>());
+        if (subscribers.get(aggregateType) == null)
+            subscribers.put(aggregateType, new ArrayList<>());
 
-        subscriptions.get(aggregateType).add(projection);
+        subscribers.get(aggregateType).add(projection);
     }
 }
