@@ -2,7 +2,7 @@ package no.borber.monsterShop.restApi;
 
 import no.borber.monsterShop.application.BasketApplicationService;
 import no.borber.monsterShop.application.OrderApplicationService;
-import no.borber.monsterShop.readLayer.order.OrderInfo;
+import no.borber.monsterShop.readLayer.order.OrderJson;
 import no.borber.monsterShop.readLayer.order.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,7 +50,7 @@ public class OrderController extends MonsterShopController {
      * @return List of orders.
      */
     @RequestMapping(value = "/orders",  method=RequestMethod.GET)
-    public List<OrderInfo> getOrders(){
+    public List<OrderJson> getOrders(){
         return orders.getOrders(getCurrentCustomerId());
     }
 
@@ -60,7 +60,7 @@ public class OrderController extends MonsterShopController {
      * @param orderId identifier for the order to be retrieved
      */
     @RequestMapping(value = "/orders/{orderId}",  method=RequestMethod.GET)
-    public OrderInfo getOrder(@PathVariable String orderId){
+    public OrderJson getOrder(@PathVariable String orderId){
         return orders.getOrder(getCurrentCustomerId(), orderId).orElse(null);
     }
 

@@ -1,7 +1,7 @@
 package no.borber.monsterShop.restApi;
 
 import no.borber.monsterShop.application.BasketApplicationService;
-import no.borber.monsterShop.readLayer.basket.BasketLineItemInfo;
+import no.borber.monsterShop.readLayer.basket.BasketLineItemJson;
 import no.borber.monsterShop.readLayer.basket.Baskets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +26,7 @@ public class BasketController extends MonsterShopController{
      * @return List of basket line items in the current customers basket.
      */
     @RequestMapping(value = "/basket/",  method=RequestMethod.GET)
-    public Collection<BasketLineItemInfo> getBasket(){
+    public Collection<BasketLineItemJson> getBasket(){
         return baskets.getBasketLineItems(getCurrentBasketId());
     }
 

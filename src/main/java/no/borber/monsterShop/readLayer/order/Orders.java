@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface Orders {
 
-    List<OrderInfo> getOrders(String customerId);
+    List<OrderJson> getOrders(String customerId);
 
-    Optional<OrderInfo> getOrder(String customerId, String orderId);
+    Optional<OrderJson> getOrder(String customerId, String orderId);
 }

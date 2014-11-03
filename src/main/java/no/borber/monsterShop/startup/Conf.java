@@ -9,8 +9,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class Conf {
+
     public Conf() {
-        //TODO: Should probably create the eventstore here to wire it into the services and projections
+        //TODO Should probably create our event store here and then inject it into the projections and app-services
     }
 
     @Bean
