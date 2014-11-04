@@ -5,9 +5,9 @@ Need monsters for the dungeons of your secret lair? Require foul beasts to unlea
 
 ##Your mission (should you choose to accept it)
 
-You've been brought in as a consultant to complete work on the Monster Shops backend after the previous developer had an unfortunate accident involving one of the shops products.
+You've been brought in as a consultant to complete work on the Monster Shops server side after the previous developer had an unfortunate accident involving one of the shops products.
 
-The late developer completed the client side of the application, and had just started work on the API's before becoming monster food - so we have a working front end, but the back end consists of the login subsystem and a few API stubs.
+The late developer completed the client side of the application, and had just started work on the API's before becoming monster food - so we have a working front end, but the back end consists of the login subsystem and a few controllers.
 
 After giving his bloody notes a quick clean you gather the information below:
 
@@ -29,26 +29,17 @@ The context of our domain is the Monster Shop, and its mechanisms for browsing m
 * _Customer_: A evil overlord shopping and placing orders at the monster shop.
 
 
-### Plans for the server side
-The server side implementation has been started, but not completed. Login and retrial of the product catalogue has been taken care of, but the API for doing the actual shopping consists of stubs with no implementation. 
+### Creating the server side
+The server side implementation has been started, but not completed. Login and retrial of the product catalogue has been taken care of, and controllers for the REST API created, but the rest of the application is missing. This is where you come in.
 
-The plan is to create an event sourced presistance mechanism, with projections from this store forming the read layer, as shown in the illustration below.
+The next step is to create the applications write stack in the form of an event sourced domain layer, and the read stack in the form of projections of the event log. 
 
 ![Event Sourcing](https://www.lucidchart.com/publicSegments/view/5411c5c9-10c0-4272-b0a8-07ea0a009a66/image.png "Event Sourcing")
 
-Note that there are multiple patterns for event sourcing, the above being one of the more common. So while you're free to choose your own implementation, the below could function as a guide.
-
-First, some general advice:
-* Before you start hammering out code: think. What aggregates do you need? What commands will they implement? What will your projections look like?
-* Focus on the framwork of your application. Get your first application service, event store, projections, subscriptions etc. working before moving on to complete the API stubs.
-* Test driven development is your friend: each component can be tested by itself before you later integrate them.
-* You'll have to wire up your application in some way, injecting your event store into the applications services and projections, and your services into the controllers. One approach is to use Spring, which is already included in the project.
-* Many event-sourced applications are async in nature, however, the Monster Shop has been designed with an syncronous event store in mind. While you're free to create an async solution, it will make the task quite a bit more complex.
- 
-We'll now present the different components of an event sourced system, in an order we feel makes sense implementation wise.
+In order to do this we need the following components:
 
 #### The Application Services
-The application service is a good place to start. This is were the mechanics of your event-sourced write layer comes together. Here's an example of what an application service might look like in Java:
+An application service is a good place to start. This is were the mechanics of your event-sourced write layer comes together. Here's an example of what an application service might look like in Java:
 
 ```Java
 class CustomerApplicationService {
@@ -85,10 +76,6 @@ The projection should be able to _subscribe_ to events from the event store. On 
 * Projections form the read layer of the application
 * Subscribes to events from a store
 * Alter state based on received events
-
-#### HTTP Controllers
-The HTTP-Api controller should be able to _dispatch commands_ to the application service.
-The HTTP-Api controller should _query_ the projections to retrieve system state when needed.
 
 #### Client side 
 Finally, remove the serverMock.js include from the index.html file - this will switch off mocking and the client will make its requests directly to the server. 
