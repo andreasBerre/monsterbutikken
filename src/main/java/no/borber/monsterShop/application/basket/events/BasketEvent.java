@@ -20,4 +20,21 @@ public class BasketEvent extends Event {
     public AggregateType getAggregateType() {
         return AggregateType.BASKET;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BasketEvent that = (BasketEvent) o;
+
+        if (basketId != null ? !basketId.equals(that.basketId) : that.basketId != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return basketId != null ? basketId.hashCode() : 0;
+    }
 }

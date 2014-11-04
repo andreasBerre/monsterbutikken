@@ -1,5 +1,6 @@
 package no.borber.monsterShop.application.order;
 
+import no.borber.monsterShop.application.AggregateType;
 import no.borber.monsterShop.eventStore.EventStore;
 
 public class OrderApplicationService {
@@ -10,7 +11,7 @@ public class OrderApplicationService {
     }
 
     public void cancelOrder(String customerId, String orderId) {
-        OrderAggregate order = new OrderAggregate(eventStore.getById(orderId));
+        OrderAggregate order = new OrderAggregate(eventStore.getById(AggregateType.ORDER, orderId));
         order.cancelOrder(customerId);
         eventStore.store(order.getDerivedEvents());
     }

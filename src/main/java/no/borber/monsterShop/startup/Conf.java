@@ -3,17 +3,27 @@ package no.borber.monsterShop.startup;
 import no.borber.monsterShop.application.basket.BasketApplicationService;
 import no.borber.monsterShop.application.order.OrderApplicationService;
 import no.borber.monsterShop.eventStore.EventStore;
+import no.borber.monsterShop.eventStore.EventStoreByGetEventStore;
+import no.borber.monsterShop.eventStore.EventStoreInMemory;
+import no.borber.monsterShop.eventStore.EventStoreProjectionUtil;
 import no.borber.monsterShop.projections.BasketProjection;
 import no.borber.monsterShop.projections.OrderProjection;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.io.IOException;
 
 @Configuration
 public class Conf {
     private final EventStore eventStore;
 
     public Conf() {
-        this.eventStore = new EventStore();
+        this.eventStore = new EventStoreByGetEventStore();
+        try {
+            EventStoreProjectionUtil.startByCategoryProjection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Bean
