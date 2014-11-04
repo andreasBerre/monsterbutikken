@@ -104,7 +104,7 @@ app.run(function($httpBackend) {
         return [200];
     });
 
-    $httpBackend.whenDELETE('/\/service\/currentCustomer\/.*/').respond(function(){
+    $httpBackend.whenDELETE('/service/currentCustomer/').respond(function(){
         customer = null;
         basket = {};
         orders = {};
