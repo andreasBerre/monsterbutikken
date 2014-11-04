@@ -34,7 +34,7 @@ The server side implementation has been started, but not completed. Login and re
 
 The next step is to create the applications write stack in the form of an event sourced domain layer, and the read stack in the form of projections of the event log. 
 
-![Event Sourcing](https://www.lucidchart.com/publicSegments/view/5459410c-a5c0-404e-9d27-6b970a008ac6/image.png "Event Sourcing")
+![Event Sourcing](https://www.lucidchart.com/publicSegments/view/545944ec-8b08-404a-8d31-07630a00c2c4/image.png "Event Sourcing")
 
 In order to do this we need the following components:
 
