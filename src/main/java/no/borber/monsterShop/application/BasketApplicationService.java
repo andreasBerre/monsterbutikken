@@ -1,7 +1,7 @@
 package no.borber.monsterShop.application;
 
 public interface BasketApplicationService {
-    void createBasket(String id);
+    void createBasket(String id, String curstomerId);
 
     void addItemToBasket(String id, String monsterType);
 

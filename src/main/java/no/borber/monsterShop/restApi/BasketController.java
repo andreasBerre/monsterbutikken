@@ -58,7 +58,7 @@ public class BasketController extends MonsterShopController{
 
     private void createBasket() {
         String basketId = UUID.randomUUID().toString();
-        basketService.createBasket(basketId);
+        basketService.createBasket(basketId, getCurrentCustomerId());
         setCurrentBasketId(basketId);
     }
 
