@@ -58,7 +58,11 @@ The service gets logged events from the event store and uses this to create a cu
 Calling the reportRelocation method on the aggregate causes it to validate the command and to produce derived events from this command, which are then retrieved and saved to the event log.
 
 #### Aggregates
-The _aggregate_ domain object should be able to recreate its state by reading supplied events. When receiving a command it should validate it against this state, and derive relevant events..
+The _aggregate_ domain object should be able to recreate its state by reading supplied events. 
+An aggreagate should be able to:
+* Create itself by accepting it's previously stored events and modify its internal state by replaying these. After the replay the aggregate should be in its current state.
+* Accept commands from the application service, validating these, and deriving appropriate events.
+* Return a list of derived events to the application service.
 
 #### Events
 Events describe a change of application state, and are created by aggregates in response to commands. They are always named in the past tense; they describe something that has happened. They should include the following information:
