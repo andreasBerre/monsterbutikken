@@ -61,7 +61,7 @@ Calling the reportRelocation method on the aggregate causes it to validate the c
 The _aggregate_ domain object should be able to recreate its state by reading supplied events. 
 An aggreagate should be able to:
 * Create itself by accepting it's previously stored events and modify its internal state by replaying these. After the replay the aggregate should be in its current state.
-* Accept commands from the application service, validating these, and deriving appropriate events.
+* Accept commands from the application service, validate these, and deriving appropriate events.
 * Return a list of derived events to the application service.
 
 #### Events
