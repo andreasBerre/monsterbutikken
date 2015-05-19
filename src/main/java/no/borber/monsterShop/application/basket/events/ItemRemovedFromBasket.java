@@ -11,4 +11,23 @@ public class ItemRemovedFromBasket extends BasketEvent {
     public String getMonsterType() {
         return monsterType;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        ItemRemovedFromBasket that = (ItemRemovedFromBasket) o;
+
+        return !(monsterType != null ? !monsterType.equals(that.monsterType) : that.monsterType != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (monsterType != null ? monsterType.hashCode() : 0);
+        return result;
+    }
 }

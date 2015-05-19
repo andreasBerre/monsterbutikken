@@ -21,6 +21,9 @@ class BasketAggregate extends Aggregate {
                 updateState((ItemAddedToBasket) event);
             else if (event instanceof ItemRemovedFromBasket)
                 updateState((ItemRemovedFromBasket) event);
+            else if( event instanceof BasketCheckedOut){
+                updateState((BasketCheckedOut) event);
+            }
         }
     }
 
@@ -76,6 +79,10 @@ class BasketAggregate extends Aggregate {
 
     private void updateState(ItemAddedToBasket event) {
         basketState.addItemToBasket(event.getMonsterType());
+    }
+
+    private void updateState(BasketCheckedOut event) {
+        basketState.setBasketCheckedOut();
     }
 
     private void updateState(Event event) {
