@@ -24,17 +24,11 @@ public class BasketApplicationService {
     }
 
     public void addItemToBasket(String id, String monsterType) {
-        BasketAggregate basketAggregate = new BasketAggregate(eventStore.getById(id));
-        basketAggregate.addItemToBasket(monsterType);
-        List<Event> derivedEvents = basketAggregate.getDerivedEvents();
-        eventStore.store(derivedEvents);
+
     }
 
     public void removeItemFromBasket(String id, String monsterType) {
-        BasketAggregate basketAggregate = new BasketAggregate(eventStore.getById(id));
-        basketAggregate.removeItemFromBasket(monsterType);
-        List<Event> derivedEvents = basketAggregate.getDerivedEvents();
-        eventStore.store(derivedEvents);
+
     }
 
     public void checkoutBasket(String basketId, String customerId, String orderId) {

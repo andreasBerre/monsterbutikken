@@ -17,10 +17,6 @@ class BasketAggregate extends Aggregate {
         for (Event event : events) {
             if (event instanceof BasketCreated)
                 updateState(event);
-            else if (event instanceof ItemAddedToBasket)
-                updateState((ItemAddedToBasket) event);
-            else if (event instanceof ItemRemovedFromBasket)
-                updateState((ItemRemovedFromBasket) event);
             else if( event instanceof BasketCheckedOut){
                 updateState((BasketCheckedOut) event);
             }
@@ -38,25 +34,11 @@ class BasketAggregate extends Aggregate {
     }
 
     public void addItemToBasket(String monsterType) {
-        if (basketState == null){
-            throw new CommandValidationException("Attempt to add item to non-existing basket, add item failed");
-        } else if (basketState.getBasketCheckedOut()){
-            throw new CommandValidationException("Attempt to add monster to basket that has been checked out, add item failed");
-        } else {
-            basketState.addItemToBasket(monsterType);
-            derivedEvents.add(new ItemAddedToBasket(basketState.getBasketId(), monsterType));
-        }
+
     }
 
     public void removeItemFromBasket(String monsterType) {
-        if (basketState == null){
-            throw new CommandValidationException("Attempt to remove item from non-existing basket, remove item failed");
-        } else if (basketState.getBasketCheckedOut()){
-            throw new CommandValidationException("Attempt to remove monster from basket that has been checked out, remove item failed");
-        } else {
-            basketState.removeItemFromBasket(monsterType);
-            derivedEvents.add(new ItemRemovedFromBasket(basketState.getBasketId(), monsterType));
-        }
+
     }
 
     public List<BasketLineItem> checkoutBasket(){
@@ -73,13 +55,6 @@ class BasketAggregate extends Aggregate {
         }
     }
 
-    private void updateState(ItemRemovedFromBasket event) {
-        basketState.removeItemFromBasket(event.getMonsterType());
-    }
-
-    private void updateState(ItemAddedToBasket event) {
-        basketState.addItemToBasket(event.getMonsterType());
-    }
 
     private void updateState(BasketCheckedOut event) {
         basketState.setBasketCheckedOut();

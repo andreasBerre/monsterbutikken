@@ -14,23 +14,8 @@ class BasketState {
         this.basketId = basketId;
     }
 
-    public void addItemToBasket(String monsterType) {
-        if(!basketLineItems.containsKey(monsterType))
-            basketLineItems.put(monsterType, new BasketLineItem(monsterType));
-        else
-            basketLineItems.get(monsterType).incrementQuantity();
-    }
-
     public String getBasketId() {
         return basketId;
-    }
-
-    public void removeItemFromBasket(String monsterType) {
-        if(basketLineItems.containsKey(monsterType)) {
-            basketLineItems.get(monsterType).decrementQuantity();
-            if (basketLineItems.get(monsterType).getQuantity() == 0)
-                basketLineItems.remove(monsterType);
-        }
     }
 
     public void setBasketCheckedOut() {

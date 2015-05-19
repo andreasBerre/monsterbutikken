@@ -30,10 +30,6 @@ public class BasketProjection extends Projection {
     public void handleEvent(Event event) {
         if (event instanceof BasketCreated)
             handleBasketCreated((BasketCreated) event);
-        else if (event instanceof ItemAddedToBasket)
-            handleItemAddedToBasket((ItemAddedToBasket) event);
-        else if (event instanceof ItemRemovedFromBasket)
-            handleItemRemovedFromBasket((ItemRemovedFromBasket) event);
         else if (event instanceof BasketCheckedOut)
             handleBasketCheckedOut((BasketCheckedOut) event);
     }
@@ -49,15 +45,11 @@ public class BasketProjection extends Projection {
     }
 
     private void handleItemAddedToBasket(ItemAddedToBasket event) {
-        if (!baskets.containsKey(event.getAggregateId()))
-            throw new RuntimeException("The projection does not contain the specified basket, add item failed");
-        baskets.get(event.getAggregateId()).addItem(event.getMonsterType());
+
     }
 
     private void handleItemRemovedFromBasket(ItemRemovedFromBasket event) {
-        if (!baskets.containsKey(event.getAggregateId()))
-            throw new RuntimeException("The projection does not contain the specified basket, add item failed");
-        baskets.get(event.getAggregateId()).removeItem(event.getMonsterType());
+
     }
 
     private void handleBasketCheckedOut(BasketCheckedOut event) {
