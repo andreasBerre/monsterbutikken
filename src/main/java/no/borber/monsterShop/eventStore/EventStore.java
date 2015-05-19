@@ -24,7 +24,8 @@ public class EventStore {
     }
 
     private void publish(Event event) {
-        subscribers.get(event.getAggregateType()).stream()
+        if(subscribers.containsKey(event.getAggregateType()))
+            subscribers.get(event.getAggregateType()).stream()
                 .forEach(s -> s.handleEvent(event));
     }
 
