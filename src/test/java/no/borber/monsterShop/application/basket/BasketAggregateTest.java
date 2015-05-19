@@ -65,5 +65,30 @@ public class BasketAggregateTest {
         assertEquals(new ItemRemovedFromBasket("id","monster"), derivedEvents.get(0));
     }
 
-    
+    @Test(expected = CommandValidationException.class)
+    public void testRemoveItemFromNonExistentBasketFails() throws Exception {
+        BasketAggregate basketAggregate = new BasketAggregate(new ArrayList<>());
+        basketAggregate.removeItemFromBasket("monster");
+    }
+
+    @Test(expected = CommandValidationException.class)
+    public void testRemoveItemFromCheckedOutBasketFails() throws Exception {
+        BasketAggregate basketAggregate = new BasketAggregate(Arrays.asList(
+                new BasketCreated("id"),
+                new BasketCheckedOut("id")));
+        basketAggregate.removeItemFromBasket("monster");
+    }
+
+    @Test
+    public void testCheckoutBasket() throws Exception {
+        BasketAggregate basketAggregate = new BasketAggregate(Arrays.asList(
+                new BasketCreated("id"),
+                new ItemAddedToBasket("id", "monster")));
+        List<BasketLineItem> basketLineItems = basketAggregate.checkoutBasket();
+        assertEquals(1, basketLineItems.size());
+        assertEquals(new BasketLineItem("monster"), basketLineItems.get(0));
+        List<Event> derivedEvents = basketAggregate.getDerivedEvents();
+        assertEquals(1,derivedEvents.size());
+        assertEquals(new BasketCheckedOut("id"), derivedEvents.get(0));
+    }
 }
