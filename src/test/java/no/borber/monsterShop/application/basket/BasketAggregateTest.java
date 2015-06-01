@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 public class BasketAggregateTest {
 
     @Test
-    public void testCreateBasket() throws Exception {
+    public void creatingABasketShouldProduceBasketCreatedEvent() throws Exception {
         BasketAggregate basketAggregate = new BasketAggregate(new ArrayList<>());
         basketAggregate.createBasket("id");
         List<Event> derivedEvents = basketAggregate.getDerivedEvents();
@@ -26,13 +26,13 @@ public class BasketAggregateTest {
     }
 
     @Test(expected = CommandValidationException.class)
-    public void testCreateBasketFailsIfAlreadyCreated() throws Exception {
+    public void creatingABasketWhichHasAlreadyBeenCreatedShouldFail() throws Exception {
         BasketAggregate basketAggregate = new BasketAggregate(Arrays.asList(new BasketCreated("id")));
         basketAggregate.createBasket("id");
     }
 
     @Test
-    public void testAddItemToBasket() throws Exception {
+    public void addingAnItemToBasketShouldProduceItemAddedEvent() throws Exception {
         BasketAggregate basketAggregate = new BasketAggregate(Arrays.asList(new BasketCreated("id")));
         basketAggregate.addItemToBasket("DangerousMonster");
         List<Event> derivedEvents = basketAggregate.getDerivedEvents();
@@ -41,13 +41,13 @@ public class BasketAggregateTest {
     }
 
     @Test(expected = CommandValidationException.class)
-    public void testItemAddedToNonExistentBasketFails() throws Exception {
+    public void addingItemsToNonExistingBasketShouldFail() throws Exception {
         BasketAggregate basketAggregate = new BasketAggregate(new ArrayList<>());
         basketAggregate.addItemToBasket("monster");
     }
 
     @Test(expected = CommandValidationException.class)
-    public void testItemAddedtoCheckedOutBasketFails() throws Exception {
+    public void addingItemsToBasketThatHasBeenCheckedOutShouldFail() throws Exception {
         BasketAggregate basketAggregate = new BasketAggregate(Arrays.asList(
                 new BasketCreated("id"),
                 new BasketCheckedOut("id")));
@@ -55,7 +55,7 @@ public class BasketAggregateTest {
     }
 
     @Test
-    public void testItemRemovedFromBasket() throws Exception {
+    public void removingAnItemFromBasketShouldProduceItemRemovedEvent() throws Exception {
         BasketAggregate basketAggregate = new BasketAggregate(Arrays.asList(
                 new BasketCreated("id"),
                 new ItemAddedToBasket("id", "monster")));
@@ -66,13 +66,13 @@ public class BasketAggregateTest {
     }
 
     @Test(expected = CommandValidationException.class)
-    public void testRemoveItemFromNonExistentBasketFails() throws Exception {
+    public void removingAnItemFromANonExistingBasketShouldFail() throws Exception {
         BasketAggregate basketAggregate = new BasketAggregate(new ArrayList<>());
         basketAggregate.removeItemFromBasket("monster");
     }
 
     @Test(expected = CommandValidationException.class)
-    public void testRemoveItemFromCheckedOutBasketFails() throws Exception {
+    public void removingAnItemFromABasketThatHasBeenCheckedOutShouldFail() throws Exception {
         BasketAggregate basketAggregate = new BasketAggregate(Arrays.asList(
                 new BasketCreated("id"),
                 new BasketCheckedOut("id")));
@@ -80,7 +80,7 @@ public class BasketAggregateTest {
     }
 
     @Test
-    public void testCheckoutBasket() throws Exception {
+    public void checkingOutABasketShouldProduceBasketCheckedOutEvent() throws Exception {
         BasketAggregate basketAggregate = new BasketAggregate(Arrays.asList(
                 new BasketCreated("id"),
                 new ItemAddedToBasket("id", "monster")));
