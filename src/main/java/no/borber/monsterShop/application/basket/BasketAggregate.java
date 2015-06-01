@@ -21,6 +21,7 @@ class BasketAggregate extends Aggregate {
             else if( event instanceof BasketCheckedOut){
                 updateState((BasketCheckedOut) event);
             }
+            //TODO: Should handle other basket events as well
         }
     }
 
