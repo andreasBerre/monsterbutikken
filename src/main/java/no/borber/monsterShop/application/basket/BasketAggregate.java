@@ -10,6 +10,7 @@ import no.borber.monsterShop.eventStore.Event;
 
 import java.util.List;
 
+
 class BasketAggregate extends Aggregate {
     private BasketState basketState;
 
@@ -34,11 +35,11 @@ class BasketAggregate extends Aggregate {
     }
 
     public void addItemToBasket(String monsterType) {
-
+        //TODO: Should handle this command
     }
 
     public void removeItemFromBasket(String monsterType) {
-
+        //TODO: Should handle this command
     }
 
     public List<BasketLineItem> checkoutBasket(){

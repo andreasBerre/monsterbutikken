@@ -10,10 +10,10 @@ import java.util.List;
 public class OrderAggregate extends Aggregate {
 
     public OrderAggregate(List<Event> events) {
-
+        //TODO: Should build itself using events from the store
     }
 
     public void createOrder(String orderId, String customerId, List<BasketLineItem> basketLineItems, LocalDateTime orderTime) {
-
+        //TODO: Needs to handle this command
     }
 }

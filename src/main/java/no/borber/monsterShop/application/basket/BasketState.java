@@ -30,4 +30,12 @@ class BasketState {
         return new ArrayList<>(basketLineItems.values());
     }
 
+    public void addMonsterToBasket(){
+        //TODO: Update state
+    }
+
+    public void removeMonsterFromBasket(){
+        //TODO: Update state
+    }
+
 }

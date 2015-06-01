@@ -22,15 +22,17 @@ public class OrderProjection extends Projection{
 
     @Override
     public void handleEvent(Event event) {
-
+        //TODO: Should build its state from incoming events
     }
 
     public List<OrderInfo> getOrders(final String customerId) {
+        //TODO: Should return a customers order instead of the empty list
         return Collections.EMPTY_LIST;
     }
 
     public Optional<OrderInfo> getOrder(final String customerId, final String orderId) {
-      return null;
+        //TODO: Should return a spesific order
+        return null;
     }
 
 

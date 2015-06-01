@@ -24,11 +24,11 @@ public class BasketApplicationService {
     }
 
     public void addItemToBasket(String id, String monsterType) {
-
+        //TODO: complete this
     }
 
     public void removeItemFromBasket(String id, String monsterType) {
-
+        //TODO: complete this
     }
 
     public void checkoutBasket(String basketId, String customerId, String orderId) {
