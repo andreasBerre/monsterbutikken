@@ -29,7 +29,7 @@ The context of our domain is the Monster Shop, and its mechanisms for browsing m
 ### TODO (before one of the monsters decides to eat me)
 
 1. Functionality for adding or removing monsters from a basket is missing from the BasketAggregate. This is causing BasketAggregateTest to fail.
-2. The BasketApplicationService should use the new add and remove functionality of the aggregate. Implement this to make the BasketApplicationService test succeed.
+2. The BasketApplicationService should use the new add and remove functionality of the aggregate. Implement this to make BasketApplicationServiceTest succeed.
 3. The BasketProjections should handle MonsterAdded and removed events. Implement this to make the BasketProjectionTest succeed.
 
 ### General information: components of an Event Sourced System
@@ -66,6 +66,10 @@ interface CustomerApplicationService {
 }
 ```
 
+### How to JettyRun
+```
+$ mvn jetty:run
+```
 ### Resources
 
 * The monster-shop (Java Edition): https://github.com/andreasBerre/monsterbutikken
