@@ -57,10 +57,10 @@
                 <div class="panel-body">
                     <div class="list-group">
                         <div data-ng-repeat="order in orders">
-                            <button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search pull-left" data-ng-click="viewOrder(order.orderId)"></span></button>
+                            <button type="button" class="btn btn-default btn-sm" data-ng-click="viewOrder(order.orderId)"><span class="glyphicon glyphicon-search pull-left"></span></button>
                             <s class="list-group-item-heading" data-ng-if="order.canceled"> {{order.timePlaced  | date:"dd.MM.yyyy HH:mm"}} {{order.total | currency}} </s>
 
-                            <button data-ng-if="!order.canceled" type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove pull-left" data-ng-click="cancelOrder(order.orderId)"></span></button>
+                            <button data-ng-if="!order.canceled" type="button" class="btn btn-default btn-sm" data-ng-click="cancelOrder(order.orderId)"><span class="glyphicon glyphicon-remove pull-left"></span></button>
                             <span data-ng-if="!order.canceled" class="list-group-item-heading"> {{order.timePlaced  | date:"dd.MM.yyyy HH:mm"}} {{order.total | currency}} </span>
 
                             <br>
