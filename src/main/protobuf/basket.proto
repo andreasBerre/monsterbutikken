@@ -1,0 +1,5 @@
+
+message ItemAddedToBasket {
+  optional string basketid = 1;
+  optional string monstertype = 2;
+}

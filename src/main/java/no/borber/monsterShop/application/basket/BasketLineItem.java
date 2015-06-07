@@ -24,4 +24,11 @@ public class BasketLineItem {
         quantity++;
     }
 
+    @Override
+    public String toString() {
+        return "BasketLineItem{" +
+                "monsterType='" + monsterType + '\'' +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

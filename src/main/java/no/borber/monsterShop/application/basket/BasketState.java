@@ -45,4 +45,12 @@ class BasketState {
         return new ArrayList<>(basketLineItems.values());
     }
 
+    @Override
+    public String toString() {
+        return "BasketState{" +
+                "basketLineItems=" + basketLineItems +
+                ", basketId='" + basketId + '\'' +
+                ", basketCheckedOut=" + basketCheckedOut +
+                '}';
+    }
 }
