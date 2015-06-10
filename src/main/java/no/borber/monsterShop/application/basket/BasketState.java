@@ -5,13 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class BasketState {
+public class BasketState {
     private Map<String, BasketLineItem> basketLineItems = new HashMap<>();
     private String basketId;
     private boolean basketCheckedOut = false;
+    private boolean created = false;
 
     BasketState(String basketId) {
         this.basketId = basketId;
+    }
+
+    public void setCreated(boolean created) {
+        this.created = created;
     }
 
     public void addItemToBasket(String monsterType) {
@@ -27,6 +32,7 @@ class BasketState {
 
     public void removeItemFromBasket(String monsterType) {
         if(basketLineItems.containsKey(monsterType)) {
+
             basketLineItems.get(monsterType).decrementQuantity();
             if (basketLineItems.get(monsterType).getQuantity() == 0)
                 basketLineItems.remove(monsterType);
@@ -52,5 +58,10 @@ class BasketState {
                 ", basketId='" + basketId + '\'' +
                 ", basketCheckedOut=" + basketCheckedOut +
                 '}';
+    }
+
+    public boolean canRemoveItem(String monsterType){
+        return (basketLineItems.containsKey(monsterType) &&basketLineItems.get(monsterType).getQuantity() > 0);
+
     }
 }

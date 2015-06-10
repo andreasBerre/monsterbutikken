@@ -1,5 +1,14 @@
 
+message BasketCreated {
+  optional string basketid = 1;
+}
+
 message ItemAddedToBasket {
+  optional string basketid = 1;
+  optional string monstertype = 2;
+}
+
+message ItemRemovedFromBasket {
   optional string basketid = 1;
   optional string monstertype = 2;
 }

@@ -1,6 +1,6 @@
 package no.borber.monsterShop.startup;
 
-import no.borber.monsterShop.application.basket.BasketApplicationService;
+import akka.actor.ActorSystem;
 import no.borber.monsterShop.application.order.OrderApplicationService;
 import no.borber.monsterShop.eventStore.EventStore;
 import no.borber.monsterShop.projections.BasketProjection;
@@ -17,11 +17,6 @@ public class Conf {
     }
 
     @Bean
-    public BasketApplicationService createBasketApplicationService() {
-        return new BasketApplicationService(eventStore);
-    }
-
-    @Bean
     public OrderApplicationService createOrderApplicationService() {
         return new OrderApplicationService(eventStore);
     }
@@ -34,6 +29,11 @@ public class Conf {
     @Bean
     public OrderProjection createOrderProjection(){
         return new OrderProjection(eventStore);
+    }
+
+    @Bean
+    public ActorSystem createActorSystem () {
+        return ActorSystem.create();
     }
 }
 

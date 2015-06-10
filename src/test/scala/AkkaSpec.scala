@@ -1,8 +1,10 @@
 import akka.actor.ActorSystem
 import akka.testkit.{ImplicitSender, TestKit}
+import akka.util.Timeout
 import com.typesafe.config.ConfigFactory
 import org.scalatest.mock.MockitoSugar
 import org.scalatest.{BeforeAndAfterAll, Matchers}
+import scala.concurrent.duration._
 
 
 object AkkaSpec {
@@ -25,6 +27,8 @@ with ImplicitSender
 with BeforeAndAfterAll
 with MockitoSugar
 with Matchers {
+
+  implicit val timeout = Timeout(3 seconds)
 
   override def afterAll {
     TestKit.shutdownActorSystem(system)
