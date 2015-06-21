@@ -19,8 +19,11 @@ val jacksonVersion = "2.4.3"
 dependencyOverrides += "org.scala-lang" % "scala-library" % scalaVersion.value
 
 
-libraryDependencies ++= Seq("com.typesafe.akka" %% "akka-actor" % "2.4-M1",
-  "com.typesafe.akka" %% "akka-persistence-experimental" % "2.4-M1"
+val akka_version: String = "2.3.10"
+
+libraryDependencies ++= Seq("com.typesafe.akka" %% "akka-actor" % akka_version ,
+  "com.typesafe.akka" %% "akka-persistence-experimental" % akka_version,
+  "com.geteventstore" %% "akka-persistence-eventstore" % "2.0.2"
 )
 
 libraryDependencies += "org.iq80.leveldb"            % "leveldb"          % "0.7"
@@ -45,9 +48,13 @@ libraryDependencies ++= Seq(
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.5" % Test
 
-libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.4-M1" % Test
+libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % akka_version % Test
 
 libraryDependencies += "org.mockito" % "mockito-core" % "1.9.5" % Test
 
 libraryDependencies += "net.sandrogrzicic" %% "scalabuff-runtime" % "1.4.0"
 
+
+libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.3.6"
+
+libraryDependencies += "org.apache.httpcomponents" % "fluent-hc" % "4.3.6"

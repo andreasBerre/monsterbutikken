@@ -4,11 +4,17 @@ import akka.actor.{ActorRef, ActorSystem}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
+import scala.collection.mutable
+
+
 @Component
 class BasketApplicationService {
 
   @Autowired
   private var system: ActorSystem = null
+
+  var  baskets = new mutable.HashMap[String, ActorRef];
+
 
   def this(system: ActorSystem) {
     this()
@@ -20,8 +26,7 @@ class BasketApplicationService {
   }
 
   def getBasketActor(id: String): ActorRef = {
-    val basket: ActorRef = system.actorOf(BasketActor.props(id))
-    basket
+    baskets.getOrElseUpdate(id,system.actorOf(BasketActor.props("basket-"+id)));
   }
 
   def addItemToBasket(id: String, monsterType: String) {

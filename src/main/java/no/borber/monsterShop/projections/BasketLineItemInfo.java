@@ -2,7 +2,7 @@ package no.borber.monsterShop.projections;
 
 public class BasketLineItemInfo {
     private final String monsterType;
-    private int quantity = 1;
+    private int quantity = 0;
 
     public BasketLineItemInfo(String monsterType) {
         this.monsterType = monsterType;

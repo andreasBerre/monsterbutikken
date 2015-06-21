@@ -2,12 +2,14 @@ package no.borber.monsterShop.restApi;
 
 import no.borber.monsterShop.application.basket.BasketApplicationService;
 import no.borber.monsterShop.projections.BasketLineItemInfo;
-import no.borber.monsterShop.projections.BasketProjection;
+import no.borber.monsterShop.projections.BasketListener;
+import no.borber.monsterShop.projections.BasketListener$;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -17,8 +19,6 @@ public class BasketController extends MonsterShopController{
     @Autowired
     BasketApplicationService basketService;
 
-    @Autowired
-    BasketProjection basketProjection;
 
     /**
      * Gets the current state of a customers basket
@@ -27,7 +27,9 @@ public class BasketController extends MonsterShopController{
      */
     @RequestMapping(value = "/basket/",  method=RequestMethod.GET)
     public Collection<BasketLineItemInfo> getBasket(){
-        return basketProjection.getBasketLineItems(getCurrentBasketId());
+        String currentBasketId = getCurrentBasketId();
+        List<BasketLineItemInfo> baskLineItems = BasketListener.getBaskLineItems("basket-" + currentBasketId);
+        return baskLineItems;
     }
 
     /**
